@@ -1,0 +1,15 @@
+{
+  "parser": "babel-eslint",
+  "rules": {
+    "camelcase": false,
+    "new-cap": false,
+    "no-console": false,
+    "strict": 0
+  },
+  "globals": {
+    "console": false,
+    "document": false,
+    "localStorage": false,
+    "setTimeout": false
+  }
+}

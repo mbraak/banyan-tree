@@ -1,0 +1,30 @@
+{
+  "name": "banyan-react-tree",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/tree.js",
+  "devDependencies": {
+    "babel-eslint": "^2.0.2",
+    "babelify": "^6.0.2",
+    "browserify": "^9.0.8",
+    "chai": "^2.2.0",
+    "eslint": "^0.18.0",
+    "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0",
+    "gulp-eslint": "^0.8.0",
+    "karma": "^0.12.31",
+    "karma-browserify": "^4.1.2",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-cli": "0.0.4",
+    "karma-firefox-launcher": "^0.1.4",
+    "karma-mocha": "^0.1.10",
+    "mocha": "^2.2.4",
+    "sinon": "^1.14.1",
+    "watchify": "^2.6.2"
+  },
+  "dependencies": {
+    "core-js": "^0.8.1",
+    "react": "^0.13.1",
+    "xhttp": "^0.0.6"
+  }
+}

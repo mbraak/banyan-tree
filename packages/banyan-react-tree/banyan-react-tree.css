@@ -1,0 +1,65 @@
+ul.banyan-tree {
+    margin-left: 0;
+}
+
+ul.banyan-tree,
+ul.banyan-tree ul.banyan_common {
+    list-style: none outside;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+ul.banyan-tree ul.banyan_common {
+    display: block;
+    margin-left: 12px;
+    margin-right: 0;
+}
+ul.banyan-tree li.banyan-closed > ul.banyan_common {
+    display: none;
+}
+
+ul.banyan-tree li.banyan_common {
+    clear: both;
+    list-style-type: none;
+}
+
+ul.banyan-tree .banyan-toggler {
+    border-bottom: none;
+    color: #333;
+    text-decoration: none;
+    margin-right: 0.5em;
+    vertical-align: middle;
+}
+
+ul.banyan-tree .banyan-toggler:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+ul.banyan-tree .banyan-element {
+    cursor: pointer;
+}
+
+.banyan-tree .banyan-title {
+    color: #1C4257;
+    vertical-align: middle;
+    margin-left: 1.5em;
+}
+
+.banyan-tree .banyan-title.banyan-title-folder {
+    margin-left: 0;
+}
+
+ul.banyan-tree li.banyan-folder {
+    margin-bottom: 4px;
+}
+
+ul.banyan-tree li.banyan-selected > .banyan-element,
+ul.banyan-tree li.banyan-selected > .banyan-element:hover {
+    background-color: #97BDD6;
+}
+
+.banyan-placeholder {
+    border: dashed 2px #ccc;
+    margin-left: 1.5em;
+}
