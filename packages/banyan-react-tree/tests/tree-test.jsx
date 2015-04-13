@@ -32,7 +32,7 @@ describe('Tree component', function() {
         function handleInit() {
             var dom_node = React.findDOMNode(tree);
 
-            expect(dom_node.className).to.equal('jqtree_common jqtree-tree');
+            expect(dom_node.className).to.equal('banyan_common banyan-tree');
             expect(dom_node.children.length).to.equal(0);
         }
     });
@@ -42,7 +42,7 @@ describe('Tree component', function() {
 
         function handleInit() {
             var dom_node = React.findDOMNode(tree);
-            var dom_elements = dom_node.getElementsByClassName('jqtree-title');
+            var dom_elements = dom_node.getElementsByClassName('banyan-title');
 
             expect(format_dom_elements(dom_elements)).to.equal(
                 'Saurischia Herrerasaurians Theropods Sauropodomorphs Ornithischians Heterodontosaurids Thyreophorans Ornithopods Pachycephalosaurians Ceratopsians'
@@ -63,9 +63,9 @@ describe('Tree component', function() {
                 var node = tree.getNodeByName('Tyrannosauroids');
                 tree_store.selectNode(node);
 
-                // find nodes with class 'jqtree-selected'
+                // find nodes with class 'banyan-selected'
                 var dom_node = React.findDOMNode(tree_element);
-                var dom_elements = dom_node.getElementsByClassName('jqtree-selected');
+                var dom_elements = dom_node.getElementsByClassName('banyan-selected');
 
                 expect(format_dom_elements(dom_elements)).to.equal('Tyrannosauroids');
 
@@ -83,7 +83,7 @@ describe('Tree component', function() {
         function handleInit() {
             try {
                 var dom_node = React.findDOMNode(tree_element);
-                var dom_elements = dom_node.getElementsByClassName('jqtree-title');
+                var dom_elements = dom_node.getElementsByClassName('banyan-title');
 
                 expect(dom_elements.length).to.equal(31);
                 expect(dom_elements[0].textContent).to.equal('Saurischia');
@@ -158,7 +158,7 @@ describe('Tree component', function() {
             }
         }
 
-        localStorage.removeItem('jqtree');
+        localStorage.removeItem('banyan');
 
         firstTree();
     });
@@ -175,7 +175,7 @@ describe('Tree component', function() {
             ]
         };
 
-        localStorage.setItem('jqtree', JSON.stringify(tree_state));
+        localStorage.setItem('banyan', JSON.stringify(tree_state));
 
         var tree_element = TestUtils.renderIntoDocument(<Tree url='/examples/data/' saveState={true} onInit={handleInit}></Tree>);
         var store = tree_element.getStore();
