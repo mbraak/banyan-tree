@@ -192,8 +192,44 @@ describe('Tree component', function() {
             }
         }
     });
+
+    it('can select a node by clicking on it', function(done) {
+        var tree_element = TestUtils.renderIntoDocument(<Tree data={example_data} autoOpen={true} onInit={handleInit}></Tree>);
+
+        function handleInit() {
+            try {
+                // select node at first level
+                React.addons.TestUtils.Simulate.click(
+                    findTitleNodeByName(tree_element, "Ornithischians")
+                );
+
+                var li = findTitleNodeByName(tree_element, "Ornithischians").parentNode.parentNode;
+                expect(li.classList.contains("banyan-selected")).to.equal(true);
+
+                // select node at lower level
+                React.addons.TestUtils.Simulate.click(
+                    findTitleNodeByName(tree_element, "Herrerasaurians")
+                );
+
+                li = findTitleNodeByName(tree_element, "Herrerasaurians").parentNode.parentNode;
+                expect(li.classList.contains("banyan-selected")).to.equal(true);
+
+                done();
+            }
+            catch(err) {
+                done(err);
+            }
+        }
+    });
 });
 
+
+function findTitleNodeByName(tree_element, name) {
+    return Array.prototype.find.call(
+        React.findDOMNode(tree_element).getElementsByClassName('banyan-title'),
+        el => el.innerHTML == name
+    );
+}
 
 function format_dom_elements(dom_elements) {
     var labels = [];
