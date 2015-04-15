@@ -1,6 +1,28 @@
-var gulp   = require('gulp');
-var babel  = require('gulp-babel');
-var eslint = require('gulp-eslint');
+var gulp       = require('gulp');
+var babel      = require('gulp-babel');
+var babelify   = require('babelify');
+var browserify = require('browserify');
+var eslint     = require('gulp-eslint');
+var rename     = require('gulp-rename');
+var source     = require('vinyl-source-stream');
+
+
+function swallowError(error) {
+    console.log(error.toString());
+
+    this.emit('end');
+}
+
+function runBrowserify(filename) {
+    var bundler = browserify({debug: true});
+
+    return bundler
+        .add(filename)
+        .transform(babelify)
+        .bundle()
+        .on('error', swallowError)
+        .pipe(source(filename));
+}
 
 
 gulp.task('lib', function() {
@@ -16,8 +38,14 @@ gulp.task('lint', function() {
         .pipe(eslint.failOnError());
 });
 
+gulp.task('example', function() {
+    runBrowserify('./src/examples/example.js')
+        .pipe(rename('example.js'))
+        .pipe(gulp.dest('./build'));
+});
+
 gulp.task('watch', ['default'], function() {
     gulp.watch(['src/**/*.js', 'src/**/*.jsx'], ['default']);
 });
 
-gulp.task('default', ['lib']);
+gulp.task('default', ['lib', 'example']);
