@@ -30,7 +30,7 @@ describe('Tree component', function() {
         var tree_element = TestUtils.renderIntoDocument(<Tree onInit={handleInit}></Tree>);
 
         function handleInit() {
-            var dom_node = React.findDOMNode(tree);
+            var dom_node = React.findDOMNode(tree_element);
 
             expect(dom_node.className).to.equal('banyan_common banyan-tree');
             expect(dom_node.children.length).to.equal(0);
@@ -41,7 +41,7 @@ describe('Tree component', function() {
         var tree_element = TestUtils.renderIntoDocument(<Tree data={example_data} autoOpen={2} onInit={handleInit}></Tree>);
 
         function handleInit() {
-            var dom_node = React.findDOMNode(tree);
+            var dom_node = React.findDOMNode(tree_element);
             var dom_elements = dom_node.getElementsByClassName('banyan-title');
 
             expect(format_dom_elements(dom_elements)).to.equal(

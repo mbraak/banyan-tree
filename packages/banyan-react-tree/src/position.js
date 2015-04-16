@@ -1,3 +1,4 @@
+/* @flow */
 /*
 Definition of positions; these are used for moving a node
 */
@@ -9,12 +10,12 @@ export var Position = {
 
     strings: ["before", "after", "inside", "none"],
 
-    getName: function(position) {
+    getName: function(position: number): string {
         return Position.strings[position - 1];
     },
 
-    nameToIndex: function(name) {
-        var index = Position.Strings.indexOf(name);
+    nameToIndex: function(name: string): number {
+        var index = Position.strings.indexOf(name);
 
         if (index < 0) {
             return 0;

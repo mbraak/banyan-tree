@@ -1,3 +1,4 @@
+/* @flow */
 /*
 Copy an object
 
@@ -23,7 +24,7 @@ var copy = copyProperties(
     ['color']
 );
 */
-export function copyProperties(properties, skip_keys) {
+export function copyProperties(properties: Object, skip_keys: Array<string>): Object {
     var result = {};
 
     for (var key in properties) {
@@ -35,13 +36,13 @@ export function copyProperties(properties, skip_keys) {
     return result;
 }
 
-export function timeout(delay=0) {
+export function timeout(delay: number = 0): Promise {
     return new Promise(resolve => {
         setTimeout(resolve, delay || 0);
     });
 }
 
-export function filterTrueKeys(object) {
+export function filterTrueKeys(object: Object): Array<any> {
     var true_keys = [];
 
     for (var key in object) {
@@ -53,7 +54,7 @@ export function filterTrueKeys(object) {
     return true_keys;
 }
 
-export function to_array(value) {
+export function to_array(value: any): Array<any> {
     if (!value) {
         return [];
     }

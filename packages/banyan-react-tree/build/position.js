@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+/* @flow */
 /*
 Definition of positions; these are used for moving a node
 */
@@ -19,7 +20,7 @@ var Position = {
     },
 
     nameToIndex: function nameToIndex(name) {
-        var index = Position.Strings.indexOf(name);
+        var index = Position.strings.indexOf(name);
 
         if (index < 0) {
             return 0;

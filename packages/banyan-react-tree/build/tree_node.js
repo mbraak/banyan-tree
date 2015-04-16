@@ -15,8 +15,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-require("core-js");
+// change import for flow
 
 var _xhttp = require("xhttp");
 
@@ -25,6 +24,9 @@ var _xhttp2 = _interopRequireWildcard(_xhttp);
 var _copyProperties = require("./utils");
 
 var _Position = require("./position");
+
+/* @flow */
+require("core-js");
 
 /*
 Node in a tree
@@ -53,6 +55,7 @@ var node = new Node(
 */
 
 var Node = (function () {
+
     /*
     Constructor
      The properties parameter must contain the keys "id" and "name"
@@ -73,6 +76,46 @@ var Node = (function () {
     }
 
     _createClass(Node, [{
+        key: "id",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "name",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "load_on_demand",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "tree",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "is_selected",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "is_open",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "is_loading",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "parent",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "children",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "properties",
+        value: undefined,
+        enumerable: true
+    }, {
         key: "assignProperties",
         value: function assignProperties(properties) {
             this.name = properties.name;
@@ -110,38 +153,17 @@ var Node = (function () {
             this.removeChildren();
 
             if (data != null) {
-                var _parent = this;
+                var parent = this;
 
-                var _iteratorNormalCompletion = true;
-                var _didIteratorError = false;
-                var _iteratorError = undefined;
+                data.forEach(function (properties) {
+                    var node = new Node(properties);
 
-                try {
-                    for (var _iterator = data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                        var properties = _step.value;
+                    parent.addChild(node);
 
-                        var node = new Node(properties);
-
-                        _parent.addChild(node);
-
-                        if (properties.children && properties.children.length) {
-                            node.loadFromData(properties.children);
-                        }
+                    if (properties.children && properties.children.length) {
+                        node.loadFromData(properties.children);
                     }
-                } catch (err) {
-                    _didIteratorError = true;
-                    _iteratorError = err;
-                } finally {
-                    try {
-                        if (!_iteratorNormalCompletion && _iterator["return"]) {
-                            _iterator["return"]();
-                        }
-                    } finally {
-                        if (_didIteratorError) {
-                            throw _iteratorError;
-                        }
-                    }
-                }
+                });
             }
         }
     }, {
@@ -247,30 +269,9 @@ var Node = (function () {
 
                 if (!include_node || visitNode()) {
                     if (node.hasChildren()) {
-                        var _iteratorNormalCompletion2 = true;
-                        var _didIteratorError2 = false;
-                        var _iteratorError2 = undefined;
-
-                        try {
-                            for (var _iterator2 = node.children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                                var child = _step2.value;
-
-                                iterate_node(child, level + 1, true);
-                            }
-                        } catch (err) {
-                            _didIteratorError2 = true;
-                            _iteratorError2 = err;
-                        } finally {
-                            try {
-                                if (!_iteratorNormalCompletion2 && _iterator2["return"]) {
-                                    _iterator2["return"]();
-                                }
-                            } finally {
-                                if (_didIteratorError2) {
-                                    throw _iteratorError2;
-                                }
-                            }
-                        }
+                        node.children.forEach(function (child) {
+                            iterate_node(child, level + 1, true);
+                        });
                     }
                 }
             }
@@ -571,6 +572,22 @@ var Tree = (function (_Node) {
     _inherits(Tree, _Node);
 
     _createClass(Tree, [{
+        key: "id_mapping",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "selected_node",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "base_url",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "tree",
+        value: undefined,
+        enumerable: true
+    }, {
         key: "selectNode",
 
         /*
@@ -579,7 +596,7 @@ var Tree = (function (_Node) {
         */
         value: function selectNode(node) {
             if (node === this.selected_node) {
-                return false;
+                return [];
             } else {
                 var changed_nodes = this.deselectCurrentNode();
 
@@ -648,11 +665,11 @@ var Tree = (function (_Node) {
             var selected_node = this.selected_node;
 
             if (!selected_node) {
-                return false;
+                return [];
             } else {
                 var node = selected_node.getNextNode();
                 if (!node) {
-                    return false;
+                    return [];
                 } else {
                     return this.selectNode(node);
                 }
@@ -664,12 +681,12 @@ var Tree = (function (_Node) {
             var selected_node = this.selected_node;
 
             if (!selected_node) {
-                return false;
+                return [];
             } else {
                 var node = selected_node.getPreviousNode();
 
                 if (!node) {
-                    return false;
+                    return [];
                 } else {
                     return this.selectNode(node);
                 }

@@ -39,7 +39,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('example', function() {
-    return runBrowserify('./src/examples/example.js')
+    return runBrowserify('./src/examples/example.jsx')
         .pipe(rename('example.js'))
         .pipe(gulp.dest('./build'));
 });

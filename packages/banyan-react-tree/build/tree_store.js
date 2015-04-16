@@ -9,6 +9,7 @@ var _createClass = (function () { function defineProperties(target, props) { for
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+/* @flow */
 
 var _Tree$Node = require("./tree_node");
 
@@ -53,6 +54,46 @@ var TreeStore = (function () {
     }
 
     _createClass(TreeStore, [{
+        key: "auto_open",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "keyboard_support",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "tree",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "dragging",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "on_change",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "save_state",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "debug",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "drag_and_drop",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "on_init",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "on_error",
+        value: undefined,
+        enumerable: true
+    }, {
         key: "emitChange",
 
         /*
@@ -61,7 +102,9 @@ var TreeStore = (function () {
         - a single node; update this node (and its parents)
         - a list of nodes; update theses nodes (and their parents)
         */
-        value: function emitChange(changed_nodes) {
+        value: function emitChange() {
+            var changed_nodes = arguments[0] === undefined ? null : arguments[0];
+
             this.changed_nodes = _to_array.to_array(changed_nodes);
 
             if (this.debug) {
@@ -520,31 +563,9 @@ function formatNodes(nodes) {
         return "";
     } else {
         var names = [];
-        var _iteratorNormalCompletion = true;
-        var _didIteratorError = false;
-        var _iteratorError = undefined;
-
-        try {
-            for (var _iterator = nodes[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                var n = _step.value;
-
-                names.push(n.name);
-            }
-        } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-        } finally {
-            try {
-                if (!_iteratorNormalCompletion && _iterator["return"]) {
-                    _iterator["return"]();
-                }
-            } finally {
-                if (_didIteratorError) {
-                    throw _iteratorError;
-                }
-            }
-        }
-
+        nodes.forEach(function (n) {
+            names.push(n.name);
+        });
         return names.join(" ");
     }
 }

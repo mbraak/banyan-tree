@@ -1,10 +1,20 @@
+/* @flow */
+import {Node} from "./tree_node";
+
 /*
 Iterate over all nodes. Load nodes on demand if necessary.
 
 - Return Promise(iteration is done)
 */
 export class LazyIterator {
-    constructor(root) {
+    root: Node;
+    on_must_continue: ?Function;
+    on_before_load: ?Function;
+    on_visit: ?Function;
+    must_include_root: bool;
+    visit_count: number;
+
+    constructor(root: Node) {
         this.root = root;
 
         this.on_must_continue = null;
@@ -14,12 +24,12 @@ export class LazyIterator {
         this.visit_count = 0;
     }
 
-    iterate() {
+    iterate(): Promise {
         return this.iterateNode(this.root, 0, this.must_include_root);
     }
 
     // Must continue iteration?
-    mustContinue(node, level) {
+    mustContinue(node: Node, level: number): bool {
         var on_must_continue = this.on_must_continue;
 
         if (on_must_continue) {
@@ -30,7 +40,7 @@ export class LazyIterator {
         }
     }
 
-    visitNode(node) {
+    visitNode(node: Node) {
         var on_visit = this.on_visit;
 
         if (on_visit) {
@@ -41,7 +51,7 @@ export class LazyIterator {
     }
 
     // Iterate children of node; return promise
-    iterateChildren(node, level) {
+    iterateChildren(node: Node, level: number): Promise {
         if (!node.children) {
             return Promise.resolve();
         }
@@ -55,7 +65,7 @@ export class LazyIterator {
     }
 
     // Iterate node recusively; return promise
-    iterateNode(node, level, include_self) {
+    iterateNode(node: Node, level: number, include_self: bool): Promise {
         // Must continue?
         var must_continue;
 

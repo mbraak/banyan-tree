@@ -1,10 +1,22 @@
+/* @flow */
 import {Tree, Node} from "./tree_node";
 import {LazyIterator} from "./lazy_iterator";
 import {to_array} from "./utils";
 
 
 export class TreeStore {
-    constructor(params) {
+    auto_open: bool|number;
+    keyboard_support: bool;
+    tree: Tree;
+    dragging: Object;
+    on_change: ?Function;
+    save_state: bool;
+    debug: bool;
+    drag_and_drop: bool;
+    on_init: ?Function;
+    on_error: ?Function;
+
+    constructor(params: Object) {
         this.auto_open = params.auto_open;
         this.keyboard_support = params.keyboard_support;
         this.save_state = params.save_state;
@@ -40,7 +52,7 @@ export class TreeStore {
     - a single node; update this node (and its parents)
     - a list of nodes; update theses nodes (and their parents)
     */
-    emitChange(changed_nodes) {
+    emitChange(changed_nodes: ?Array<Node>|?Node = null) {
         this.changed_nodes = to_array(changed_nodes);
 
         if (this.debug) {
@@ -54,7 +66,7 @@ export class TreeStore {
         }
     }
 
-    handleKeyDown(key_identifier) {
+    handleKeyDown(key_identifier: string) {
         if (!this.keyboard_support) {
             return;
         }
@@ -90,7 +102,7 @@ export class TreeStore {
         }
     }
 
-    toggleNode(node) {
+    toggleNode(node: Node) {
         if (node.is_open) {
             this.closeNode(node);
         }
@@ -99,7 +111,7 @@ export class TreeStore {
         }
     }
 
-    closeNode(node) {
+    closeNode(node: Node) {
         if (node.isFolder() && node.is_open) {
             node.close();
 
@@ -108,7 +120,7 @@ export class TreeStore {
         }
     }
 
-    openNode(node) {
+    openNode(node: Node) {
         if (node.isFolder() && !node.is_open) {
             if (!node.load_on_demand) {
                 node.open();
@@ -130,7 +142,7 @@ export class TreeStore {
         }
     }
 
-    selectNode(node) {
+    selectNode(node: Node) {
         var changed_nodes = node.select();
 
         if (changed_nodes.length) {
@@ -143,7 +155,7 @@ export class TreeStore {
         return this.openFolders(null);
     }
 
-    openFoldersAtLevel(level) {
+    openFoldersAtLevel(level: number) {
         function mustContinue(node, node_level) {
             return node.isFolder() && node_level < level;
         }
@@ -151,7 +163,7 @@ export class TreeStore {
         return this.openFolders(mustContinue);
     }
 
-    startDragging(node, placeholder_height) {
+    startDragging(node: Node, placeholder_height: number) {
         this.dragging = {
             node: node,
             placeholder_height: placeholder_height,
@@ -167,7 +179,7 @@ export class TreeStore {
         this.emitChange();
     }
 
-    hoverNode(node) {
+    hoverNode(node: Node) {
         if (!this.isNodeHovered(node)) {
             var changed_nodes = [node];
 
@@ -181,19 +193,19 @@ export class TreeStore {
         }
     }
 
-    isNodeHovered(node) {
+    isNodeHovered(node: Node): bool {
         var hover_node = this.dragging.hover_node;
 
         return (hover_node && hover_node.id === node.id);
     }
 
-    isNodeDragged(node) {
+    isNodeDragged(node: Node): bool {
         var dragged_node = this.dragging.node;
 
         return (dragged_node && dragged_node.id === node.id);
     }
 
-    openFolders(on_must_continue) {
+    openFolders(on_must_continue: ?Function) {
         var emitChange = this.emitChange.bind(this);
 
         var iterator = new LazyIterator(this.tree);
@@ -223,7 +235,7 @@ export class TreeStore {
 
     // Create tree
     // return tuple [Tree, Promise]
-    createTree(data, url) {
+    createTree(data: Array<Object>, url: string): [Tree, Promise] {
         var tree = new Tree();
 
         var promise;
@@ -285,7 +297,7 @@ export class TreeStore {
         }
     }
 
-    getStateKey() {
+    getStateKey(): string {
         var save_state = this.save_state;
 
         if (save_state === true) {
@@ -299,7 +311,7 @@ export class TreeStore {
         }
     }
 
-    handleRestoreState() {
+    handleRestoreState(): ?Promise {
         var state_key = this.getStateKey();
 
         if (state_key) {
@@ -310,7 +322,7 @@ export class TreeStore {
         }
     }
 
-    loadState(state_key: string) {
+    loadState(state_key: string): ?Promise  {
         function loadStateFromStorage(): Object|bool {
             var state_json = localStorage.getItem(state_key);
 
@@ -348,7 +360,7 @@ export class TreeStore {
         }
     }
 
-    restoreState(tree_state: Object) {
+    restoreState(tree_state: Object): Promise {
         var load_nodes_promises = {};
 
         // Make sure that the children of this node are loaded
@@ -463,7 +475,7 @@ export class TreeStore {
         }
     }
 
-    isNodeChanged(node) {
+    isNodeChanged(node: Node) {
         if (!this.changed_nodes.length) {
             return true;
         }
@@ -481,9 +493,9 @@ function formatNodes(nodes) {
     }
     else {
         var names = [];
-        for (var n of nodes) {
+        nodes.forEach((n) => {
             names.push(n.name);
-        }
+        });
         return names.join(" ");
     }
 }

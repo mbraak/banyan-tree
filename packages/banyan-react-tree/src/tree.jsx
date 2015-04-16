@@ -1,4 +1,6 @@
-import React from "react";
+/* @flow */
+var React = require("react");  // change import for flow
+
 import {TreeStore} from "./tree_store";
 import {timeout, filterTrueKeys} from "./utils";
 import {Position} from "./position";
@@ -11,7 +13,7 @@ function isActiveElementAnInput(): boolean {
 }
 
 
-export default class Tree extends React.Component {
+class Tree extends React.Component {
     constructor(props) {
         super(props);
 
@@ -85,6 +87,9 @@ Tree.propTypes = {
     url: React.PropTypes.string
 };
 
+// Use exports to satisfy flow
+module.exports = Tree;
+
 
 class TreeFolder extends React.Component {
     render() {
@@ -100,7 +105,7 @@ class TreeFolder extends React.Component {
 
         var children = [];
 
-        for (var node of folder.children) {
+        folder.children.forEach((node) => {
             if (store.isNodeHovered(node)) {
                 children.push(<TreePlaceholder key={`${node.id}-placeholder`} node={node} store={store}></TreePlaceholder>);
             }
@@ -108,7 +113,7 @@ class TreeFolder extends React.Component {
             if (!store.isNodeDragged(node)) {
                 children.push(<TreeNode key={node.id} node={node} store={store}></TreeNode>);
             }
-        }
+        });
 
         return <ul className={classes}>{children}</ul>;
     }

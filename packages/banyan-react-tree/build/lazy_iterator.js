@@ -7,6 +7,10 @@ var _createClass = (function () { function defineProperties(target, props) { for
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+/* @flow */
+
+var _Node = require("./tree_node");
+
 /*
 Iterate over all nodes. Load nodes on demand if necessary.
 
@@ -27,6 +31,30 @@ var LazyIterator = (function () {
     }
 
     _createClass(LazyIterator, [{
+        key: "root",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "on_must_continue",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "on_before_load",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "on_visit",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "must_include_root",
+        value: undefined,
+        enumerable: true
+    }, {
+        key: "visit_count",
+        value: undefined,
+        enumerable: true
+    }, {
         key: "iterate",
         value: function iterate() {
             return this.iterateNode(this.root, 0, this.must_include_root);

@@ -1,4 +1,6 @@
-import "core-js";
+/* @flow */
+require("core-js");  // change import for flow
+
 import xhttp from "xhttp";
 
 import {copyProperties} from "./utils";
@@ -31,12 +33,23 @@ var node = new Node(
     }
 */
 export class Node {
+    id: number;
+    name: string;
+    load_on_demand: bool;
+    tree: Tree;
+    is_selected: bool;
+    is_open: bool;
+    is_loading: bool;
+    parent: ?Node;
+    children: Array<Node>;
+    properties: Object;
+
     /*
     Constructor
 
     The properties parameter must contain the keys "id" and "name"
     */
-    constructor(properties) {
+    constructor(properties: Object) {
         // todo: check required keys
         this.assignProperties(properties);
 
@@ -48,7 +61,7 @@ export class Node {
         this.is_loading = false;
     }
 
-    assignProperties(properties) {
+    assignProperties(properties: Object) {
         this.name = properties.name;
         this.id = properties.id;
 
@@ -80,21 +93,21 @@ export class Node {
         }
     ]
     */
-    loadFromData(data) {
+    loadFromData(data: Array<Object>) {
         this.removeChildren();
 
         if (data != null) {
-            let parent = this;
+            var parent = this;
 
-            for (let properties of data) {
-                let node = new Node(properties);
+            data.forEach((properties) => {
+                var node = new Node(properties);
 
                 parent.addChild(node);
 
                 if (properties.children && properties.children.length) {
                     node.loadFromData(properties.children);
                 }
-            }
+            });
         }
     }
 
@@ -105,7 +118,7 @@ export class Node {
         new Node("child1")
     );
     */
-    addChild(node) {
+    addChild(node: Node) {
         this.children.push(node);
         node.setParent(this);
     }
@@ -118,12 +131,12 @@ export class Node {
         1
     );
     */
-    addChildAtPosition(node, index) {
+    addChildAtPosition(node: Node, index: number) {
         this.children.splice(index, 0, node);
         node.setParent(this);
     }
 
-    setParent(parent) {
+    setParent(parent: Node) {
         this.parent = parent;
         this.tree = parent.tree;
         this.tree.addNodeToIndex(this);
@@ -150,7 +163,7 @@ export class Node {
 
     tree.removeChild(tree.children[0]);
     */
-    removeChild(node, include_children = true) {
+    removeChild(node: Node, include_children: bool = true) {
         if (!node) {
             return;
         }
@@ -183,11 +196,11 @@ export class Node {
         }
     );
     */
-    iterate(on_node) {
+    iterate(on_node: Function) {
         this.do_iterate(on_node, true);
     }
 
-    do_iterate(on_node, include_self = true) {
+    do_iterate(on_node: Function, include_self:bool = true) {
         function iterate_node(node, level, include_node) {
             function visitNode() {
                 return on_node(node, level);
@@ -195,9 +208,9 @@ export class Node {
 
             if ((!include_node) || visitNode()) {
                 if (node.hasChildren()) {
-                    for (let child of node.children) {
+                    node.children.forEach((child) => {
                         iterate_node(child, level + 1, true);
-                    }
+                    });
                 }
             }
         }
@@ -212,14 +225,14 @@ export class Node {
         //
     }
     */
-    hasChildren() {
+    hasChildren(): bool {
         return (this.children.length !== 0);
     }
 
     /*
     Is the node a folder?
     */
-    isFolder() {
+    isFolder(): bool {
         return this.hasChildren() || this.load_on_demand;
     }
 
@@ -228,14 +241,14 @@ export class Node {
 
     var index = getChildIndex(node);
     */
-    getChildIndex(node) {
+    getChildIndex(node: Node): number {
         return this.children.indexOf(node);
     }
 
     /*
     Is this node the parent of the parameter node?
     */
-    isParentOf(node) {
+    isParentOf(node: Node): bool {
         if (node) {
             var parent = node.parent;
 
@@ -251,7 +264,7 @@ export class Node {
         }
     }
 
-    getNextNode() {
+    getNextNode(): ?Node {
         if (this.hasChildren() && this.is_open) {
             // First child
             return this.children[0];
@@ -261,7 +274,7 @@ export class Node {
         }
     }
 
-    getNextNodeSkipChildren() {
+    getNextNodeSkipChildren(): ?Node {
         var parent = this.parent;
 
         if (parent == null) {
@@ -280,7 +293,7 @@ export class Node {
         }
     }
 
-    getPreviousNode() {
+    getPreviousNode(): ?Node {
         var parent = this.parent;
 
         if (parent == null) {
@@ -310,7 +323,7 @@ export class Node {
         }
     }
 
-    getPreviousSibling() {
+    getPreviousSibling(): ?Node {
         var parent = this.parent;
 
         if (parent == null) {
@@ -327,7 +340,7 @@ export class Node {
         }
     }
 
-    getNextSibling() {
+    getNextSibling(): ?Node {
         var parent = this.parent;
 
         if (parent == null) {
@@ -344,7 +357,7 @@ export class Node {
         }
     }
 
-    getLastChild() {
+    getLastChild(): ?Node {
         if (!this.hasChildren()) {
             return null;
         }
@@ -371,7 +384,7 @@ export class Node {
         }
     }
 
-    select() {
+    select(): Array<Node> {
         return this.tree.selectNode(this);
     }
 
@@ -380,7 +393,7 @@ export class Node {
 
     Return promise(data is loaded)
     */
-    loadFromUrl(url) {
+    loadFromUrl(url: string): Promise {
         if (!url) {
             return Promise.resolve();
         }
@@ -423,7 +436,7 @@ export class Node {
         }
     }
 
-    getState() {
+    getState(): Object {
         var getOpenAndSelectedNodes = () => {
             var open_nodes = [];
             var selected_nodes = [];
@@ -474,6 +487,11 @@ export class Node {
 
 
 export class Tree extends Node {
+    id_mapping: Map;
+    selected_node: ?Node;
+    base_url: string;
+    tree: Tree;
+
     constructor() {
         super({});
 
@@ -487,9 +505,9 @@ export class Tree extends Node {
     Select this node
     Returns changed nodes
     */
-    selectNode(node) {
+    selectNode(node: Node): Array<Node> {
         if (node === this.selected_node) {
-            return false;
+            return [];
         }
         else {
             var changed_nodes = this.deselectCurrentNode();
@@ -505,7 +523,7 @@ export class Tree extends Node {
         }
     }
 
-    deselectCurrentNode() {
+    deselectCurrentNode(): Array<Node> {
         var selected_node = this.selected_node;
 
         if (selected_node == null) {
@@ -518,19 +536,19 @@ export class Tree extends Node {
         }
     }
 
-    removeNodeFromIndex(node) {
+    removeNodeFromIndex(node: Node) {
         this.id_mapping.delete(node.id);
     }
 
-    addNodeToIndex(node) {
+    addNodeToIndex(node: Node) {
         this.id_mapping.set(node.id, node);
     }
 
-    getNodeById(node_id) {
+    getNodeById(node_id: number): ?Node {
         return this.id_mapping.get(node_id);
     }
 
-    getNodeByName(name) {
+    getNodeByName(name: string): ?Node {
         var result = null;
 
         this.iterate(function(node) {
@@ -546,20 +564,20 @@ export class Tree extends Node {
         return result;
     }
 
-    iterate(on_node) {
+    iterate(on_node: Function) {
         return this.do_iterate(on_node, false);
     }
 
-    moveDown() {
+    moveDown(): Array<Node> {
         var selected_node = this.selected_node;
 
         if (!selected_node) {
-            return false;
+            return [];
         }
         else {
             var node = selected_node.getNextNode();
             if (!node) {
-                return false;
+                return [];
             }
             else {
                 return this.selectNode(node);
@@ -567,17 +585,17 @@ export class Tree extends Node {
         }
     }
 
-    moveUp() {
+    moveUp(): Array<Node> {
         var selected_node = this.selected_node;
 
         if (!selected_node) {
-            return false;
+            return [];
         }
         else {
             var node = selected_node.getPreviousNode();
 
             if (!node) {
-                return false;
+                return [];
             }
             else {
                 return this.selectNode(node);
@@ -593,7 +611,7 @@ export class Tree extends Node {
     // move node1 after node2
     tree.moveNode(node1, node2, Position.AFTER);
     */
-    moveNode(moved_node, target_node, position) {
+    moveNode(moved_node: Node, target_node: Node, position: number) {
         if (!(moved_node && target_node)) {
             return;
         }
@@ -632,7 +650,7 @@ export class Tree extends Node {
         }
     }
 
-    loadFromUrl(url) {
+    loadFromUrl(url: string) {
         this.base_url = url;
 
         return super.loadFromUrl(url);
