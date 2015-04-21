@@ -476,11 +476,11 @@ export class Node {
             };
         };
 
-        var [open_nodes, selected_nodes] = getOpenAndSelectedNodes();
+        var [open, selected] = getOpenAndSelectedNodes();
 
         return {
-            open: open_nodes.map(getNodeInfo),
-            selected: selected_nodes.map(getNodeInfo)
+            open: open.map(getNodeInfo),
+            selected: selected.map(getNodeInfo)
         };
     }
 }

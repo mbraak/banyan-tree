@@ -4,12 +4,15 @@
     "camelcase": false,
     "new-cap": false,
     "no-console": false,
+    "no-unused-vars": false,
     "strict": 0
   },
   "globals": {
     "console": false,
     "document": false,
     "localStorage": false,
+    "module": false,
+    "require": false,
     "setTimeout": false
   }
 }

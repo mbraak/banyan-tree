@@ -121,7 +121,7 @@ class TreeFolder extends React.Component {
     shouldComponentUpdate() {
         return this.props.store.isNodeChanged(this.props.node);
     }
-}
+ }
 
 
 class TreeButton extends React.Component {
@@ -222,10 +222,10 @@ class TreeNode extends React.Component {
         var mouse_props = {};
 
         if (store.drag_and_drop) {
-            mouse_props['onMouseDown'] = this.handleMouseDown.bind(this);
+            mouse_props.onMouseDown = this.handleMouseDown.bind(this);
 
             if (store.dragging.node) {
-                mouse_props['onMouseEnter'] = this.handleMouseEnter.bind(this);
+                mouse_props.onMouseEnter = this.handleMouseEnter.bind(this);
             }
         }
 

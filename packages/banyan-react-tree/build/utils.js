@@ -57,6 +57,7 @@ function timeout() {
 function filterTrueKeys(object) {
     var true_keys = [];
 
+    // todo: filter and map?
     for (var key in object) {
         if (object[key]) {
             true_keys.push(key);

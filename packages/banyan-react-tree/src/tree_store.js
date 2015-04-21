@@ -322,7 +322,7 @@ export class TreeStore {
         }
     }
 
-    loadState(state_key: string): ?Promise  {
+    loadState(state_key: string): ?Promise {
         function loadStateFromStorage(): Object|bool {
             var state_json = localStorage.getItem(state_key);
 

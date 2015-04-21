@@ -542,12 +542,12 @@ var Node = (function () {
 
             var _getOpenAndSelectedNodes2 = _slicedToArray(_getOpenAndSelectedNodes, 2);
 
-            var open_nodes = _getOpenAndSelectedNodes2[0];
-            var selected_nodes = _getOpenAndSelectedNodes2[1];
+            var open = _getOpenAndSelectedNodes2[0];
+            var selected = _getOpenAndSelectedNodes2[1];
 
             return {
-                open: open_nodes.map(getNodeInfo),
-                selected: selected_nodes.map(getNodeInfo)
+                open: open.map(getNodeInfo),
+                selected: selected.map(getNodeInfo)
             };
         }
     }]);
