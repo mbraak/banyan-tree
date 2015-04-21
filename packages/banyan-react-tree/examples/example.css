@@ -1,8 +1,8 @@
-ul.jqtree-tree.jqtree-loading:after {
+ul.banyan-tree.banyan-loading:after {
     content: url(spinner.gif);
 }
 
-.jqtree-tree .jqtree-loading > div .jqtree-title:after {
+.banyan-tree .banyan-loading > div .banyan-title:after {
     content: url(spinner.gif);
     margin-left: 8px;
 }
