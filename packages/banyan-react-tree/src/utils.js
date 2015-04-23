@@ -66,3 +66,18 @@ export function to_array(value: any): Array<any> {
         return [value];
     }
 }
+
+export function proxyFunctions(target, source, function_names) {
+    function_names.forEach((function_name) => {
+        target[function_name] = source[function_name].bind(source);
+    });
+}
+
+
+export function proxyEvents(target, source, event_names) {
+    event_names.forEach((event_name) => {
+        source.on(event_name, (e) => {
+            target.emit(event_name, e);
+        });
+    });
+}

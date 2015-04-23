@@ -1,6 +1,8 @@
 /* @flow */
 import {EventEmitter} from "events";
 
+import {proxyEvents, proxyFunctions} from "./utils";
+
 
 export default class TreeController extends EventEmitter {
     _setStore(store) {
@@ -19,20 +21,4 @@ export default class TreeController extends EventEmitter {
         proxyEvents(this, store, ['init']);
         proxyEvents(this, store.tree, ['select']);
     }
-}
-
-
-function proxyFunctions(target, source, function_names) {
-    function_names.forEach((function_name) => {
-        target[function_name] = source[function_name].bind(source);
-    });
-}
-
-
-function proxyEvents(target, source, event_names) {
-    event_names.forEach((event_name) => {
-        source.on(event_name, (e) => {
-            target.emit(event_name, e);
-        });
-    });
 }

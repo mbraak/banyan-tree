@@ -33,6 +33,8 @@ exports.copyProperties = copyProperties;
 exports.timeout = timeout;
 exports.filterTrueKeys = filterTrueKeys;
 exports.to_array = to_array;
+exports.proxyFunctions = proxyFunctions;
+exports.proxyEvents = proxyEvents;
 
 function copyProperties(properties, skip_keys) {
     var result = {};
@@ -75,4 +77,18 @@ function to_array(value) {
     } else {
         return [value];
     }
+}
+
+function proxyFunctions(target, source, function_names) {
+    function_names.forEach(function (function_name) {
+        target[function_name] = source[function_name].bind(source);
+    });
+}
+
+function proxyEvents(target, source, event_names) {
+    event_names.forEach(function (event_name) {
+        source.on(event_name, function (e) {
+            target.emit(event_name, e);
+        });
+    });
 }
