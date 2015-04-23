@@ -36,6 +36,13 @@ export class TreeStore {
 
         this.tree = tree;
 
+        // init controller
+        this.controller = params.controller;
+
+        if (this.controller) {
+            this.controller._setStore(this);
+        }
+
         // handle init
         promise
             .then(this.initTree.bind(this))
@@ -272,6 +279,10 @@ export class TreeStore {
 
         if (on_init) {
             on_init();
+        }
+
+        if (this.controller && this.controller.onInit) {
+            this.controller.onInit();
         }
     }
 

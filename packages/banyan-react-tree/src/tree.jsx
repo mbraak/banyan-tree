@@ -17,10 +17,15 @@ class Tree extends React.Component {
     constructor(props) {
         super(props);
 
-        var store = new TreeStore({
+        this.state = {store: this.createStore()};
+    }
+
+    createStore() {
+        return new TreeStore({
             data: this.props.data,
             url: this.props.url,
             auto_open: this.props.autoOpen,
+            controller: this.props.controller,
             debug: this.props.debug,
             drag_and_drop: this.props.dragAndDrop,
             save_state: this.props.saveState,
@@ -29,8 +34,6 @@ class Tree extends React.Component {
             on_init: this.props.onInit,
             on_error: this.props.onError
         });
-
-        this.state = {store: store};
     }
 
     // - public functions
@@ -77,6 +80,7 @@ Tree.defaultProps = {
 
 Tree.propTypes = {
     autoOpen: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.number]),
+    controller: React.PropTypes.object,
     data: React.PropTypes.array,
     debug: React.PropTypes.bool,
     dragAndDrop: React.PropTypes.bool,
@@ -86,6 +90,7 @@ Tree.propTypes = {
     saveState: React.PropTypes.bool,
     url: React.PropTypes.string
 };
+
 
 // Use exports to satisfy flow
 module.exports = Tree;

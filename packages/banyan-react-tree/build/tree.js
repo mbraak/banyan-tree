@@ -33,25 +33,29 @@ var Tree = (function (_React$Component) {
 
         _get(Object.getPrototypeOf(Tree.prototype), "constructor", this).call(this, props);
 
-        var store = new _TreeStore.TreeStore({
-            data: this.props.data,
-            url: this.props.url,
-            auto_open: this.props.autoOpen,
-            debug: this.props.debug,
-            drag_and_drop: this.props.dragAndDrop,
-            save_state: this.props.saveState,
-            keyboard_support: this.props.keyboardSupport,
-            on_change: this.forceUpdate.bind(this),
-            on_init: this.props.onInit,
-            on_error: this.props.onError
-        });
-
-        this.state = { store: store };
+        this.state = { store: this.createStore() };
     }
 
     _inherits(Tree, _React$Component);
 
     _createClass(Tree, [{
+        key: "createStore",
+        value: function createStore() {
+            return new _TreeStore.TreeStore({
+                data: this.props.data,
+                url: this.props.url,
+                auto_open: this.props.autoOpen,
+                controller: this.props.controller,
+                debug: this.props.debug,
+                drag_and_drop: this.props.dragAndDrop,
+                save_state: this.props.saveState,
+                keyboard_support: this.props.keyboardSupport,
+                on_change: this.forceUpdate.bind(this),
+                on_init: this.props.onInit,
+                on_error: this.props.onError
+            });
+        }
+    }, {
         key: "getTree",
 
         // - public functions
@@ -106,6 +110,7 @@ Tree.defaultProps = {
 
 Tree.propTypes = {
     autoOpen: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.number]),
+    controller: React.PropTypes.object,
     data: React.PropTypes.array,
     debug: React.PropTypes.bool,
     dragAndDrop: React.PropTypes.bool,

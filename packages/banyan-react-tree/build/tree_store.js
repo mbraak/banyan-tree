@@ -46,6 +46,13 @@ var TreeStore = (function () {
 
         this.tree = tree;
 
+        // init controller
+        this.controller = params.controller;
+
+        if (this.controller) {
+            this.controller._setStore(this);
+        }
+
         // handle init
         promise.then(this.initTree.bind(this)).then(this.fireInit.bind(this))["catch"](this.fireError.bind(this));
 
@@ -337,6 +344,10 @@ var TreeStore = (function () {
 
             if (on_init) {
                 on_init();
+            }
+
+            if (this.controller && this.controller.onInit) {
+                this.controller.onInit();
             }
         }
     }, {
