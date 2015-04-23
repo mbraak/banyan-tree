@@ -19,7 +19,7 @@ export class TreeStore extends EventEmitter {
     on_error: ?Function;
 
     constructor(params: Object) {
-        super()
+        super();
 
         this.auto_open = params.auto_open;
         this.keyboard_support = params.keyboard_support;
@@ -44,7 +44,7 @@ export class TreeStore extends EventEmitter {
         this.controller = params.controller;
 
         if (this.controller) {
-            this.controller._setStore(this);
+            this.controller.setStore(this);
         }
 
         // handle init

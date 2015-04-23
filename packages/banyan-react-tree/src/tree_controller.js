@@ -2,23 +2,26 @@
 import {EventEmitter} from "events";
 
 import {proxyEvents, proxyFunctions} from "./utils";
+import {TreeStore} from "./tree_store";
 
 
-export default class TreeController extends EventEmitter {
-    _setStore(store) {
+class TreeController extends EventEmitter {
+    setStore(store: TreeStore) {
         var tree = store.tree;
 
         proxyFunctions(
             this, tree,
-            ['getNodeById', 'getNodeByName']
+            ["getNodeById", "getNodeByName"]
         );
 
         proxyFunctions(
             this, store,
-            ['closeNode', 'openNode', 'selectNode', 'toggleNode']
+            ["closeNode", "openNode", "selectNode", "toggleNode"]
         );
 
-        proxyEvents(this, store, ['init']);
-        proxyEvents(this, store.tree, ['select']);
+        proxyEvents(this, store, ["init"]);
+        proxyEvents(this, store.tree, ["select"]);
     }
 }
+
+module.exports = TreeController;

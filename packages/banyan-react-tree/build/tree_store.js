@@ -58,7 +58,7 @@ var TreeStore = (function (_EventEmitter) {
         this.controller = params.controller;
 
         if (this.controller) {
-            this.controller._setStore(this);
+            this.controller.setStore(this);
         }
 
         // handle init

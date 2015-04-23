@@ -6,14 +6,13 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 /* @flow */
 
 var _EventEmitter2 = require("events");
 
 var _proxyEvents$proxyFunctions = require("./utils");
+
+var _TreeStore = require("./tree_store");
 
 var TreeController = (function (_EventEmitter) {
     function TreeController() {
@@ -27,8 +26,8 @@ var TreeController = (function (_EventEmitter) {
     _inherits(TreeController, _EventEmitter);
 
     _createClass(TreeController, [{
-        key: "_setStore",
-        value: function _setStore(store) {
+        key: "setStore",
+        value: function setStore(store) {
             var tree = store.tree;
 
             _proxyEvents$proxyFunctions.proxyFunctions(this, tree, ["getNodeById", "getNodeByName"]);
@@ -43,5 +42,4 @@ var TreeController = (function (_EventEmitter) {
     return TreeController;
 })(_EventEmitter2.EventEmitter);
 
-exports["default"] = TreeController;
-module.exports = exports["default"];
+module.exports = TreeController;
