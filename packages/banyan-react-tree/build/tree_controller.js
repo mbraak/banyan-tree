@@ -4,19 +4,27 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
+var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
+/* @flow */
 
-var TreeController = (function () {
+var _EventEmitter2 = require('events');
+
+var TreeController = (function (_EventEmitter) {
     function TreeController() {
         _classCallCheck(this, TreeController);
+
+        if (_EventEmitter != null) {
+            _EventEmitter.apply(this, arguments);
+        }
     }
 
+    _inherits(TreeController, _EventEmitter);
+
     _createClass(TreeController, [{
-        key: 'onInit',
-        value: function onInit() {}
-    }, {
         key: '_setStore',
         value: function _setStore(store) {
             var tree = store.tree;
@@ -24,11 +32,14 @@ var TreeController = (function () {
             proxyFunctions(this, tree, ['getNodeById', 'getNodeByName']);
 
             proxyFunctions(this, store, ['closeNode', 'openNode', 'selectNode', 'toggleNode']);
+
+            proxyEvents(this, store, ['init']);
+            proxyEvents(this, store.tree, ['select']);
         }
     }]);
 
     return TreeController;
-})();
+})(_EventEmitter2.EventEmitter);
 
 exports['default'] = TreeController;
 
@@ -37,6 +48,12 @@ function proxyFunctions(target, source, function_names) {
         target[function_name] = source[function_name].bind(source);
     });
 }
-module.exports = exports['default'];
 
-//
+function proxyEvents(target, source, event_names) {
+    event_names.forEach(function (event_name) {
+        source.on(event_name, function (e) {
+            target.emit(event_name, e);
+        });
+    });
+}
+module.exports = exports['default'];

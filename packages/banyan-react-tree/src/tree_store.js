@@ -1,10 +1,12 @@
 /* @flow */
+import {EventEmitter} from "events";
+
 import {Tree, Node} from "./tree_node";
 import {LazyIterator} from "./lazy_iterator";
 import {to_array} from "./utils";
 
 
-export class TreeStore {
+export class TreeStore extends EventEmitter {
     auto_open: bool|number;
     keyboard_support: bool;
     tree: Tree;
@@ -17,6 +19,8 @@ export class TreeStore {
     on_error: ?Function;
 
     constructor(params: Object) {
+        super()
+
         this.auto_open = params.auto_open;
         this.keyboard_support = params.keyboard_support;
         this.save_state = params.save_state;
@@ -281,9 +285,7 @@ export class TreeStore {
             on_init();
         }
 
-        if (this.controller && this.controller.onInit) {
-            this.controller.onInit();
-        }
+        this.emit("init");
     }
 
     fireError() {

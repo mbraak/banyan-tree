@@ -6,10 +6,16 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
+var _get = function get(object, property, receiver) { var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 /* @flow */
+
+var _EventEmitter2 = require("events");
 
 var _Tree$Node = require("./tree_node");
 
@@ -17,9 +23,11 @@ var _LazyIterator = require("./lazy_iterator");
 
 var _to_array = require("./utils");
 
-var TreeStore = (function () {
+var TreeStore = (function (_EventEmitter) {
     function TreeStore(params) {
         _classCallCheck(this, TreeStore);
+
+        _get(Object.getPrototypeOf(TreeStore.prototype), "constructor", this).call(this);
 
         this.auto_open = params.auto_open;
         this.keyboard_support = params.keyboard_support;
@@ -59,6 +67,8 @@ var TreeStore = (function () {
         // set on_change callback
         this.on_change = params.on_change;
     }
+
+    _inherits(TreeStore, _EventEmitter);
 
     _createClass(TreeStore, [{
         key: "auto_open",
@@ -346,9 +356,7 @@ var TreeStore = (function () {
                 on_init();
             }
 
-            if (this.controller && this.controller.onInit) {
-                this.controller.onInit();
-            }
+            this.emit("init");
         }
     }, {
         key: "fireError",
@@ -565,7 +573,7 @@ var TreeStore = (function () {
     }]);
 
     return TreeStore;
-})();
+})(_EventEmitter2.EventEmitter);
 
 exports.TreeStore = TreeStore;
 

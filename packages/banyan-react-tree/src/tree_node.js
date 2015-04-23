@@ -1,6 +1,8 @@
 /* @flow */
 require("core-js");  // change import for flow
 
+import {EventEmitter} from "events";
+
 import xhttp from "xhttp";
 
 import {copyProperties} from "./utils";
@@ -32,7 +34,7 @@ var node = new Node(
         color: "blue"
     }
 */
-export class Node {
+export class Node extends EventEmitter {
     id: number;
     name: string;
     load_on_demand: bool;
@@ -50,6 +52,8 @@ export class Node {
     The properties parameter must contain the keys "id" and "name"
     */
     constructor(properties: Object) {
+        super();
+
         // todo: check required keys
         this.assignProperties(properties);
 
@@ -518,6 +522,8 @@ export class Tree extends Node {
 
                 changed_nodes.push(node);
             }
+
+            this.emit("select", node);
 
             return changed_nodes;
         }
