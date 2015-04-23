@@ -55,7 +55,7 @@ export function filterTrueKeys(object: Object): Array<any> {
     return true_keys;
 }
 
-export function to_array(value: any): Array<any> {
+export function toArray(value: any): Array<any> {
     if (!value) {
         return [];
     }

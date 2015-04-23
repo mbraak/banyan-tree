@@ -21,7 +21,7 @@ var _Tree$Node = require("./tree_node");
 
 var _LazyIterator = require("./lazy_iterator");
 
-var _to_array = require("./utils");
+var _toArray = require("./utils");
 
 var TreeStore = (function (_EventEmitter) {
     function TreeStore(params) {
@@ -122,7 +122,7 @@ var TreeStore = (function (_EventEmitter) {
         value: function emitChange() {
             var changed_nodes = arguments[0] === undefined ? null : arguments[0];
 
-            this.changed_nodes = _to_array.to_array(changed_nodes);
+            this.changed_nodes = _toArray.toArray(changed_nodes);
 
             if (this.debug) {
                 console.log("Emit change for node", formatNodes(this.changed_nodes));

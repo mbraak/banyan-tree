@@ -3,7 +3,7 @@ import {EventEmitter} from "events";
 
 import {Tree, Node} from "./tree_node";
 import {LazyIterator} from "./lazy_iterator";
-import {to_array} from "./utils";
+import {toArray} from "./utils";
 
 
 export class TreeStore extends EventEmitter {
@@ -64,7 +64,7 @@ export class TreeStore extends EventEmitter {
     - a list of nodes; update theses nodes (and their parents)
     */
     emitChange(changed_nodes: ?Array<Node>|?Node = null) {
-        this.changed_nodes = to_array(changed_nodes);
+        this.changed_nodes = toArray(changed_nodes);
 
         if (this.debug) {
             console.log("Emit change for node", formatNodes(this.changed_nodes));

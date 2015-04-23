@@ -32,7 +32,7 @@ var copy = copyProperties(
 exports.copyProperties = copyProperties;
 exports.timeout = timeout;
 exports.filterTrueKeys = filterTrueKeys;
-exports.to_array = to_array;
+exports.toArray = toArray;
 exports.proxyFunctions = proxyFunctions;
 exports.proxyEvents = proxyEvents;
 
@@ -69,7 +69,7 @@ function filterTrueKeys(object) {
     return true_keys;
 }
 
-function to_array(value) {
+function toArray(value) {
     if (!value) {
         return [];
     } else if (Array.isArray(value)) {
