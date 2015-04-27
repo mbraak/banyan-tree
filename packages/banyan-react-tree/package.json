@@ -4,9 +4,9 @@
   "description": "",
   "main": "build/tree.js",
   "keywords": [
-      "react",
-      "react-component",
-      "tree"
+    "react",
+    "react-component",
+    "tree"
   ],
   "devDependencies": {
     "babel-eslint": "^3.0.1",
@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "core-js": "^0.9.4",
+    "eventemitter3": "^1.0.1",
     "react": "^0.13.2",
     "xhttp": "^0.0.6"
   }

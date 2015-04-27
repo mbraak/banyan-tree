@@ -1,7 +1,7 @@
 /* @flow */
 require("core-js");  // change import for flow
 
-import {EventEmitter} from "events";
+import EventEmitter from "eventemitter3";
 
 import xhttp from "xhttp";
 

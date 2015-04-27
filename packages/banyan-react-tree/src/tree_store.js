@@ -1,5 +1,5 @@
 /* @flow */
-import {EventEmitter} from "events";
+import EventEmitter from "eventemitter3";
 
 import {Tree, Node} from "./tree_node";
 import {LazyIterator} from "./lazy_iterator";
