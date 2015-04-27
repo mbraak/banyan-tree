@@ -2,11 +2,10 @@
 import {EventEmitter} from "events";
 
 import {proxyEvents, proxyFunctions} from "./utils";
-import {TreeStore} from "./tree_store";
 
 
 class TreeController extends EventEmitter {
-    setStore(store: TreeStore) {
+    setStore(store: Object) {
         var tree = store.tree;
 
         proxyFunctions(

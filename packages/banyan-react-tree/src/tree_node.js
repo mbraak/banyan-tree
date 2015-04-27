@@ -253,7 +253,10 @@ export class Node extends EventEmitter {
     Is this node the parent of the parameter node?
     */
     isParentOf(node: Node): bool {
-        if (node) {
+        if (!node) {
+            return false;
+        }
+        else {
             var parent = node.parent;
 
             while (parent) {

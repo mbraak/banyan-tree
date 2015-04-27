@@ -4,6 +4,7 @@ import {EventEmitter} from "events";
 import {Tree, Node} from "./tree_node";
 import {LazyIterator} from "./lazy_iterator";
 import {toArray} from "./utils";
+import TreeController from "./tree_controller";
 
 
 export class TreeStore extends EventEmitter {
@@ -17,6 +18,7 @@ export class TreeStore extends EventEmitter {
     drag_and_drop: bool;
     on_init: ?Function;
     on_error: ?Function;
+    controller: ?TreeController;
 
     constructor(params: Object) {
         super();
