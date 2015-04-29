@@ -382,12 +382,14 @@ export class Node extends EventEmitter {
     open() {
         if (this.isFolder()) {
             this.is_open = true;
+            this.tree.emit("open", this);
         }
     }
 
     close() {
         if (this.isFolder()) {
             this.is_open = false;
+            this.tree.emit("close", this);
         }
     }
 

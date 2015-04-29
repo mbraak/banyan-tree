@@ -19,7 +19,7 @@ class TreeController extends EventEmitter {
         );
 
         proxyEvents(this, store, ["init"]);
-        proxyEvents(this, store.tree, ["select"]);
+        proxyEvents(this, store.tree, ["close", "open", "select"]);
     }
 }
 
