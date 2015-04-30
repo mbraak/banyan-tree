@@ -42,19 +42,6 @@ export function timeout(delay: number = 0): Promise {
     });
 }
 
-export function filterTrueKeys(object: Object): Array<any> {
-    var true_keys = [];
-
-    // todo: filter and map?
-    for (var key in object) {
-        if (object[key]) {
-            true_keys.push(key);
-        }
-    }
-
-    return true_keys;
-}
-
 export function toArray(value: any): Array<any> {
     if (!value) {
         return [];

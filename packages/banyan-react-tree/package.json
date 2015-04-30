@@ -31,7 +31,8 @@
     "watchify": "^2.6.2"
   },
   "dependencies": {
-    "core-js": "^0.9.4",
+    "classnames": "^1.2.2",
+    "core-js": "^0.9.5",
     "eventemitter3": "^1.0.1",
     "react": "^0.13.2",
     "xhttp": "^0.0.6"

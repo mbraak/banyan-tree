@@ -1,8 +1,10 @@
 /* @flow */
 var React = require("react");  // change import for flow
 
+import classNames from "classnames";
+
 import {TreeStore} from "./tree_store";
-import {timeout, filterTrueKeys} from "./utils";
+import {timeout} from "./utils";
 import {Position} from "./position";
 
 
@@ -101,12 +103,11 @@ class TreeFolder extends React.Component {
         var folder = this.props.node;
         var store = this.props.store;
 
-        var classes = filterTrueKeys({
+        var classes = classNames({
             "banyan_common": true,
             "banyan-loading": folder.is_loading,
             "banyan-tree": !folder.parent
-
-        }).join(" ");
+        });
 
         var children = [];
 
@@ -195,7 +196,7 @@ class TreeNode extends React.Component {
         var store = this.props.store;
 
         function getClasses() {
-            return filterTrueKeys({
+            return classNames({
                 "banyan-closed": !node.is_open,
                 "banyan_common": true,
                 "banyan-dragged": store.isNodeDragged(node),
@@ -203,7 +204,7 @@ class TreeNode extends React.Component {
                 "banyan-loading": node.is_loading,
                 "banyan-hover": store.isNodeHovered(node),
                 "banyan-selected": node.is_selected
-            }).join(" ");
+            });
         }
 
         function getButtonElement() {
