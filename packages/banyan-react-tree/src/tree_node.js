@@ -3,6 +3,8 @@ require("core-js");  // change import for flow
 
 import EventEmitter from "eventemitter3";
 
+import invariant from "react/lib/invariant";
+
 import xhttp from "xhttp";
 
 import {copyProperties} from "./utils";
@@ -98,21 +100,20 @@ export class Node extends EventEmitter {
     ]
     */
     loadFromData(data: Array<Object>) {
+        invariant(Array.isArray(data), "loadFromData: parameter 'data' must be an array");
         this.removeChildren();
 
-        if (data != null) {
-            var parent = this;
+        var parent = this;
 
-            data.forEach((properties) => {
-                var node = new Node(properties);
+        data.forEach((properties) => {
+            var node = new Node(properties);
 
-                parent.addChild(node);
+            parent.addChild(node);
 
-                if (properties.children && properties.children.length) {
-                    node.loadFromData(properties.children);
-                }
-            });
-        }
+            if (properties.children && properties.children.length) {
+                node.loadFromData(properties.children);
+            }
+        });
     }
 
     /*
