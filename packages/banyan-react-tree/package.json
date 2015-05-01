@@ -11,7 +11,7 @@
   "devDependencies": {
     "babel-eslint": "^3.0.1",
     "babelify": "^6.0.2",
-    "browserify": "^9.0.8",
+    "browserify": "^10.0.0",
     "chai": "^2.3.0",
     "eslint": "^0.20.0",
     "gulp": "^3.8.11",
