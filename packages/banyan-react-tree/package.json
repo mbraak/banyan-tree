@@ -11,7 +11,7 @@
   "devDependencies": {
     "babel-eslint": "^3.0.1",
     "babelify": "^6.0.2",
-    "browserify": "^10.0.0",
+    "browserify": "^10.1.0",
     "chai": "^2.3.0",
     "eslint": "^0.20.0",
     "gulp": "^3.8.11",
@@ -31,7 +31,7 @@
     "watchify": "^3.2.1"
   },
   "dependencies": {
-    "classnames": "^2.0.0",
+    "classnames": "^2.1.0",
     "core-js": "^0.9.6",
     "eventemitter3": "^1.0.1",
     "react": "^0.13.2",
