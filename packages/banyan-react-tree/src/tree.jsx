@@ -6,6 +6,7 @@ import classNames from "classnames";
 import {TreeStore} from "./tree_store";
 import {timeout} from "./utils";
 import {Position} from "./position";
+import {Tree} from "./tree_node.js";
 
 
 function isActiveElementAnInput(): boolean {
@@ -15,8 +16,8 @@ function isActiveElementAnInput(): boolean {
 }
 
 
-class Tree extends React.Component {
-    constructor(props) {
+class TreeComponent extends React.Component {
+    constructor(props: Object) {
         super(props);
 
         this.state = {store: this.createStore()};
@@ -39,11 +40,11 @@ class Tree extends React.Component {
     }
 
     // - public functions
-    getTree() {
+    getTree(): Tree {
         return this.getStore().tree;
     }
 
-    getStore() {
+    getStore(): TreeStore {
         return this.state.store;
     }
 
@@ -52,7 +53,7 @@ class Tree extends React.Component {
         var store = this.state.store;
 
         return (
-            <TreeFolder node={store.tree} store={store}></TreeFolder>
+            <TreeFolderComponent node={store.tree} store={store}></TreeFolderComponent>
         );
     }
 
@@ -66,21 +67,21 @@ class Tree extends React.Component {
     }
 
     // - event handlers
-    handleKeyDown(e) {
+    handleKeyDown(e: any) {
         if (!isActiveElementAnInput()) {
             this.getStore().handleKeyDown(e.keyIdentifier);
         }
     }
 }
 
-Tree.defaultProps = {
+TreeComponent.defaultProps = {
     autoOpen: false,
     debug: false,
     dragAndDrop: false,
     keyboardSupport: true
 };
 
-Tree.propTypes = {
+TreeComponent.propTypes = {
     autoOpen: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.number]),
     controller: React.PropTypes.object,
     data: React.PropTypes.array,
@@ -95,10 +96,10 @@ Tree.propTypes = {
 
 
 // Use exports to satisfy flow
-module.exports = Tree;
+module.exports = TreeComponent;
 
 
-class TreeFolder extends React.Component {
+class TreeFolderComponent extends React.Component {
     render() {
         var folder = this.props.node;
         var store = this.props.store;
@@ -113,11 +114,15 @@ class TreeFolder extends React.Component {
 
         folder.children.forEach((node) => {
             if (store.isNodeHovered(node)) {
-                children.push(<TreePlaceholder key={`${node.id}-placeholder`} node={node} store={store}></TreePlaceholder>);
+                children.push(
+                    <TreePlaceholderComponent key={`${node.id}-placeholder`} node={node} store={store}></TreePlaceholderComponent>
+                );
             }
 
             if (!store.isNodeDragged(node)) {
-                children.push(<TreeNode key={node.id} node={node} store={store}></TreeNode>);
+                children.push(
+                    <TreeNodeComponent key={node.id} node={node} store={store}></TreeNodeComponent>
+                );
             }
         });
 
@@ -130,7 +135,7 @@ class TreeFolder extends React.Component {
  }
 
 
-class TreeButton extends React.Component {
+class TreeButtonComponent extends React.Component {
     render() {
         var is_open = this.props.is_open;
         var open_text, classes;
@@ -157,7 +162,7 @@ class TreeButton extends React.Component {
 }
 
 
-class TreeTitle extends React.Component {
+class TreeTitleComponent extends React.Component {
     render() {
         var node = this.props.node;
         var classes = "banyan-title banyan_common";
@@ -190,7 +195,7 @@ class TreeTitle extends React.Component {
 }
 
 
-class TreeNode extends React.Component {
+class TreeNodeComponent extends React.Component {
     render() {
         var node = this.props.node;
         var store = this.props.store;
@@ -209,7 +214,7 @@ class TreeNode extends React.Component {
 
         function getButtonElement() {
             if (node.isFolder()) {
-                return <TreeButton node={node} is_open={node.is_open} store={store}></TreeButton>;
+                return <TreeButtonComponent node={node} is_open={node.is_open} store={store}></TreeButtonComponent>;
             }
             else {
                 return null;
@@ -218,7 +223,7 @@ class TreeNode extends React.Component {
 
         function getFolderElement() {
             if (node.isFolder() && node.is_open) {
-                return <TreeFolder node={node} store={store}></TreeFolder>;
+                return <TreeFolderComponent node={node} store={store}></TreeFolderComponent>;
             }
             else {
                 return null;
@@ -239,7 +244,7 @@ class TreeNode extends React.Component {
             <li className={getClasses()}>
                 <div className="banyan-element banyan_common" {...mouse_props}>
                     {getButtonElement()}
-                    <TreeTitle node={node} store={store}></TreeTitle>
+                    <TreeTitleComponent node={node} store={store}></TreeTitleComponent>
                 </div>
                 {getFolderElement()}
             </li>
@@ -300,7 +305,7 @@ class TreeNode extends React.Component {
 }
 
 
-class TreePlaceholder extends React.Component {
+class TreePlaceholderComponent extends React.Component {
     render() {
         var store = this.props.store;
 

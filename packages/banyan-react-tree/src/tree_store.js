@@ -490,7 +490,7 @@ export class TreeStore extends EventEmitter {
         }
     }
 
-    isNodeChanged(node: Node) {
+    isNodeChanged(node: Node): bool {
         if (!this.changed_nodes.length) {
             return true;
         }
