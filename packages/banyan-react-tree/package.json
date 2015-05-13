@@ -21,7 +21,7 @@
     "gulp-rename": "^1.2.2",
     "karma": "^0.12.31",
     "karma-browserify": "^4.1.2",
-    "karma-chrome-launcher": "^0.1.10",
+    "karma-chrome-launcher": "0.1.10",
     "karma-cli": "0.0.4",
     "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.1.10",
@@ -33,7 +33,7 @@
   "dependencies": {
     "classnames": "^2.1.1",
     "core-js": "^0.9.8",
-    "eventemitter3": "^1.0.2",
+    "eventemitter3": "^1.1.0",
     "react": "^0.13.3",
     "xhttp": "^0.0.6"
   }
