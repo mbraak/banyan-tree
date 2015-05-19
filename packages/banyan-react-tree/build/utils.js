@@ -31,7 +31,6 @@ var copy = copyProperties(
 */
 exports.copyProperties = copyProperties;
 exports.timeout = timeout;
-exports.filterTrueKeys = filterTrueKeys;
 exports.toArray = toArray;
 exports.proxyFunctions = proxyFunctions;
 exports.proxyEvents = proxyEvents;
@@ -54,19 +53,6 @@ function timeout() {
     return new Promise(function (resolve) {
         setTimeout(resolve, delay || 0);
     });
-}
-
-function filterTrueKeys(object) {
-    var true_keys = [];
-
-    // todo: filter and map?
-    for (var key in object) {
-        if (object[key]) {
-            true_keys.push(key);
-        }
-    }
-
-    return true_keys;
 }
 
 function toArray(value) {

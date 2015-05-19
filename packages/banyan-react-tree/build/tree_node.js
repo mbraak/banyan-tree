@@ -17,7 +17,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 // change import for flow
 
-var _EventEmitter2 = require("events");
+var _EventEmitter2 = require("eventemitter3");
+
+var _EventEmitter3 = _interopRequireWildcard(_EventEmitter2);
+
+var _invariant = require("react/lib/invariant");
+
+var _invariant2 = _interopRequireWildcard(_invariant);
 
 var _xhttp = require("xhttp");
 
@@ -156,21 +162,20 @@ var Node = (function (_EventEmitter) {
         ]
         */
         value: function loadFromData(data) {
+            _invariant2["default"](Array.isArray(data), "loadFromData: parameter 'data' must be an array");
             this.removeChildren();
 
-            if (data != null) {
-                var parent = this;
+            var parent = this;
 
-                data.forEach(function (properties) {
-                    var node = new Node(properties);
+            data.forEach(function (properties) {
+                var node = new Node(properties);
 
-                    parent.addChild(node);
+                parent.addChild(node);
 
-                    if (properties.children && properties.children.length) {
-                        node.loadFromData(properties.children);
-                    }
-                });
-            }
+                if (properties.children && properties.children.length) {
+                    node.loadFromData(properties.children);
+                }
+            });
         }
     }, {
         key: "addChild",
@@ -322,7 +327,9 @@ var Node = (function (_EventEmitter) {
         Is this node the parent of the parameter node?
         */
         value: function isParentOf(node) {
-            if (node) {
+            if (!node) {
+                return false;
+            } else {
                 var parent = node.parent;
 
                 while (parent) {
@@ -442,6 +449,7 @@ var Node = (function (_EventEmitter) {
         value: function open() {
             if (this.isFolder()) {
                 this.is_open = true;
+                this.tree.emit("open", this);
             }
         }
     }, {
@@ -449,6 +457,7 @@ var Node = (function (_EventEmitter) {
         value: function close() {
             if (this.isFolder()) {
                 this.is_open = false;
+                this.tree.emit("close", this);
             }
         }
     }, {
@@ -559,7 +568,7 @@ var Node = (function (_EventEmitter) {
     }]);
 
     return Node;
-})(_EventEmitter2.EventEmitter);
+})(_EventEmitter3["default"]);
 
 exports.Node = Node;
 

@@ -1,5 +1,7 @@
 "use strict";
 
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -12,11 +14,17 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 // change import for flow
 
+var _classNames = require("classnames");
+
+var _classNames2 = _interopRequireWildcard(_classNames);
+
 var _TreeStore = require("./tree_store");
 
-var _timeout$filterTrueKeys = require("./utils");
+var _timeout = require("./utils");
 
 var _Position = require("./position");
+
+var _Tree = require("./tree_node.js");
 
 /* @flow */
 var React = require("react");
@@ -27,18 +35,18 @@ function isActiveElementAnInput() {
     return tag_name === "input" || tag_name === "textarea" || tag_name === "select";
 }
 
-var Tree = (function (_React$Component) {
-    function Tree(props) {
-        _classCallCheck(this, Tree);
+var TreeComponent = (function (_React$Component) {
+    function TreeComponent(props) {
+        _classCallCheck(this, TreeComponent);
 
-        _get(Object.getPrototypeOf(Tree.prototype), "constructor", this).call(this, props);
+        _get(Object.getPrototypeOf(TreeComponent.prototype), "constructor", this).call(this, props);
 
         this.state = { store: this.createStore() };
     }
 
-    _inherits(Tree, _React$Component);
+    _inherits(TreeComponent, _React$Component);
 
-    _createClass(Tree, [{
+    _createClass(TreeComponent, [{
         key: "createStore",
         value: function createStore() {
             return new _TreeStore.TreeStore({
@@ -74,7 +82,7 @@ var Tree = (function (_React$Component) {
         value: function render() {
             var store = this.state.store;
 
-            return React.createElement(TreeFolder, { node: store.tree, store: store });
+            return React.createElement(TreeFolderComponent, { node: store.tree, store: store });
         }
     }, {
         key: "componentDidMount",
@@ -98,17 +106,17 @@ var Tree = (function (_React$Component) {
         }
     }]);
 
-    return Tree;
+    return TreeComponent;
 })(React.Component);
 
-Tree.defaultProps = {
+TreeComponent.defaultProps = {
     autoOpen: false,
     debug: false,
     dragAndDrop: false,
     keyboardSupport: true
 };
 
-Tree.propTypes = {
+TreeComponent.propTypes = {
     autoOpen: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.number]),
     controller: React.PropTypes.object,
     data: React.PropTypes.array,
@@ -122,41 +130,40 @@ Tree.propTypes = {
 };
 
 // Use exports to satisfy flow
-module.exports = Tree;
+module.exports = TreeComponent;
 
-var TreeFolder = (function (_React$Component2) {
-    function TreeFolder() {
-        _classCallCheck(this, TreeFolder);
+var TreeFolderComponent = (function (_React$Component2) {
+    function TreeFolderComponent() {
+        _classCallCheck(this, TreeFolderComponent);
 
         if (_React$Component2 != null) {
             _React$Component2.apply(this, arguments);
         }
     }
 
-    _inherits(TreeFolder, _React$Component2);
+    _inherits(TreeFolderComponent, _React$Component2);
 
-    _createClass(TreeFolder, [{
+    _createClass(TreeFolderComponent, [{
         key: "render",
         value: function render() {
             var folder = this.props.node;
             var store = this.props.store;
 
-            var classes = _timeout$filterTrueKeys.filterTrueKeys({
+            var classes = _classNames2["default"]({
                 banyan_common: true,
                 "banyan-loading": folder.is_loading,
                 "banyan-tree": !folder.parent
-
-            }).join(" ");
+            });
 
             var children = [];
 
             folder.children.forEach(function (node) {
                 if (store.isNodeHovered(node)) {
-                    children.push(React.createElement(TreePlaceholder, { key: "" + node.id + "-placeholder", node: node, store: store }));
+                    children.push(React.createElement(TreePlaceholderComponent, { key: "" + node.id + "-placeholder", node: node, store: store }));
                 }
 
                 if (!store.isNodeDragged(node)) {
-                    children.push(React.createElement(TreeNode, { key: node.id, node: node, store: store }));
+                    children.push(React.createElement(TreeNodeComponent, { key: node.id, node: node, store: store }));
                 }
             });
 
@@ -173,21 +180,21 @@ var TreeFolder = (function (_React$Component2) {
         }
     }]);
 
-    return TreeFolder;
+    return TreeFolderComponent;
 })(React.Component);
 
-var TreeButton = (function (_React$Component3) {
-    function TreeButton() {
-        _classCallCheck(this, TreeButton);
+var TreeButtonComponent = (function (_React$Component3) {
+    function TreeButtonComponent() {
+        _classCallCheck(this, TreeButtonComponent);
 
         if (_React$Component3 != null) {
             _React$Component3.apply(this, arguments);
         }
     }
 
-    _inherits(TreeButton, _React$Component3);
+    _inherits(TreeButtonComponent, _React$Component3);
 
-    _createClass(TreeButton, [{
+    _createClass(TreeButtonComponent, [{
         key: "render",
         value: function render() {
             var is_open = this.props.is_open;
@@ -212,21 +219,21 @@ var TreeButton = (function (_React$Component3) {
         }
     }]);
 
-    return TreeButton;
+    return TreeButtonComponent;
 })(React.Component);
 
-var TreeTitle = (function (_React$Component4) {
-    function TreeTitle() {
-        _classCallCheck(this, TreeTitle);
+var TreeTitleComponent = (function (_React$Component4) {
+    function TreeTitleComponent() {
+        _classCallCheck(this, TreeTitleComponent);
 
         if (_React$Component4 != null) {
             _React$Component4.apply(this, arguments);
         }
     }
 
-    _inherits(TreeTitle, _React$Component4);
+    _inherits(TreeTitleComponent, _React$Component4);
 
-    _createClass(TreeTitle, [{
+    _createClass(TreeTitleComponent, [{
         key: "render",
         value: function render() {
             var node = this.props.node;
@@ -260,28 +267,28 @@ var TreeTitle = (function (_React$Component4) {
         }
     }]);
 
-    return TreeTitle;
+    return TreeTitleComponent;
 })(React.Component);
 
-var TreeNode = (function (_React$Component5) {
-    function TreeNode() {
-        _classCallCheck(this, TreeNode);
+var TreeNodeComponent = (function (_React$Component5) {
+    function TreeNodeComponent() {
+        _classCallCheck(this, TreeNodeComponent);
 
         if (_React$Component5 != null) {
             _React$Component5.apply(this, arguments);
         }
     }
 
-    _inherits(TreeNode, _React$Component5);
+    _inherits(TreeNodeComponent, _React$Component5);
 
-    _createClass(TreeNode, [{
+    _createClass(TreeNodeComponent, [{
         key: "render",
         value: function render() {
             var node = this.props.node;
             var store = this.props.store;
 
             function getClasses() {
-                return _timeout$filterTrueKeys.filterTrueKeys({
+                return _classNames2["default"]({
                     "banyan-closed": !node.is_open,
                     banyan_common: true,
                     "banyan-dragged": store.isNodeDragged(node),
@@ -289,12 +296,12 @@ var TreeNode = (function (_React$Component5) {
                     "banyan-loading": node.is_loading,
                     "banyan-hover": store.isNodeHovered(node),
                     "banyan-selected": node.is_selected
-                }).join(" ");
+                });
             }
 
             function getButtonElement() {
                 if (node.isFolder()) {
-                    return React.createElement(TreeButton, { node: node, is_open: node.is_open, store: store });
+                    return React.createElement(TreeButtonComponent, { node: node, is_open: node.is_open, store: store });
                 } else {
                     return null;
                 }
@@ -302,7 +309,7 @@ var TreeNode = (function (_React$Component5) {
 
             function getFolderElement() {
                 if (node.isFolder() && node.is_open) {
-                    return React.createElement(TreeFolder, { node: node, store: store });
+                    return React.createElement(TreeFolderComponent, { node: node, store: store });
                 } else {
                     return null;
                 }
@@ -325,7 +332,7 @@ var TreeNode = (function (_React$Component5) {
                     "div",
                     _extends({ className: "banyan-element banyan_common" }, mouse_props),
                     getButtonElement(),
-                    React.createElement(TreeTitle, { node: node, store: store })
+                    React.createElement(TreeTitleComponent, { node: node, store: store })
                 ),
                 getFolderElement()
             );
@@ -364,7 +371,7 @@ var TreeNode = (function (_React$Component5) {
             document.addEventListener("mousemove", handleMouseMove);
             document.addEventListener("mouseup", handleMouseUp);
 
-            _timeout$filterTrueKeys.timeout(300).then(function () {
+            _timeout.timeout(300).then(function () {
                 waiting_for_delay = false;
             });
 
@@ -382,21 +389,21 @@ var TreeNode = (function (_React$Component5) {
         }
     }]);
 
-    return TreeNode;
+    return TreeNodeComponent;
 })(React.Component);
 
-var TreePlaceholder = (function (_React$Component6) {
-    function TreePlaceholder() {
-        _classCallCheck(this, TreePlaceholder);
+var TreePlaceholderComponent = (function (_React$Component6) {
+    function TreePlaceholderComponent() {
+        _classCallCheck(this, TreePlaceholderComponent);
 
         if (_React$Component6 != null) {
             _React$Component6.apply(this, arguments);
         }
     }
 
-    _inherits(TreePlaceholder, _React$Component6);
+    _inherits(TreePlaceholderComponent, _React$Component6);
 
-    _createClass(TreePlaceholder, [{
+    _createClass(TreePlaceholderComponent, [{
         key: "render",
         value: function render() {
             var store = this.props.store;
@@ -409,5 +416,5 @@ var TreePlaceholder = (function (_React$Component6) {
         }
     }]);
 
-    return TreePlaceholder;
+    return TreePlaceholderComponent;
 })(React.Component);
