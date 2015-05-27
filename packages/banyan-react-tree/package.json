@@ -19,7 +19,7 @@
     "gulp-cli": "^0.2.0",
     "gulp-eslint": "^0.12.0",
     "gulp-rename": "^1.2.2",
-    "karma": "^0.12.32",
+    "karma": "^0.12.33",
     "karma-browserify": "^4.2.1",
     "karma-chrome-launcher": "0.1.12",
     "karma-cli": "0.0.4",
