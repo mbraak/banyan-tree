@@ -42,17 +42,6 @@ export function timeout(delay: number = 0): Promise {
     });
 }
 
-export function toArray(value: any): Array<any> {
-    if (!value) {
-        return [];
-    }
-    else if (Array.isArray(value)) {
-        return value;
-    }
-    else {
-        return [value];
-    }
-}
 
 export function proxyFunctions(target: Object, source:Object, function_names: Array<string>) {
     function_names.forEach((function_name) => {
