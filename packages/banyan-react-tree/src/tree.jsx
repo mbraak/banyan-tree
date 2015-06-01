@@ -142,11 +142,11 @@ class TreeButtonComponent extends React.Component {
 
         if (is_open) {
             open_text = "&#x25bc;";
-            classes = "banyan-toggler banyan-closed banyan_common";
+            classes = "banyan-toggler banyan_common";
         }
         else {
             open_text = "&#x25ba;";
-            classes = "banyan-toggler banyan_common";
+            classes = "banyan-toggler banyan-closed banyan_common";
         }
 
         return (
