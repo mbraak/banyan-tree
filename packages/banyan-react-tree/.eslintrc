@@ -5,6 +5,7 @@
     "new-cap": false,
     "no-console": false,
     "no-unused-vars": false,
+    "no-use-before-define": false,
     "strict": 0
   },
   "globals": {
