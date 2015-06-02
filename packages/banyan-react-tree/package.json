@@ -9,12 +9,12 @@
     "tree"
   ],
   "devDependencies": {
-    "babel-eslint": "^3.1.9",
+    "babel-eslint": "^3.1.10",
     "babelify": "^6.1.2",
     "browserify": "^10.2.3",
     "chai": "^2.3.0",
     "eslint": "^0.22.1",
-    "gulp": "^3.8.11",
+    "gulp": "^3.9.0",
     "gulp-babel": "^5.1.0",
     "gulp-cli": "^0.2.0",
     "gulp-eslint": "^0.12.0",
