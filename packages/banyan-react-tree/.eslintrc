@@ -1,11 +1,11 @@
 {
   "parser": "babel-eslint",
   "rules": {
-    "camelcase": false,
-    "new-cap": false,
-    "no-console": false,
-    "no-unused-vars": false,
-    "no-use-before-define": false,
+    "camelcase": 0,
+    "new-cap": 0,
+    "no-console": 0,
+    "no-unused-vars": 0,
+    "no-use-before-define": 0,
     "strict": 0
   },
   "globals": {
