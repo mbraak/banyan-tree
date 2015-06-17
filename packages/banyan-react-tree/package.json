@@ -17,7 +17,7 @@
     "gulp": "^3.9.0",
     "gulp-babel": "^5.1.0",
     "gulp-cli": "^0.2.0",
-    "gulp-eslint": "^0.13.2",
+    "gulp-eslint": "^0.14.0",
     "gulp-rename": "^1.2.2",
     "karma": "^0.12.36",
     "karma-browserify": "^4.2.1",
