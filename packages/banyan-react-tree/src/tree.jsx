@@ -105,7 +105,7 @@ class TreeFolderComponent extends React.Component {
         var store = this.props.store;
 
         var classes = classNames({
-            "banyan_common": true,
+            "banyan-common": true,
             "banyan-loading": folder.is_loading,
             "banyan-tree": !folder.parent
         });
@@ -142,11 +142,11 @@ class TreeButtonComponent extends React.Component {
 
         if (is_open) {
             open_text = "&#x25bc;";
-            classes = "banyan-toggler banyan_common";
+            classes = "banyan-toggler banyan-common";
         }
         else {
             open_text = "&#x25ba;";
-            classes = "banyan-toggler banyan-closed banyan_common";
+            classes = "banyan-toggler banyan-closed banyan-common";
         }
 
         return (
@@ -165,7 +165,7 @@ class TreeButtonComponent extends React.Component {
 class TreeTitleComponent extends React.Component {
     render() {
         var node = this.props.node;
-        var classes = "banyan-title banyan_common";
+        var classes = "banyan-title banyan-common";
 
         if (node.isFolder()) {
             classes += " banyan-title-folder";
@@ -203,7 +203,7 @@ class TreeNodeComponent extends React.Component {
         function getClasses() {
             return classNames({
                 "banyan-closed": !node.is_open,
-                "banyan_common": true,
+                "banyan-common": true,
                 "banyan-dragged": store.isNodeDragged(node),
                 "banyan-folder": node.isFolder(),
                 "banyan-loading": node.is_loading,
@@ -242,7 +242,7 @@ class TreeNodeComponent extends React.Component {
 
         return (
             <li className={getClasses()}>
-                <div className="banyan-element banyan_common" {...mouse_props}>
+                <div className="banyan-element banyan-common" {...mouse_props}>
                     {getButtonElement()}
                     <TreeTitleComponent node={node} store={store}></TreeTitleComponent>
                 </div>
@@ -313,6 +313,6 @@ class TreePlaceholderComponent extends React.Component {
             height: `${store.dragging.placeholder_height}px`
         };
 
-        return <li style={style} className="banyan-placeholder banyan_common"></li>;
+        return <li style={style} className="banyan-placeholder banyan-common"></li>;
     }
 }
