@@ -1,0 +1,61 @@
+ul.banyan-tree {
+    margin-left: 0;
+    list-style: none outside;
+    margin-bottom: 0;
+    padding: 0;
+
+    ul.banyan_common {
+        list-style: none outside;
+        margin-bottom: 0;
+        padding: 0;
+        display: block;
+        margin-left: 12px;
+        margin-right: 0;
+        clear: both;
+    }
+
+    li.banyan-closed > ul.banyan_common {
+        display: none;
+    }
+
+    .banyan-toggler {
+       border-bottom: none;
+       color: #333;
+       text-decoration: none;
+       margin-right: 0.5em;
+       vertical-align: middle;
+
+       &:hover {
+           color: #000;
+           text-decoration: none;
+       }
+   }
+
+   .banyan-element {
+       cursor: pointer;
+   }
+
+   .banyan-title {
+       color: #1C4257;
+       vertical-align: middle;
+       margin-left: 1.5em;
+
+       &.banyan-title-folder {
+           margin-left: 0;
+       }
+   }
+
+   li.banyan-folder {
+       margin-bottom: 4px;
+   }
+
+   li.banyan-selected > .banyan-element,
+   li.banyan-selected > .banyan-element:hover {
+       background-color: #97BDD6;
+   }
+}
+
+.banyan-placeholder {
+    border: dashed 2px #ccc;
+    margin-left: 1.5em;
+}

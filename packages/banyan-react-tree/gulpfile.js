@@ -3,6 +3,7 @@ var babel      = require('gulp-babel');
 var babelify   = require('babelify');
 var browserify = require('browserify');
 var eslint     = require('gulp-eslint');
+var less       = require('gulp-less');
 var rename     = require('gulp-rename');
 var source     = require('vinyl-source-stream');
 
@@ -24,6 +25,11 @@ function runBrowserify(filename) {
         .pipe(source(filename));
 }
 
+gulp.task('buildStyle', function() {
+    return gulp.src('./less/banyan-react-tree.less')
+        .pipe(less())
+        .pipe(gulp.dest('./build'));
+});
 
 gulp.task('lib', function() {
     return gulp.src(['./src/*.js', './src/*.jsx'])
@@ -46,6 +52,7 @@ gulp.task('example', function() {
 
 gulp.task('watch', ['default'], function() {
     gulp.watch(['src/**/*.js', 'src/**/*.jsx'], ['default']);
+    gulp.watch(['less/*.less'], ['buildStyle']);
 });
 
-gulp.task('default', ['lib', 'example']);
+gulp.task('default', ['lib', 'example', 'buildStyle']);
