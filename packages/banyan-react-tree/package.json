@@ -9,7 +9,7 @@
     "tree"
   ],
   "devDependencies": {
-    "babel-eslint": "^3.1.17",
+    "babel-eslint": "^3.1.18",
     "babelify": "^6.1.2",
     "browserify": "^10.2.4",
     "chai": "^3.0.0",
@@ -20,16 +20,16 @@
     "gulp-eslint": "^0.14.0",
     "gulp-less": "^3.0.3",
     "gulp-rename": "^1.2.2",
-    "karma": "^0.12.36",
+    "karma": "^0.12.37",
     "karma-browserify": "^4.2.1",
-    "karma-chrome-launcher": "0.1.12",
+    "karma-chrome-launcher": "0.2.0",
     "karma-cli": "0.0.4",
     "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.2.0",
     "mocha": "^2.2.5",
     "sinon": "^1.15.3",
     "vinyl-source-stream": "^1.1.0",
-    "watchify": "^3.2.2"
+    "watchify": "^3.2.3"
   },
   "dependencies": {
     "arrify": "^1.0.0",
