@@ -9,11 +9,11 @@
     "tree"
   ],
   "devDependencies": {
-    "babel-eslint": "^3.1.18",
+    "babel-eslint": "^3.1.19",
     "babelify": "^6.1.2",
     "browserify": "^10.2.4",
     "chai": "^3.0.0",
-    "eslint": "^0.23.0",
+    "eslint": "^0.24.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.1.0",
     "gulp-cli": "^0.2.0",
@@ -23,11 +23,11 @@
     "karma": "^0.12.37",
     "karma-browserify": "^4.2.1",
     "karma-chrome-launcher": "0.2.0",
-    "karma-cli": "0.0.4",
+    "karma-cli": "0.1.0",
     "karma-firefox-launcher": "^0.1.6",
     "karma-mocha": "^0.2.0",
     "mocha": "^2.2.5",
-    "sinon": "^1.15.3",
+    "sinon": "^1.15.4",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.2.3"
   },
