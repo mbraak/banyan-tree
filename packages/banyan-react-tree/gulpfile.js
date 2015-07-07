@@ -7,6 +7,11 @@ var less       = require('gulp-less');
 var rename     = require('gulp-rename');
 var source     = require('vinyl-source-stream');
 
+// disc
+var open = require('opener');
+var disc = require('disc');
+var fs   = require('fs');
+
 
 function swallowError(error) {
     console.log(error.toString());
@@ -48,6 +53,22 @@ gulp.task('example', function() {
     return runBrowserify('./src/examples/example.jsx')
         .pipe(rename('example.js'))
         .pipe(gulp.dest('./build'));
+});
+
+gulp.task('disc', function() {
+    var input = __dirname + '/src/tree.jsx';
+    var output = __dirname + '/disc.html'
+
+    var bundler = browserify(input, {fullPaths: true});
+
+    bundler
+        .transform(babelify)
+        .bundle()
+        .pipe(disc())
+        .pipe(fs.createWriteStream(output))
+        .once('close', function() {
+            open(output)
+        });
 });
 
 gulp.task('watch', ['default'], function() {
