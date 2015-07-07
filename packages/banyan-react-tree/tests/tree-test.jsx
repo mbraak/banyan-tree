@@ -1,6 +1,8 @@
 import {expect} from 'chai';
 
-import React from 'react/addons';
+import React from 'react';
+import TestUtils from 'react/lib/ReactTestUtils';
+import {findDOMNode} from 'react-dom';
 
 import {example_data} from '../src/testutil/example_data';
 
@@ -8,8 +10,6 @@ import {fakeServer, fakeServerWithLoadOnDemand, fakeServerWithError} from '../sr
 
 import {format_list} from '../src/testutil/format';
 import Tree from '../src/tree.jsx';
-
-var TestUtils = React.addons.TestUtils;
 
 
 var server = null;
@@ -30,7 +30,7 @@ describe('Tree component', function() {
         var tree_element = TestUtils.renderIntoDocument(<Tree onInit={handleInit}></Tree>);
 
         function handleInit() {
-            var dom_node = React.findDOMNode(tree_element);
+            var dom_node = findDOMNode(tree_element);
 
             expect(dom_node.className).to.equal('banyan_common banyan-tree');
             expect(dom_node.children.length).to.equal(0);
@@ -41,7 +41,7 @@ describe('Tree component', function() {
         var tree_element = TestUtils.renderIntoDocument(<Tree data={example_data} autoOpen={2} onInit={handleInit}></Tree>);
 
         function handleInit() {
-            var dom_node = React.findDOMNode(tree_element);
+            var dom_node = findDOMNode(tree_element);
             var dom_elements = dom_node.getElementsByClassName('banyan-title');
 
             expect(format_dom_elements(dom_elements)).to.equal(
@@ -64,7 +64,7 @@ describe('Tree component', function() {
                 tree_store.selectNode(node);
 
                 // find nodes with class 'banyan-selected'
-                var dom_node = React.findDOMNode(tree_element);
+                var dom_node = findDOMNode(tree_element);
                 var dom_elements = dom_node.getElementsByClassName('banyan-selected');
 
                 expect(format_dom_elements(dom_elements)).to.equal('Tyrannosauroids');
@@ -82,7 +82,7 @@ describe('Tree component', function() {
 
         function handleInit() {
             try {
-                var dom_node = React.findDOMNode(tree_element);
+                var dom_node = findDOMNode(tree_element);
                 var dom_elements = dom_node.getElementsByClassName('banyan-title');
 
                 expect(dom_elements.length).to.equal(31);
@@ -199,7 +199,7 @@ describe('Tree component', function() {
         function handleInit() {
             try {
                 // select node at first level
-                React.addons.TestUtils.Simulate.click(
+                TestUtils.Simulate.click(
                     findTitleNodeByName(tree_element, "Ornithischians")
                 );
 
@@ -207,7 +207,7 @@ describe('Tree component', function() {
                 expect(li.classList.contains("banyan-selected")).to.equal(true);
 
                 // select node at lower level
-                React.addons.TestUtils.Simulate.click(
+                TestUtils.Simulate.click(
                     findTitleNodeByName(tree_element, "Herrerasaurians")
                 );
 
@@ -226,7 +226,7 @@ describe('Tree component', function() {
 
 function findTitleNodeByName(tree_element, name) {
     return Array.prototype.find.call(
-        React.findDOMNode(tree_element).getElementsByClassName('banyan-title'),
+        findDOMNode(tree_element).getElementsByClassName('banyan-title'),
         el => el.innerHTML == name
     );
 }
