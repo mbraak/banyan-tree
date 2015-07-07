@@ -1,7 +1,8 @@
 /* @flow */
-var React = require("react");  // change import for flow
-var render = require("react-dom").render;
-var Tree = require("../tree.jsx"); // same
+import React from "react";
+import {render} from "react-dom";
+
+import Tree from "../tree.jsx";
 
 import {example_data} from "../testutil/example_data";
 
