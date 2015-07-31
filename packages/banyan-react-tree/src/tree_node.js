@@ -3,7 +3,7 @@ require("core-js");  // change import for flow
 
 import EventEmitter from "eventemitter3";
 
-import invariant from "react/lib/invariant";
+import invariant from "fbjs/lib/invariant";
 
 import xhttp from "xhttp";
 
