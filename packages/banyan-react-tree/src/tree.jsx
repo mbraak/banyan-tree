@@ -16,7 +16,27 @@ function isActiveElementAnInput(): boolean {
 }
 
 
-class TreeComponent extends React.Component {
+export default class TreeComponent extends React.Component {
+    static defaultProps = {
+        autoOpen: false,
+        debug: false,
+        dragAndDrop: false,
+        keyboardSupport: true
+    };
+
+    static propTypes = {
+        autoOpen: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.number]),
+        controller: React.PropTypes.object,
+        data: React.PropTypes.array,
+        debug: React.PropTypes.bool,
+        dragAndDrop: React.PropTypes.bool,
+        keyboardSupport: React.PropTypes.bool,
+        onError: React.PropTypes.func,
+        onInit: React.PropTypes.func,
+        saveState: React.PropTypes.bool,
+        url: React.PropTypes.string
+    };
+
     constructor(props: Object) {
         super(props);
 
@@ -73,30 +93,6 @@ class TreeComponent extends React.Component {
         }
     }
 }
-
-TreeComponent.defaultProps = {
-    autoOpen: false,
-    debug: false,
-    dragAndDrop: false,
-    keyboardSupport: true
-};
-
-TreeComponent.propTypes = {
-    autoOpen: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.number]),
-    controller: React.PropTypes.object,
-    data: React.PropTypes.array,
-    debug: React.PropTypes.bool,
-    dragAndDrop: React.PropTypes.bool,
-    keyboardSupport: React.PropTypes.bool,
-    onError: React.PropTypes.func,
-    onInit: React.PropTypes.func,
-    saveState: React.PropTypes.bool,
-    url: React.PropTypes.string
-};
-
-
-// Use exports to satisfy flow
-module.exports = TreeComponent;
 
 
 class TreeFolderComponent extends React.Component {

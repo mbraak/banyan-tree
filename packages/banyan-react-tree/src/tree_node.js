@@ -1,5 +1,5 @@
 /* @flow */
-require("core-js");  // change import for flow
+import "core-js";
 
 import EventEmitter from "eventemitter3";
 
@@ -662,7 +662,7 @@ export class Tree extends Node {
         }
     }
 
-    loadFromUrl(url: string) {
+    loadFromUrl(url: string): Promise  {
         this.base_url = url;
 
         return super.loadFromUrl(url);
