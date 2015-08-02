@@ -13,6 +13,8 @@ var disc = require('disc');
 var fs   = require('fs');
 
 
+var babel_options = {stage: 0};
+
 function swallowError(error) {
     console.log(error.toString());
 
@@ -24,7 +26,7 @@ function runBrowserify(filename) {
 
     return bundler
         .add(filename)
-        .transform(babelify)
+        .transform(babelify.configure(babel_options))
         .bundle()
         .on('error', swallowError)
         .pipe(source(filename));
@@ -38,7 +40,7 @@ gulp.task('buildStyle', function() {
 
 gulp.task('lib', function() {
     return gulp.src(['./src/*.js', './src/*.jsx'])
-        .pipe(babel())
+        .pipe(babel(babel_options))
         .pipe(gulp.dest('./build'));
 });
 
@@ -62,7 +64,7 @@ gulp.task('disc', function() {
     var bundler = browserify(input, {fullPaths: true});
 
     bundler
-        .transform(babelify)
+        .transform(babelify.configure(babel_options))
         .bundle()
         .pipe(disc())
         .pipe(fs.createWriteStream(output))

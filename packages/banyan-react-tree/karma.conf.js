@@ -31,7 +31,9 @@ module.exports = function(config) {
     browserify: {
         debug: true,
         transform: [
-            ['babelify']
+            [
+                ['babelify', {stage: 0}]
+            ]
         ]
     },
 
