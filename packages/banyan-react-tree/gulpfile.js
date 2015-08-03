@@ -5,32 +5,18 @@ var browserify = require('browserify');
 var eslint     = require('gulp-eslint');
 var less       = require('gulp-less');
 var rename     = require('gulp-rename');
-var source     = require('vinyl-source-stream');
 
-// disc
-var open = require('opener');
-var disc = require('disc');
-var fs   = require('fs');
+// tasks
+var bundler = require('./tasks/bundler');
+var runDisc = require('./tasks/run_disc');
 
 
-var babel_options = {stage: 0};
+var babel_options = { stage: 0 };
 
-function swallowError(error) {
-    console.log(error.toString());
+var babel_transforms = [
+    babelify.configure(babel_options)
+];
 
-    this.emit('end');
-}
-
-function runBrowserify(filename) {
-    var bundler = browserify({debug: true});
-
-    return bundler
-        .add(filename)
-        .transform(babelify.configure(babel_options))
-        .bundle()
-        .on('error', swallowError)
-        .pipe(source(filename));
-}
 
 gulp.task('buildStyle', function() {
     return gulp.src('./less/banyan-react-tree.less')
@@ -52,25 +38,16 @@ gulp.task('lint', function() {
 });
 
 gulp.task('example', function() {
-    return runBrowserify('./src/examples/example.jsx')
+    return gulp.src('./src/examples/example.jsx')
+        .pipe(bundler(true, babel_transforms))
         .pipe(rename('example.js'))
         .pipe(gulp.dest('./build'));
 });
 
 gulp.task('disc', function() {
-    var input = __dirname + '/src/tree.jsx';
-    var output = __dirname + '/disc.html'
+    var input_file = __dirname + '/src/tree.jsx';
 
-    var bundler = browserify(input, {fullPaths: true});
-
-    bundler
-        .transform(babelify.configure(babel_options))
-        .bundle()
-        .pipe(disc())
-        .pipe(fs.createWriteStream(output))
-        .once('close', function() {
-            open(output)
-        });
+    return runDisc(input_file, babel_transforms);
 });
 
 gulp.task('watch', ['default'], function() {
