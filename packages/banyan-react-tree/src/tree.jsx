@@ -1,5 +1,5 @@
 /* @flow */
-var React = require("react");  // change import for flow
+import React from "react";
 
 import classNames from "classnames";
 
