@@ -106,6 +106,15 @@ class TreeFolderComponent extends React.Component {
             "banyan-tree": !folder.parent
         });
 
+        function getRole() {
+            if (!folder.parent) {
+                return 'tree';
+            }
+            else {
+                return 'group';
+            }
+        }
+
         var children = [];
 
         folder.children.forEach((node) => {
@@ -122,7 +131,7 @@ class TreeFolderComponent extends React.Component {
             }
         });
 
-        return <ul className={classes}>{children}</ul>;
+        return <ul className={classes} role={getRole()}>{children}</ul>;
     }
 
     shouldComponentUpdate() {
@@ -146,7 +155,14 @@ class TreeButtonComponent extends React.Component {
         }
 
         return (
-            <a href="#" className={classes} dangerouslySetInnerHTML={{__html: open_text}} onClick={this.handleClick.bind(this)}></a>
+            <a
+                href="#"
+                className={classes}
+                role="presentation"
+                aria-hidden="true"
+                dangerouslySetInnerHTML={{__html: open_text}}
+                onClick={this.handleClick.bind(this)}
+            />
         );
     }
 
@@ -167,6 +183,19 @@ class TreeTitleComponent extends React.Component {
             classes += " banyan-title-folder";
         }
 
+        function getAriaProps() {
+            var aria_props = {
+                role: "treeitem",
+                "aria-selected": node.is_selected
+            };
+
+            if (node.isFolder()) {
+                aria_props['aria-expanded'] = node.is_open;
+            }
+
+            return aria_props;
+        }
+
         var node_name = node.name;
 
         if (this.props.store.debug) {
@@ -175,7 +204,7 @@ class TreeTitleComponent extends React.Component {
         }
 
         return (
-            <span className={classes} onClick={this.handleClick.bind(this)}>
+            <span className={classes} {...getAriaProps()} onClick={this.handleClick.bind(this)}>
                 {node_name}
             </span>
         );
@@ -237,8 +266,8 @@ class TreeNodeComponent extends React.Component {
         }
 
         return (
-            <li className={getClasses()}>
-                <div className="banyan-element banyan-common" {...mouse_props}>
+            <li className={getClasses()} role="presentation">
+                <div className="banyan-element banyan-common" role="presentation" {...mouse_props}>
                     {getButtonElement()}
                     <TreeTitleComponent node={node} store={store}></TreeTitleComponent>
                 </div>
