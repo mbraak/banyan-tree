@@ -380,6 +380,15 @@ export class Node extends EventEmitter {
         }
     }
 
+    getFirstChild(): ?Node {
+        if (!this.hasChildren()) {
+            return null;
+        }
+        else {
+            return this.children[0]; 
+        }
+    }
+
     open() {
         if (this.isFolder()) {
             this.is_open = true;
@@ -492,6 +501,20 @@ export class Node extends EventEmitter {
             open: open.map(getNodeInfo),
             selected: selected.map(getNodeInfo)
         };
+    }
+
+    getParent(): ?Node {
+        // Return parent except if it is the root node
+        if (! this.parent) {
+            return null;
+        }
+        else if (! this.parent.parent) {
+            // Root node -> null
+            return null;
+        }
+        else {
+            return this.parent;
+        }
     }
 }
 

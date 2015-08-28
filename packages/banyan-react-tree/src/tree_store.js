@@ -102,15 +102,33 @@ export class TreeStore extends EventEmitter {
                 selected_node = this.tree.selected_node;
 
                 if (selected_node) {
-                    this.closeNode(selected_node);
+                    if (selected_node.isFolder() && selected_node.is_open) {
+                        this.closeNode(selected_node);
+                    }
+                    else {
+                        const parent_node = selected_node.getParent();
+
+                        if (parent_node) {
+                            this.selectNode(parent_node);
+                        }
+                    }
                 }
                 break;
 
             case "Right":
                 selected_node = this.tree.selected_node;
 
-                if (selected_node) {
-                    this.openNode(selected_node);
+                if (selected_node && selected_node.isFolder()) {
+                    if (!selected_node.is_open) {
+                        this.openNode(selected_node);
+                    }
+                    else {
+                        const first_child = selected_node.getFirstChild();
+
+                        if (first_child) {
+                            this.selectNode(first_child);
+                        }
+                    }
                 }
                 break;
         }
