@@ -1,8 +1,7 @@
 /* @flow */
-/*
-Definition of positions; these are used for moving a node
-*/
-export var Position = {
+
+/* Definition of positions; these are used for moving a node */
+export const Position = {
     BEFORE: 1,
     AFTER: 2,
     INSIDE: 3,

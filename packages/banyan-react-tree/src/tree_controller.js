@@ -4,7 +4,7 @@ import EventEmitter from "eventemitter3";
 import {proxyEvents, proxyFunctions} from "./utils";
 
 
-class TreeController extends EventEmitter {
+export default class TreeController extends EventEmitter {
     setStore(store: Object) {
         var tree = store.tree;
 
@@ -22,5 +22,3 @@ class TreeController extends EventEmitter {
         proxyEvents(this, store.tree, ["close", "open", "select"]);
     }
 }
-
-module.exports = TreeController;

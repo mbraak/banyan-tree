@@ -1,4 +1,5 @@
 import sinon from "sinon";
+
 import {example_data, getFirstLevelData, getChildrenOfNode} from "./example_data";
 
 

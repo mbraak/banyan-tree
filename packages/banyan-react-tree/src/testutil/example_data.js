@@ -1,4 +1,4 @@
-export var example_data = [
+export const example_data = [
     {
         name: "Saurischia",
         id: 1,
