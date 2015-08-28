@@ -3,7 +3,7 @@ var babel      = require('gulp-babel');
 var babelify   = require('babelify');
 var browserify = require('browserify');
 var eslint     = require('gulp-eslint');
-var less       = require('gulp-less');
+var postcss    = require('gulp-postcss');
 var rename     = require('gulp-rename');
 
 // tasks
@@ -19,8 +19,8 @@ var babel_transforms = [
 
 
 gulp.task('buildStyle', function() {
-    return gulp.src('./less/banyan-react-tree.less')
-        .pipe(less())
+    return gulp.src('./css/banyan-react-tree.css')
+        .pipe(postcss([require('postcss-nested')]))
         .pipe(gulp.dest('./build'));
 });
 
