@@ -31,7 +31,7 @@ export class LazyIterator {
 
     // Must continue iteration?
     mustContinue(node: Node, level: number): bool {
-        var on_must_continue = this.on_must_continue;
+        const on_must_continue = this.on_must_continue;
 
         if (on_must_continue) {
             return on_must_continue(node, level);
@@ -42,7 +42,7 @@ export class LazyIterator {
     }
 
     visitNode(node: Node) {
-        var on_visit = this.on_visit;
+        const on_visit = this.on_visit;
 
         if (on_visit) {
             on_visit(node);
@@ -68,7 +68,7 @@ export class LazyIterator {
     // Iterate node recusively; return promise
     iterateNode(node: Node, level: number, include_self: bool): Promise {
         // Must continue?
-        var must_continue;
+        let must_continue;
 
         if (!include_self) {
             must_continue = true;
@@ -92,7 +92,7 @@ export class LazyIterator {
             }
             else {
                 // load node on demand
-                var promise = node.loadOnDemand().then(() => {
+                const promise = node.loadOnDemand().then(() => {
                     if (include_self) {
                         this.visitNode(node);
                     }
@@ -101,11 +101,10 @@ export class LazyIterator {
                 });
 
                 // call on_before_load
-                var on_before_load = this.on_before_load;
+                const on_before_load = this.on_before_load;
 
                 if (on_before_load) {
                     on_before_load(node);
-
                 }
 
                 return promise;

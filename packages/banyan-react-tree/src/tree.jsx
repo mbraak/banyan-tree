@@ -10,20 +10,13 @@ import {Tree} from "./tree_node.js";
 
 
 function isActiveElementAnInput(): boolean {
-    var tag_name = document.activeElement && document.activeElement.tagName.toLowerCase();
+    const tag_name = document.activeElement && document.activeElement.tagName.toLowerCase();
 
     return (tag_name === "input" || tag_name === "textarea" || tag_name === "select");
 }
 
 
 export default class TreeComponent extends React.Component {
-    static defaultProps = {
-        autoOpen: false,
-        debug: false,
-        dragAndDrop: false,
-        keyboardSupport: true
-    };
-
     static propTypes = {
         autoOpen: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.number]),
         controller: React.PropTypes.object,
@@ -35,6 +28,13 @@ export default class TreeComponent extends React.Component {
         onInit: React.PropTypes.func,
         saveState: React.PropTypes.bool,
         url: React.PropTypes.string
+    };
+
+    static defaultProps = {
+        autoOpen: false,
+        debug: false,
+        dragAndDrop: false,
+        keyboardSupport: true
     };
 
     constructor(props: Object) {
@@ -70,10 +70,10 @@ export default class TreeComponent extends React.Component {
 
     // - react functions
     render() {
-        var store = this.state.store;
+        const store = this.state.store;
 
         return (
-            <TreeFolderComponent node={store.tree} store={store}></TreeFolderComponent>
+            <TreeFolderComponent node={store.tree} store={store} />
         );
     }
 
@@ -96,11 +96,16 @@ export default class TreeComponent extends React.Component {
 
 
 class TreeFolderComponent extends React.Component {
-    render() {
-        var folder = this.props.node;
-        var store = this.props.store;
+    static propTypes = {
+        node: React.PropTypes.object,
+        store: React.PropTypes.object
+    };
 
-        var classes = classNames({
+    render() {
+        const folder = this.props.node;
+        const store = this.props.store;
+
+        const classes = classNames({
             "banyan-common": true,
             "banyan-loading": folder.is_loading,
             "banyan-tree": !folder.parent
@@ -108,25 +113,25 @@ class TreeFolderComponent extends React.Component {
 
         function getRole() {
             if (!folder.parent) {
-                return 'tree';
+                return "tree";
             }
             else {
-                return 'group';
+                return "group";
             }
         }
 
-        var children = [];
+        const children = [];
 
         folder.children.forEach((node) => {
             if (store.isNodeHovered(node)) {
                 children.push(
-                    <TreePlaceholderComponent key={`${node.id}-placeholder`} node={node} store={store}></TreePlaceholderComponent>
+                    <TreePlaceholderComponent key={`${node.id}-placeholder`} node={node} store={store} />
                 );
             }
 
             if (!store.isNodeDragged(node)) {
                 children.push(
-                    <TreeNodeComponent key={node.id} node={node} store={store}></TreeNodeComponent>
+                    <TreeNodeComponent key={node.id} node={node} store={store} />
                 );
             }
         });
@@ -141,9 +146,15 @@ class TreeFolderComponent extends React.Component {
 
 
 class TreeButtonComponent extends React.Component {
+    static propTypes = {
+        is_open: React.PropTypes.boolean,
+        node: React.PropTypes.object,
+        store: React.PropTypes.object
+    };
+
     render() {
-        var is_open = this.props.is_open;
-        var open_text, classes;
+        const is_open = this.props.is_open;
+        let open_text, classes;
 
         if (is_open) {
             open_text = "&#x25bc;";
@@ -175,28 +186,33 @@ class TreeButtonComponent extends React.Component {
 
 
 class TreeTitleComponent extends React.Component {
+    static propTypes = {
+        node: React.PropTypes.object,
+        store: React.PropTypes.object
+    };
+
     render() {
-        var node = this.props.node;
-        var classes = "banyan-title banyan-common";
+        const node = this.props.node;
+        let classes = "banyan-title banyan-common";
 
         if (node.isFolder()) {
             classes += " banyan-title-folder";
         }
 
         function getAriaProps() {
-            var aria_props = {
+            const aria_props = {
                 role: "treeitem",
                 "aria-selected": node.is_selected
             };
 
             if (node.isFolder()) {
-                aria_props['aria-expanded'] = node.is_open;
+                aria_props["aria-expanded"] = node.is_open;
             }
 
             return aria_props;
         }
 
-        var node_name = node.name;
+        const node_name = node.name;
 
         if (this.props.store.debug) {
             node.debug_draw_count = (node.debug_draw_count || 0) + 1;
@@ -213,7 +229,7 @@ class TreeTitleComponent extends React.Component {
     handleClick(e) {
         e.preventDefault();
 
-        var node = this.props.node;
+        const node = this.props.node;
 
         this.props.store.selectNode(node);
     }
@@ -221,9 +237,14 @@ class TreeTitleComponent extends React.Component {
 
 
 class TreeNodeComponent extends React.Component {
+    static propTypes = {
+        node: React.PropTypes.object,
+        store: React.PropTypes.object
+    };
+
     render() {
-        var node = this.props.node;
-        var store = this.props.store;
+        const node = this.props.node;
+        const store = this.props.store;
 
         function getClasses() {
             return classNames({
@@ -239,7 +260,7 @@ class TreeNodeComponent extends React.Component {
 
         function getButtonElement() {
             if (node.isFolder()) {
-                return <TreeButtonComponent node={node} is_open={node.is_open} store={store}></TreeButtonComponent>;
+                return <TreeButtonComponent node={node} is_open={node.is_open} store={store} />;
             }
             else {
                 return null;
@@ -248,14 +269,14 @@ class TreeNodeComponent extends React.Component {
 
         function getFolderElement() {
             if (node.isFolder() && node.is_open) {
-                return <TreeFolderComponent node={node} store={store}></TreeFolderComponent>;
+                return <TreeFolderComponent node={node} store={store} />;
             }
             else {
                 return null;
             }
         }
 
-        var mouse_props = {};
+        const mouse_props = {};
 
         if (store.drag_and_drop) {
             mouse_props.onMouseDown = this.handleMouseDown.bind(this);
@@ -269,7 +290,7 @@ class TreeNodeComponent extends React.Component {
             <li className={getClasses()} role="presentation">
                 <div className="banyan-element banyan-common" role="presentation" {...mouse_props}>
                     {getButtonElement()}
-                    <TreeTitleComponent node={node} store={store}></TreeTitleComponent>
+                    <TreeTitleComponent node={node} store={store} />
                 </div>
                 {getFolderElement()}
             </li>
@@ -277,13 +298,13 @@ class TreeNodeComponent extends React.Component {
     }
 
     handleMouseDown(e) {
-        var node = this.props.node;
-        var store = this.props.store;
+        const node = this.props.node;
+        const store = this.props.store;
 
-        var li_node = e.currentTarget.parentNode;
+        const li_node = e.currentTarget.parentNode;
 
-        var waiting_for_delay = true;
-        var dragging_started = false;
+        const waiting_for_delay = true;
+        const dragging_started = false;
 
         function handleMouseMove() {
             if (waiting_for_delay) {
@@ -331,10 +352,15 @@ class TreeNodeComponent extends React.Component {
 
 
 class TreePlaceholderComponent extends React.Component {
-    render() {
-        var store = this.props.store;
+    static propTypes = {
+        controller: React.PropTypes.object,
+        store: React.PropTypes.object
+    };
 
-        var style = {
+    render() {
+        const store = this.props.store;
+
+        const style = {
             height: `${store.dragging.placeholder_height}px`
         };
 

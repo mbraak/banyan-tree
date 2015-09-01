@@ -32,7 +32,7 @@ gulp.task('lib', function() {
 
 gulp.task('lint', function() {
     return gulp.src(['src/**/*.js', 'src/**/*.jsx'])
-        .pipe(eslint({useEslintrc: true}))
+        .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failOnError());
 });

@@ -103,10 +103,10 @@ export class Node extends EventEmitter {
         invariant(Array.isArray(data), "loadFromData: parameter 'data' must be an array");
         this.removeChildren();
 
-        var parent = this;
+        const parent = this;
 
         data.forEach((properties) => {
-            var node = new Node(properties);
+            const node = new Node(properties);
 
             parent.addChild(node);
 
@@ -149,7 +149,7 @@ export class Node extends EventEmitter {
 
     removeChildren() {
         // remove childen from the tree index
-        var tree: Tree = this.tree;
+        const tree: Tree = this.tree;
 
         function removeFromIndex(node) {
             tree.removeNodeFromIndex(node);
@@ -258,7 +258,7 @@ export class Node extends EventEmitter {
             return false;
         }
         else {
-            var parent = node.parent;
+            const parent = node.parent;
 
             while (parent) {
                 if (parent === this) {
@@ -283,13 +283,13 @@ export class Node extends EventEmitter {
     }
 
     getNextNodeSkipChildren(): ?Node {
-        var parent = this.parent;
+        const parent = this.parent;
 
-        if (parent == null) {
+        if (parent === null) {
             return null;
         }
         else {
-            var next_sibling = this.getNextSibling();
+            const next_sibling = this.getNextSibling();
             if (next_sibling) {
                 // Next sibling
                 return next_sibling;
@@ -302,13 +302,13 @@ export class Node extends EventEmitter {
     }
 
     getPreviousNode(): ?Node {
-        var parent = this.parent;
+        const parent = this.parent;
 
-        if (parent == null) {
+        if (parent === null) {
             return null;
         }
         else {
-            var previous_sibling = this.getPreviousSibling();
+            const previous_sibling = this.getPreviousSibling();
             if (previous_sibling) {
                 if (!previous_sibling.hasChildren() || !previous_sibling.is_open) {
                     // Previous sibling
@@ -332,13 +332,13 @@ export class Node extends EventEmitter {
     }
 
     getPreviousSibling(): ?Node {
-        var parent = this.parent;
+        const parent = this.parent;
 
-        if (parent == null) {
+        if (parent === null) {
             return null;
         }
         else {
-            var previous_index = parent.getChildIndex(this) - 1;
+            const previous_index = parent.getChildIndex(this) - 1;
             if (previous_index >= 0) {
                 return parent.children[previous_index];
             }
@@ -349,13 +349,13 @@ export class Node extends EventEmitter {
     }
 
     getNextSibling(): ?Node {
-        var parent = this.parent;
+        const parent = this.parent;
 
-        if (parent == null) {
+        if (parent === null) {
             return null;
         }
         else {
-            var next_index = parent.getChildIndex(this) + 1;
+            const next_index = parent.getChildIndex(this) + 1;
             if (next_index < parent.children.length) {
                 return parent.children[next_index];
             }
@@ -370,7 +370,7 @@ export class Node extends EventEmitter {
             return null;
         }
         else {
-            var last_child = this.children[this.children.length - 1];
+            const last_child = this.children[this.children.length - 1];
             if (!last_child.hasChildren() || !last_child.is_open) {
                 return last_child;
             }
@@ -385,7 +385,7 @@ export class Node extends EventEmitter {
             return null;
         }
         else {
-            return this.children[0]; 
+            return this.children[0];
         }
     }
 
@@ -417,11 +417,11 @@ export class Node extends EventEmitter {
             return Promise.resolve();
         }
         else {
-            var node = this;
+            const node = this;
 
             node.is_loading = true;
 
-            var promise = xhttp({url: url});
+            const promise = xhttp({url: url});
 
             return promise.then(
                 function(tree_data) {
@@ -438,14 +438,14 @@ export class Node extends EventEmitter {
     Return promise(data is loaded)
     */
     loadOnDemand() {
-        var base_url = this.tree.base_url;
+        const base_url = this.tree.base_url;
 
         if (!base_url) {
             return Promise.resolve();
         }
         else {
-            var promise = this.loadFromUrl(base_url + "?node=" + this.id);
-            var node = this;
+            const promise = this.loadFromUrl(base_url + "?node=" + this.id);
+            const node = this;
 
             promise.then(function() {
                 node.load_on_demand = false;
@@ -456,9 +456,9 @@ export class Node extends EventEmitter {
     }
 
     getState(): Object {
-        var getOpenAndSelectedNodes = () => {
-            var open_nodes = [];
-            var selected_nodes = [];
+        const getOpenAndSelectedNodes = () => {
+            const open_nodes = [];
+            const selected_nodes = [];
 
             this.iterate(
                 function(node) {
@@ -477,10 +477,10 @@ export class Node extends EventEmitter {
             return [open_nodes, selected_nodes];
         };
 
-        var getNodeInfo = node => {
-            var parents = [];
+        const getNodeInfo = node => {
+            const parents = [];
 
-            var parent = node.parent;
+            const parent = node.parent;
             while (parent) {
                 if (parent.id) {
                     parents.push(parent.id);
@@ -495,7 +495,7 @@ export class Node extends EventEmitter {
             };
         };
 
-        var [open, selected] = getOpenAndSelectedNodes();
+        const [open, selected] = getOpenAndSelectedNodes();
 
         return {
             open: open.map(getNodeInfo),
@@ -543,9 +543,9 @@ export class Tree extends Node {
             return [];
         }
         else {
-            var changed_nodes = this.deselectCurrentNode();
+            const changed_nodes = this.deselectCurrentNode();
 
-            if (node != null) {
+            if (node !== null) {
                 node.is_selected = true;
                 this.selected_node = node;
 
@@ -559,9 +559,9 @@ export class Tree extends Node {
     }
 
     deselectCurrentNode(): Array<Node> {
-        var selected_node = this.selected_node;
+        const selected_node = this.selected_node;
 
-        if (selected_node == null) {
+        if (selected_node === null) {
             return [];
         }
         else {
@@ -584,7 +584,7 @@ export class Tree extends Node {
     }
 
     getNodeByName(name: string): ?Node {
-        var result = null;
+        const result = null;
 
         this.iterate(function(node) {
             if (node.name === name) {
@@ -604,13 +604,13 @@ export class Tree extends Node {
     }
 
     moveDown(): Array<Node> {
-        var selected_node = this.selected_node;
+        const selected_node = this.selected_node;
 
         if (!selected_node) {
             return [];
         }
         else {
-            var node = selected_node.getNextNode();
+            const node = selected_node.getNextNode();
             if (!node) {
                 return [];
             }
@@ -621,13 +621,13 @@ export class Tree extends Node {
     }
 
     moveUp(): Array<Node> {
-        var selected_node = this.selected_node;
+        const selected_node = this.selected_node;
 
         if (!selected_node) {
             return [];
         }
         else {
-            var node = selected_node.getPreviousNode();
+            const node = selected_node.getPreviousNode();
 
             if (!node) {
                 return [];
@@ -651,8 +651,8 @@ export class Tree extends Node {
             return;
         }
 
-        var moved_parent = moved_node.parent;
-        var target_parent = target_node.parent;
+        const moved_parent = moved_node.parent;
+        const target_parent = target_node.parent;
 
         if (moved_node.isParentOf(target_node)) {
             // Node is parent of target node. This is an illegal move

@@ -6,7 +6,7 @@ import {proxyEvents, proxyFunctions} from "./utils";
 
 export default class TreeController extends EventEmitter {
     setStore(store: Object) {
-        var tree = store.tree;
+        const tree = store.tree;
 
         proxyFunctions(
             this, tree,

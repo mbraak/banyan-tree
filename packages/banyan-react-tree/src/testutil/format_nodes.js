@@ -1,5 +1,4 @@
 import {format_list} from "./format";
-import {Node} from "../tree_node";
 
 
 export function format_nodes(nodes) {

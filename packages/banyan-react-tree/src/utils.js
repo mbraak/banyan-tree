@@ -25,9 +25,9 @@ var copy = copyProperties(
 );
 */
 export function copyProperties(properties: Object, skip_keys: Array<string>): Object {
-    var result = {};
+    const result = {};
 
-    for (var key in properties) {
+    for (const key in properties) {
         if (skip_keys.indexOf(key) >= 0) {
             result[key] = properties[key];
         }

@@ -7,7 +7,7 @@ sinon.useFakeXMLHttpRequest();
 
 
 export function fakeServer(delay: number, mustLoadOnDemand: bool) {
-    var server = sinon.fakeServer.create();
+    const server = sinon.fakeServer.create();
     server.autoRespond = true;
 
     if (delay !== undefined) {
@@ -16,13 +16,13 @@ export function fakeServer(delay: number, mustLoadOnDemand: bool) {
 
     server.respondWith(
         function(request) {
-            var nodes;
+            let nodes;
 
-            var regex = new RegExp("^/examples/data/\\?node=(\\d+)$");
-            var match = request.url.match(regex);
+            const regex = new RegExp("^/examples/data/\\?node=(\\d+)$");
+            const match = request.url.match(regex);
 
             if (match) {
-                var node_id = parseInt(match[1]);
+                const node_id = parseInt(match[1], 10);
                 nodes = getChildrenOfNode(node_id);
             }
             else if (mustLoadOnDemand) {
@@ -48,7 +48,7 @@ export function fakeServerWithLoadOnDemand(delay: number) {
 }
 
 export function fakeServerWithError() {
-    var server = sinon.fakeServer.create();
+    const server = sinon.fakeServer.create();
     server.autoRespond = true;
 
     server.respondWith(

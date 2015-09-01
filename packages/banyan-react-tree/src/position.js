@@ -14,7 +14,7 @@ export const Position = {
     },
 
     nameToIndex: function(name: string): number {
-        var index = Position.strings.indexOf(name);
+        const index = Position.strings.indexOf(name);
 
         if (index < 0) {
             return 0;

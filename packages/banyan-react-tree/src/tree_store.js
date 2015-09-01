@@ -38,8 +38,8 @@ export class TreeStore extends EventEmitter {
         this.dragging = {};
 
         // create tree
-        var url = params.url || "";
-        var [tree, promise] = this.createTree(params.data, url);
+        const url = params.url || "";
+        const [tree, promise] = this.createTree(params.data, url);
 
         this.tree = tree;
 
@@ -73,7 +73,7 @@ export class TreeStore extends EventEmitter {
             console.log("Emit change for node", formatNodes(this.changed_nodes));
         }
 
-        var on_change = this.on_change;
+        const on_change = this.on_change;
 
         if (on_change) {
             on_change();
@@ -85,7 +85,7 @@ export class TreeStore extends EventEmitter {
             return;
         }
 
-        var selected_node, changed_nodes;
+        let selected_node, changed_nodes;
 
         switch (key_identifier) {
             case "Down":
@@ -175,7 +175,7 @@ export class TreeStore extends EventEmitter {
     }
 
     selectNode(node: Node) {
-        var changed_nodes = node.select();
+        const changed_nodes = node.select();
 
         if (changed_nodes.length) {
             this.emitChange(changed_nodes);
@@ -213,7 +213,7 @@ export class TreeStore extends EventEmitter {
 
     hoverNode(node: Node) {
         if (!this.isNodeHovered(node)) {
-            var changed_nodes = [node];
+            const changed_nodes = [node];
 
             if (this.dragging.hover_node) {
                 changed_nodes.push(this.dragging.hover_node);
@@ -226,21 +226,21 @@ export class TreeStore extends EventEmitter {
     }
 
     isNodeHovered(node: Node): bool {
-        var hover_node = this.dragging.hover_node;
+        const hover_node = this.dragging.hover_node;
 
         return (hover_node && hover_node.id === node.id);
     }
 
     isNodeDragged(node: Node): bool {
-        var dragged_node = this.dragging.node;
+        const dragged_node = this.dragging.node;
 
         return (dragged_node && dragged_node.id === node.id);
     }
 
     openFolders(on_must_continue: ?Function) {
-        var emitChange = this.emitChange.bind(this);
+        const emitChange = this.emitChange.bind(this);
 
-        var iterator = new LazyIterator(this.tree);
+        const iterator = new LazyIterator(this.tree);
 
         iterator.on_must_continue = on_must_continue;
 
@@ -268,9 +268,9 @@ export class TreeStore extends EventEmitter {
     // Create tree
     // return tuple [Tree, Promise]
     createTree(data: Array<Object>, url: string): [Tree, Promise] {
-        var tree = new Tree();
+        const tree = new Tree();
 
-        var promise;
+        let promise;
 
         if (data) {
             tree.loadFromData(data);
@@ -289,7 +289,7 @@ export class TreeStore extends EventEmitter {
     // init tree
     // return Promise(is initialized)
     initTree() {
-        var restore_result = this.handleRestoreState();
+        const restore_result = this.handleRestoreState();
 
         if (restore_result) {
             return restore_result;
@@ -300,7 +300,7 @@ export class TreeStore extends EventEmitter {
     }
 
     fireInit() {
-        var on_init = this.on_init;
+        const on_init = this.on_init;
 
         if (on_init) {
             on_init();
@@ -310,7 +310,7 @@ export class TreeStore extends EventEmitter {
     }
 
     fireError() {
-        var on_error = this.on_error;
+        const on_error = this.on_error;
 
         if (on_error) {
             on_error();
@@ -318,7 +318,7 @@ export class TreeStore extends EventEmitter {
     }
 
     handleAutoOpen() {
-        var auto_open = this.auto_open;
+        const auto_open = this.auto_open;
 
         if (typeof auto_open === "number") {
             return this.openFoldersAtLevel(auto_open);
@@ -332,7 +332,7 @@ export class TreeStore extends EventEmitter {
     }
 
     getStateKey(): string {
-        var save_state = this.save_state;
+        const save_state = this.save_state;
 
         if (save_state === true) {
             return "jqtree";
@@ -346,7 +346,7 @@ export class TreeStore extends EventEmitter {
     }
 
     handleRestoreState(): ?Promise {
-        var state_key = this.getStateKey();
+        const state_key = this.getStateKey();
 
         if (state_key) {
             return this.loadState(state_key);
@@ -358,13 +358,13 @@ export class TreeStore extends EventEmitter {
 
     loadState(state_key: string): ?Promise {
         function loadStateFromStorage(): Object|bool {
-            var state_json = localStorage.getItem(state_key);
+            const state_json = localStorage.getItem(state_key);
 
             if (!state_json) {
                 return false;
             }
             else {
-                var state = JSON.parse(state_json);
+                const state = JSON.parse(state_json);
 
                 if (state) {
                     return state;
@@ -375,7 +375,7 @@ export class TreeStore extends EventEmitter {
             }
         }
 
-        var tree_state = loadStateFromStorage();
+        const tree_state = loadStateFromStorage();
 
         if (typeof tree_state === "object") {
             return this.restoreState(tree_state);
@@ -386,23 +386,23 @@ export class TreeStore extends EventEmitter {
     }
 
     saveState() {
-        var state_key = this.getStateKey();
+        const state_key = this.getStateKey();
         if (state_key) {
-            var tree_state = this.tree.getState();
+            const tree_state = this.tree.getState();
 
             localStorage.setItem(state_key, JSON.stringify(tree_state));
         }
     }
 
     restoreState(tree_state: Object): Promise {
-        var load_nodes_promises = {};
+        const load_nodes_promises = {};
 
         // Make sure that the children of this node are loaded
         //
         // - the children are already loaded
         // or
         // - promise that the children will be loaded
-        var ensureLoadChildren = node => {
+        const ensureLoadChildren = node => {
             if (!node.load_on_demand) {
                 // Node is already loaded
                 return Promise.resolve();
@@ -415,7 +415,7 @@ export class TreeStore extends EventEmitter {
                 }
                 else {
                     // Load node; store promise
-                    var promise = node.loadOnDemand();
+                    const promise = node.loadOnDemand();
                     this.emitChange();
 
                     load_nodes_promises[node.id] = promise;
@@ -425,8 +425,8 @@ export class TreeStore extends EventEmitter {
             }
         };
 
-        var ensureLoadNodeById = node_id => {
-            var node = this.tree.getNodeById(node_id);
+        const ensureLoadNodeById = node_id => {
+            const node = this.tree.getNodeById(node_id);
 
             if (!node) {
                 // todo: this should not happen
@@ -439,7 +439,7 @@ export class TreeStore extends EventEmitter {
 
         // Ensure that nodes in this tree are loaded
         // Tree is defined by node_ids = [root, child of root, .., child]
-        var ensureLoadTree = node_ids => {
+        const ensureLoadTree = node_ids => {
             return ensureLoadNodeById(node_ids[0])
                 .then(() => {
                     node_ids.shift();
@@ -453,15 +453,15 @@ export class TreeStore extends EventEmitter {
                 });
         };
 
-        var openNode = node_info => {
-            var node_id = node_info.id;
-            var parent_ids = node_info.parents;
+        const openNode = node_info => {
+            const node_id = node_info.id;
+            const parent_ids = node_info.parents;
 
             // [node, parent, parent of parent, ..., root]
-            var node_ids = [node_id].concat(parent_ids).reverse();
+            const node_ids = [node_id].concat(parent_ids).reverse();
 
             return ensureLoadTree(node_ids).then(() => {
-                var node = this.tree.getNodeById(node_id);
+                const node = this.tree.getNodeById(node_id);
 
                 if (node) {
                     node.open();
@@ -472,14 +472,14 @@ export class TreeStore extends EventEmitter {
             });
         };
 
-        var selectNode = node_info => {
-            var node_id = node_info.id;
-            var parent_ids = node_info.parents;
+        const selectNode = node_info => {
+            const node_id = node_info.id;
+            const parent_ids = node_info.parents;
 
-            var node_ids = parent_ids.reverse();
+            const node_ids = parent_ids.reverse();
 
             return ensureLoadTree(node_ids).then(() => {
-                var node = this.tree.getNodeById(node_id);
+                const node = this.tree.getNodeById(node_id);
 
                 if (node) {
                     node.select();
@@ -488,13 +488,13 @@ export class TreeStore extends EventEmitter {
             });
         };
 
-        var openNodes = () => {
+        const openNodes = () => {
             return Promise.all(
                 tree_state.open.map(openNode)
             );
         };
 
-        var selectNodes = () => {
+        const selectNodes = () => {
             return Promise.all(
                 tree_state.selected.map(selectNode)
             );
@@ -526,7 +526,7 @@ function formatNodes(nodes) {
         return "";
     }
     else {
-        var names = [];
+        const names = [];
         nodes.forEach((n) => {
             names.push(n.name);
         });

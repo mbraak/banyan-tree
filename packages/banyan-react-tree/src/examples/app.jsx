@@ -4,7 +4,7 @@ import Tree from "../tree.jsx";
 import TreeController from "../tree_controller";
 
 
-var tree_controller = new TreeController();
+const tree_controller = new TreeController();
 tree_controller.on("init", function() {
     console.log("init");
 });
@@ -21,18 +21,19 @@ tree_controller.on("close", function(node) {
     console.log("close", node.name);
 });
 
+
 export default class App extends React.Component {
-    render() {
-        return (
-            <div>
-                <Tree url="/examples/data/" autoOpen={2} controller={tree_controller}></Tree>
-            </div>
-        );
+    static propTypes = {
+        data: React.PropTypes.array
     }
 
-    onClickReload(e) {
-        //var node = tree_controller.getNodeByName('Theropods');
+    render() {
+        const data = this.props.data;
 
-        //tree_controller.openNode(node);
+        return (
+            <div>
+                <Tree data={data} autoOpen={2} controller={tree_controller} />
+            </div>
+        );
     }
 }

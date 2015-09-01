@@ -3,9 +3,9 @@ export function format_list(list: Array<string>): string {
 }
 
 export function format_list_with_max(list: Array<string>, max_count:number): string {
-    var list_part = [];
+    const list_part = [];
 
-    for (var i = 0; i < list.length && i < max_count; i++) {
+    for (let i = 0; i < list.length && i < max_count; i++) {
         list_part.push(list[i]);
     }
 
