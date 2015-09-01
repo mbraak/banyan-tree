@@ -22,18 +22,19 @@ function bundler(debug, transforms) {
     }
 
     function flushStream(next) {
-        function bundleStream(err, src) {
-            if (err) {
-                console.log(chalk.red(err));
+        function bundleStream(error, src) {
+            if (error) {
+                console.log(error.message);
             }
-
-            stream.push(
-                new vinyl({
-                    path: 'bundle.js',
-                    contents: src
-                })
-            );
-            next();
+            else {
+                stream.push(
+                    new vinyl({
+                        path: 'bundle.js',
+                        contents: src
+                    })
+                );
+                next();
+            }
         }
 
         function addTransform(t) {
