@@ -147,7 +147,7 @@ class TreeFolderComponent extends React.Component {
 
 class TreeButtonComponent extends React.Component {
     static propTypes = {
-        is_open: React.PropTypes.boolean,
+        is_open: React.PropTypes.bool,
         node: React.PropTypes.object,
         store: React.PropTypes.object
     };
@@ -212,7 +212,7 @@ class TreeTitleComponent extends React.Component {
             return aria_props;
         }
 
-        const node_name = node.name;
+        let node_name = node.name;
 
         if (this.props.store.debug) {
             node.debug_draw_count = (node.debug_draw_count || 0) + 1;
@@ -303,8 +303,8 @@ class TreeNodeComponent extends React.Component {
 
         const li_node = e.currentTarget.parentNode;
 
-        const waiting_for_delay = true;
-        const dragging_started = false;
+        let waiting_for_delay = true;
+        let dragging_started = false;
 
         function handleMouseMove() {
             if (waiting_for_delay) {

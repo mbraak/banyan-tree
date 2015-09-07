@@ -258,7 +258,7 @@ export class Node extends EventEmitter {
             return false;
         }
         else {
-            const parent = node.parent;
+            let parent = node.parent;
 
             while (parent) {
                 if (parent === this) {
@@ -480,7 +480,7 @@ export class Node extends EventEmitter {
         const getNodeInfo = node => {
             const parents = [];
 
-            const parent = node.parent;
+            let parent = node.parent;
             while (parent) {
                 if (parent.id) {
                     parents.push(parent.id);
@@ -584,7 +584,7 @@ export class Tree extends Node {
     }
 
     getNodeByName(name: string): ?Node {
-        const result = null;
+        let result = null;
 
         this.iterate(function(node) {
             if (node.name === name) {
