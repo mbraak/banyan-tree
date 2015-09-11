@@ -1,16 +1,16 @@
 import {expect} from 'chai';
 
-import {fakeServer, fakeServerWithLoadOnDemand} from '../src/testutil/fake_server';
+import {fakeServer, fakeServerWithLoadOnDemand} from '../testutil/fake_server';
 
-import {Tree, Node} from '../src/tree_node';
-import {Position} from '../src/position';
+import {Tree, Node} from '../tree_node';
+import {Position} from '../position';
 
-import {LazyIterator} from '../src/lazy_iterator';
+import {LazyIterator} from '../lazy_iterator';
 
-import {format_list_with_max}  from '../src/testutil/format';
-import {example_data} from '../src/testutil/example_data';
+import {format_list_with_max}  from '../testutil/format';
+import {example_data} from '../testutil/example_data';
 
-import {format_nodes} from '../src/testutil/format_nodes';
+import {format_nodes} from '../testutil/format_nodes';
 
 
 var server = null;

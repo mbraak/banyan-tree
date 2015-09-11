@@ -3,12 +3,12 @@ import {expect} from 'chai';
 import React, {findDOMNode} from 'react';
 import TestUtils from 'react/lib/ReactTestUtils';
 
-import {example_data} from '../src/testutil/example_data';
+import {example_data} from '../testutil/example_data';
 
-import {fakeServer, fakeServerWithLoadOnDemand, fakeServerWithError} from '../src/testutil/fake_server';
+import {fakeServer, fakeServerWithLoadOnDemand, fakeServerWithError} from '../testutil/fake_server';
 
-import {format_list} from '../src/testutil/format';
-import Tree from '../src/tree.js';
+import {format_list} from '../testutil/format';
+import Tree from '../tree.js';
 
 
 var server = null;
