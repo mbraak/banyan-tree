@@ -13,6 +13,7 @@
     "babelify": "^6.3.0",
     "broccoli": "^0.16.8",
     "broccoli-babel-transpiler": "^5.4.5",
+    "broccoli-browser-sync": "^1.0.0",
     "broccoli-cli": "^1.0.0",
     "broccoli-env": "0.0.1",
     "broccoli-fast-browserify": "^0.2.10",
