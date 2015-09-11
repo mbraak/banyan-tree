@@ -1,7 +1,7 @@
 /* @flow */
 import React from "react";
 
-import App from "./app.jsx";
+import App from "./app";
 
 import {example_data} from "../testutil/example_data";
 

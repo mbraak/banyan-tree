@@ -1,6 +1,6 @@
 import React from "react";
 
-import Tree from "../tree.jsx";
+import Tree from "../tree";
 import TreeController from "../tree_controller";
 
 
