@@ -3,6 +3,7 @@ var broccoliBabel = require('broccoli-babel-transpiler');
 var mergeTrees = require('broccoli-merge-trees');
 var broccoliPostCss = require('broccoli-postcss');
 var Funnel = require('broccoli-funnel');
+var broccoliEsLint = require('broccoli-lint-eslint');
 
 var is_production = require('broccoli-env').getEnv() == 'production';
 
@@ -48,14 +49,16 @@ var tasks = {
 
 
 function runDevelopment() {
+	var input_files = new Funnel('src', {destDir: './building'});
+
+
 	return mergeTrees([
 		tasks.browserifyExample(
-			tasks.babel(
-				new Funnel('src', {destDir: './building'})
-			)
+			tasks.babel(input_files)
 		),
 		tasks.compileBanyanCss(),
-		tasks.copyExampleAssets()
+		tasks.copyExampleAssets(),
+		broccoliEsLint(input_files, {})
 	]);
 }
 
