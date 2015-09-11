@@ -8,7 +8,7 @@ import {example_data} from '../src/testutil/example_data';
 import {fakeServer, fakeServerWithLoadOnDemand, fakeServerWithError} from '../src/testutil/fake_server';
 
 import {format_list} from '../src/testutil/format';
-import Tree from '../src/tree.jsx';
+import Tree from '../src/tree.js';
 
 
 var server = null;
