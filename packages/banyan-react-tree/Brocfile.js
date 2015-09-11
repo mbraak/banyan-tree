@@ -1,66 +1,83 @@
-var pickFiles = require('broccoli-static-compiler');
-var fastBrowserify = require('broccoli-fast-browserify');
-var babelTranspiler = require('broccoli-babel-transpiler');
+var broccoliBrowserify = require('broccoli-fast-browserify');
+var broccoliBabel = require('broccoli-babel-transpiler');
 var mergeTrees = require('broccoli-merge-trees');
-var compileCSS = require('broccoli-postcss');
+var broccoliPostCss = require('broccoli-postcss');
 var Funnel = require('broccoli-funnel');
 
+var is_production = require('broccoli-env').getEnv() == 'production';
 
-function createSourceTree() {
-	return pickFiles('src', {
-		files: ['**/*.js'],
-		srcDir: '.',
-		destDir: './build'
-	});
+
+var tasks = {
+	babel: function(tree) {
+		return broccoliBabel(
+		    tree,
+			{
+		        browserPolyfill: true,
+		        stage: 0
+		    }
+		);
+	},
+
+	browserifyExample: function(tree) {
+		return broccoliBrowserify(
+		    tree, {
+		        bundles: {
+		    		'example.js': {
+		    			entryPoints: ['./building/examples/example.js']
+		    		}
+		    	}
+		    }
+		);
+	},
+
+	compileBanyanCss: function() {
+		return broccoliPostCss(
+		    ['css'],
+		    'banyan-react-tree.css',
+		    'banyan-react-tree.css',
+		    [
+		        {module: require('postcss-nested')}
+		    ]
+		);
+	},
+
+	copyExampleAssets: function() {
+		return new Funnel('examples');
+	}
 }
 
-function createBabelTree(source_tree) {
-	return babelTranspiler(
-	    source_tree,
-		{
-	        browserPolyfill: true,
-	        stage: 0
-	    }
-	);
+
+function runDevelopment() {
+	return mergeTrees([
+		tasks.browserifyExample(
+			tasks.babel(
+				new Funnel('src', {destDir: './building'})
+			)
+		),
+		tasks.compileBanyanCss(),
+		tasks.copyExampleAssets()
+	]);
 }
 
-function createBrowserifyTree(babel_tree) {
-	return fastBrowserify(
-	    babel_tree, {
-	        bundles: {
-	    		'example.js': {
-	    			entryPoints: ['./build/examples/example.js']
-	    		}
-	    	}
-	    }
-	);
+
+function runProduction() {
+	return mergeTrees([
+		tasks.babel(
+			new Funnel('src', {include: ['*.js']})
+		),
+		tasks.compileBanyanCss()
+	]);
 }
 
-function createCssTree() {
-	return compileCSS(
-	    ['css'],
-	    'banyan-react-tree.css',
-	    'banyan-react-tree.css',
-	    [
-	        {module: require('postcss-nested')}
-	    ]
-	);
+
+function run() {
+	if (is_production) {
+		return runProduction();
+	}
+	else {
+		return runDevelopment();
+	}
 }
 
-function createExampletree() {
-	return new Funnel(
-	    'examples', {
-	        destDir: './'
-	    }
-	);
-}
 
-module.exports = mergeTrees([
-	createBrowserifyTree(
-		createBabelTree(
-			createSourceTree()
-		)
-	),
-	createCssTree(),
-	createExampletree()
-]);
+module.exports = run();
