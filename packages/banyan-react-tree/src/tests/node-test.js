@@ -13,7 +13,10 @@ import {example_data} from "../testutil/example_data";
 import {format_nodes} from "../testutil/format_nodes";
 
 
+/* eslint-disable no-var */
 var server = null;
+/* eslint-enable no-var */
+
 
 beforeEach(function() {
     server = null;

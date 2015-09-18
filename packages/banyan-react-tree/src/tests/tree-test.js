@@ -12,7 +12,10 @@ import {format_list} from "../testutil/format";
 import Tree from "../tree.js";
 
 
+/* eslint-disable no-var */
 var server = null;
+/* eslint-enable no-var */
+
 
 beforeEach(function() {
     server = null;
@@ -112,7 +115,7 @@ describe("Tree component", function() {
         server = fakeServer();
 
         function firstTree() {
-            var tree_element, store;
+            let tree_element, store;
 
             function handleInit() {
                 try {
@@ -131,7 +134,7 @@ describe("Tree component", function() {
         }
 
         function secondTree() {
-            var tree_element, store;
+            let tree_element, store;
 
             function handleInit() {
                 try {
