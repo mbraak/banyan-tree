@@ -1,14 +1,13 @@
-var broccoliBrowserify = require('broccoli-fast-browserify');
-var broccoliBabel = require('broccoli-babel-transpiler');
-var mergeTrees = require('broccoli-merge-trees');
-var broccoliPostCss = require('broccoli-postcss');
-var Funnel = require('broccoli-funnel');
-var broccoliEsLint = require('broccoli-lint-eslint');
+const broccoliBrowserify = require("broccoli-fast-browserify");
+const broccoliBabel = require("broccoli-babel-transpiler");
+const mergeTrees = require("broccoli-merge-trees");
+const broccoliPostCss = require("broccoli-postcss");
+const Funnel = require("broccoli-funnel");
 
-var is_production = require('broccoli-env').getEnv() == 'production';
+const is_production = require("broccoli-env").getEnv() === "production";
 
 
-var tasks = {
+const tasks = {
 	babel: function(tree) {
 		return broccoliBabel(
 		    tree,
@@ -23,8 +22,8 @@ var tasks = {
 		return broccoliBrowserify(
 		    tree, {
 		        bundles: {
-		    		'example.js': {
-		    			entryPoints: ['./building/examples/example.js']
+		    		"example.js": {
+		    			entryPoints: ["./building/examples/example.js"]
 		    		}
 		    	}
 		    }
@@ -33,31 +32,30 @@ var tasks = {
 
 	compileBanyanCss: function() {
 		return broccoliPostCss(
-		    ['css'],
-		    'banyan-react-tree.css',
-		    'banyan-react-tree.css',
+		    ["css"],
+		    "banyan-react-tree.css",
+		    "banyan-react-tree.css",
 		    [
-		        {module: require('postcss-nested')}
+		        {module: require("postcss-nested")}
 		    ]
 		);
 	},
 
 	copyExampleAssets: function() {
-		return new Funnel('examples');
+		return new Funnel("examples");
 	}
-}
+};
 
 
 function runDevelopment() {
-	var input_files = new Funnel('src', {destDir: './building'});
+	const input_files = new Funnel("src", {destDir: "./building"});
 
 	return mergeTrees([
 		tasks.browserifyExample(
 			tasks.babel(input_files)
 		),
 		tasks.compileBanyanCss(),
-		tasks.copyExampleAssets(),
-		broccoliEsLint(input_files, {})
+		tasks.copyExampleAssets()
 	]);
 }
 
@@ -65,7 +63,7 @@ function runDevelopment() {
 function runProduction() {
 	return mergeTrees([
 		tasks.babel(
-			new Funnel('src', {include: ['*.js']})
+			new Funnel("src", {include: ["*.js"]})
 		),
 		tasks.compileBanyanCss()
 	]);
