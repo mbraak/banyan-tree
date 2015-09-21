@@ -40,10 +40,10 @@ export class TreeStore extends EventEmitter {
         // create tree
         const url = params.url || "";
 
-        // todo: use [tree, promise] but this is not supported by flow
-        const tree_result = this.createTree(params.data, url);
-        const tree = tree_result[0];
-        const promise = tree_result[1];
+        // todo: use const but this is not supported by flow
+        /* eslint-disable prefer-const */
+        let [tree, promise] = this.createTree(params.data, url);
+        /* eslint-enable prefer-const */
 
         this.tree = tree;
 
