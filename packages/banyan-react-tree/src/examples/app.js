@@ -5,6 +5,7 @@ import TreeController from "../tree_controller";
 
 
 const tree_controller = new TreeController();
+
 tree_controller.on("init", function() {
     console.log("init");
 });
@@ -23,10 +24,6 @@ tree_controller.on("close", function(node) {
 
 
 export default class App extends React.Component {
-    static propTypes = {
-        data: React.PropTypes.array
-    }
-
     render() {
         const data = this.props.data;
 
@@ -37,3 +34,7 @@ export default class App extends React.Component {
         );
     }
 }
+
+App.propTypes = {
+    data: React.PropTypes.array
+};

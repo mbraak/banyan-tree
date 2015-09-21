@@ -17,26 +17,6 @@ function isActiveElementAnInput(): boolean {
 
 
 export default class TreeComponent extends React.Component {
-    static propTypes = {
-        autoOpen: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.number]),
-        controller: React.PropTypes.object,
-        data: React.PropTypes.array,
-        debug: React.PropTypes.bool,
-        dragAndDrop: React.PropTypes.bool,
-        keyboardSupport: React.PropTypes.bool,
-        onError: React.PropTypes.func,
-        onInit: React.PropTypes.func,
-        saveState: React.PropTypes.bool,
-        url: React.PropTypes.string
-    };
-
-    static defaultProps = {
-        autoOpen: false,
-        debug: false,
-        dragAndDrop: false,
-        keyboardSupport: true
-    };
-
     constructor(props: Object) {
         super(props);
 
@@ -94,13 +74,28 @@ export default class TreeComponent extends React.Component {
     }
 }
 
+TreeComponent.propTypes = {
+    autoOpen: React.PropTypes.oneOfType([React.PropTypes.bool, React.PropTypes.number]),
+    controller: React.PropTypes.object,
+    data: React.PropTypes.array,
+    debug: React.PropTypes.bool,
+    dragAndDrop: React.PropTypes.bool,
+    keyboardSupport: React.PropTypes.bool,
+    onError: React.PropTypes.func,
+    onInit: React.PropTypes.func,
+    saveState: React.PropTypes.bool,
+    url: React.PropTypes.string
+};
+
+TreeComponent.defaultProps = {
+    autoOpen: false,
+    debug: false,
+    dragAndDrop: false,
+    keyboardSupport: true
+};
+
 
 class TreeFolderComponent extends React.Component {
-    static propTypes = {
-        node: React.PropTypes.object,
-        store: React.PropTypes.object
-    };
-
     render() {
         const folder = this.props.node;
         const store = this.props.store;
@@ -142,16 +137,15 @@ class TreeFolderComponent extends React.Component {
     shouldComponentUpdate() {
         return this.props.store.isNodeChanged(this.props.node);
     }
- }
+}
+
+TreeFolderComponent.propTypes = {
+    node: React.PropTypes.object,
+    store: React.PropTypes.object
+};
 
 
 class TreeButtonComponent extends React.Component {
-    static propTypes = {
-        is_open: React.PropTypes.bool,
-        node: React.PropTypes.object,
-        store: React.PropTypes.object
-    };
-
     render() {
         const is_open = this.props.is_open;
         let open_text, classes;
@@ -184,13 +178,14 @@ class TreeButtonComponent extends React.Component {
     }
 }
 
+TreeButtonComponent.propTypes = {
+    is_open: React.PropTypes.bool,
+    node: React.PropTypes.object,
+    store: React.PropTypes.object
+};
+
 
 class TreeTitleComponent extends React.Component {
-    static propTypes = {
-        node: React.PropTypes.object,
-        store: React.PropTypes.object
-    };
-
     render() {
         const node = this.props.node;
         let classes = "banyan-title banyan-common";
@@ -199,18 +194,11 @@ class TreeTitleComponent extends React.Component {
             classes += " banyan-title-folder";
         }
 
-        function getAriaProps() {
-            const aria_props = {
-                role: "treeitem",
-                "aria-selected": node.is_selected
-            };
-
-            if (node.isFolder()) {
-                aria_props["aria-expanded"] = node.is_open;
-            }
-
-            return aria_props;
-        }
+        const aria_props = {
+            "role": "treeitem",
+            "aria-selected": node.is_selected,
+            "aria-expanded": node.isFolder() && node.is_open
+        };
 
         let node_name = node.name;
 
@@ -220,7 +208,7 @@ class TreeTitleComponent extends React.Component {
         }
 
         return (
-            <span className={classes} {...getAriaProps()} onClick={this.handleClick.bind(this)}>
+            <span className={classes} {...aria_props} onClick={this.handleClick.bind(this)}>
                 {node_name}
             </span>
         );
@@ -235,13 +223,13 @@ class TreeTitleComponent extends React.Component {
     }
 }
 
+TreeTitleComponent.propTypes = {
+    node: React.PropTypes.object,
+    store: React.PropTypes.object
+};
+
 
 class TreeNodeComponent extends React.Component {
-    static propTypes = {
-        node: React.PropTypes.object,
-        store: React.PropTypes.object
-    };
-
     render() {
         const node = this.props.node;
         const store = this.props.store;
@@ -350,13 +338,13 @@ class TreeNodeComponent extends React.Component {
     }
 }
 
+TreeNodeComponent.propTypes = {
+    node: React.PropTypes.object,
+    store: React.PropTypes.object
+};
+
 
 class TreePlaceholderComponent extends React.Component {
-    static propTypes = {
-        controller: React.PropTypes.object,
-        store: React.PropTypes.object
-    };
-
     render() {
         const store = this.props.store;
 
@@ -367,3 +355,8 @@ class TreePlaceholderComponent extends React.Component {
         return <li style={style} className="banyan-placeholder banyan-common"></li>;
     }
 }
+
+TreePlaceholderComponent.propTypes = {
+    controller: React.PropTypes.object,
+    store: React.PropTypes.object
+};

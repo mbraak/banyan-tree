@@ -283,19 +283,16 @@ export class Node extends EventEmitter {
     }
 
     getNextNodeSkipChildren(): ?Node {
-        const parent = this.parent;
-
-        if (parent === null) {
-            return null;
+        const next_sibling = this.getNextSibling();
+        if (next_sibling) {
+            // Next sibling
+            return next_sibling;
         }
         else {
-            const next_sibling = this.getNextSibling();
-            if (next_sibling) {
-                // Next sibling
-                return next_sibling;
-            }
-            else {
-                // Next node of parent
+            // Next node of parent
+            const parent = this.parent;
+
+            if (parent) {
                 return parent.getNextNodeSkipChildren();
             }
         }
@@ -304,7 +301,7 @@ export class Node extends EventEmitter {
     getPreviousNode(): ?Node {
         const parent = this.parent;
 
-        if (parent === null) {
+        if (!parent) {
             return null;
         }
         else {
@@ -334,7 +331,7 @@ export class Node extends EventEmitter {
     getPreviousSibling(): ?Node {
         const parent = this.parent;
 
-        if (parent === null) {
+        if (!parent) {
             return null;
         }
         else {
@@ -351,7 +348,7 @@ export class Node extends EventEmitter {
     getNextSibling(): ?Node {
         const parent = this.parent;
 
-        if (parent === null) {
+        if (!parent) {
             return null;
         }
         else {
@@ -437,7 +434,7 @@ export class Node extends EventEmitter {
 
     Return promise(data is loaded)
     */
-    loadOnDemand() {
+    loadOnDemand(): Promise {
         const base_url = this.tree.base_url;
 
         if (!base_url) {
@@ -495,7 +492,10 @@ export class Node extends EventEmitter {
             };
         };
 
-        const [open, selected] = getOpenAndSelectedNodes();
+        // todo: use [open, selected] when flow supports it
+        const selected_result = getOpenAndSelectedNodes();
+        const open = selected_result[0];
+        const selected = selected_result[1];
 
         return {
             open: open.map(getNodeInfo),
@@ -561,13 +561,13 @@ export class Tree extends Node {
     deselectCurrentNode(): Array<Node> {
         const selected_node = this.selected_node;
 
-        if (selected_node === null) {
-            return [];
-        }
-        else {
+        if (selected_node) {
             selected_node.is_selected = false;
             this.selected_node = null;
             return [selected_node];
+        }
+        else {
+            return [];
         }
     }
 

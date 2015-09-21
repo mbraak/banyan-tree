@@ -39,7 +39,11 @@ export class TreeStore extends EventEmitter {
 
         // create tree
         const url = params.url || "";
-        const [tree, promise] = this.createTree(params.data, url);
+
+        // todo: use [tree, promise] but this is not supported by flow
+        const tree_result = this.createTree(params.data, url);
+        const tree = tree_result[0];
+        const promise = tree_result[1];
 
         this.tree = tree;
 
