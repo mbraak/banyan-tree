@@ -21,6 +21,7 @@ const tasks = {
 	browserifyExample: function(tree) {
 		return broccoliBrowserify(
 		    tree, {
+				cache: false,
 		        bundles: {
 		    		"example.js": {
 		    			entryPoints: ["./building/examples/example.js"]
