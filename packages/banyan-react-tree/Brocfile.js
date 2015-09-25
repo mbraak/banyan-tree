@@ -13,6 +13,7 @@ const tasks = {
 		    tree,
 			{
 		        browserPolyfill: true,
+				sourceMap: "inline",
 		        stage: 0
 		    }
 		);
