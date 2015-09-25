@@ -6,6 +6,7 @@
         "comma-dangle": 0,
         "default-case": 0,
         "func-names": 0,
+        "id-length": 0,
         "indent": 0,
         "no-console": 0,
         "no-else-return": 0,
