@@ -9,13 +9,13 @@ ul.banyan-tree {
     }
 
     ul.banyan-common {
-        padding-left: 1.2em;
+        padding-left: 2em;
     }
 
     .banyan-toggler {
-        width: 1.2em;
         display: inline-block;
         text-decoration: none;
+        margin-left: 8px;
 
         &:hover,
         &:focus {
@@ -24,12 +24,11 @@ ul.banyan-tree {
    }
 
    .banyan-element {
-       margin-left: 1.2em;
        cursor: pointer;
-   }
-
-   .banyan-folder > .banyan-element {
-       margin-left: 0;
+       margin-top: 4px;
+       margin-bottom: 4px;
+       background-color: #ddd;
+       padding: 8px;
    }
 
    .banyan-selected > .banyan-element {
@@ -39,5 +38,4 @@ ul.banyan-tree {
 
 .banyan-placeholder {
     border: dashed 2px #ccc;
-    margin-left: 1.5em;
 }

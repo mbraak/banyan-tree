@@ -208,18 +208,10 @@ class TreeTitleComponent extends React.Component {
         }
 
         return (
-            <span className={classes} {...aria_props} onClick={this.handleClick.bind(this)}>
+            <span className={classes} {...aria_props}>
                 {node_name}
             </span>
         );
-    }
-
-    handleClick(e) {
-        e.preventDefault();
-
-        const node = this.props.node;
-
-        this.props.store.selectNode(node);
     }
 }
 
@@ -276,9 +268,9 @@ class TreeNodeComponent extends React.Component {
 
         return (
             <li className={getClasses()} role="presentation">
-                <div className="banyan-element banyan-common" role="presentation" {...mouse_props}>
-                    {getButtonElement()}
+                <div className="banyan-element banyan-common" role="presentation" {...mouse_props} onClick={::this.handleClick}>
                     <TreeTitleComponent node={node} store={store} />
+                    {getButtonElement()}
                 </div>
                 {getFolderElement()}
             </li>
@@ -335,6 +327,14 @@ class TreeNodeComponent extends React.Component {
 
     shouldComponentUpdate() {
         return this.props.store.isNodeChanged(this.props.node);
+    }
+
+    handleClick(e) {
+        e.preventDefault();
+
+        const node = this.props.node;
+
+        this.props.store.selectNode(node);
     }
 }
 

@@ -29,7 +29,7 @@ export default class App extends React.Component {
 
         return (
             <div>
-                <Tree data={data} autoOpen={2} controller={tree_controller} />
+                <Tree data={data} autoOpen={2} controller={tree_controller} dragAndDrop={true} />
             </div>
         );
     }
