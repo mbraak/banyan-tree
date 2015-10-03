@@ -191,7 +191,7 @@ describe("Tree component", function() {
         function handleInit() {
             try {
                 const sauropods = store.tree.getNodeByName("Sauropods");
-                expect(sauropods).to.exist;
+                expect(sauropods).not.to.equal(null);
 
                 expect(sauropods.is_open).to.equal(true);
                 expect(store.tree.getNodeByName("Prosauropods").is_selected).to.equal(true);

@@ -685,7 +685,7 @@ export class Tree extends Node {
         }
     }
 
-    loadFromUrl(url: string): Promise  {
+    loadFromUrl(url: string): Promise {
         this.base_url = url;
 
         return super.loadFromUrl(url);

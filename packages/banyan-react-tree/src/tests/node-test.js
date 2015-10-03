@@ -8,7 +8,7 @@ import {Position} from "../position";
 
 import {LazyIterator} from "../lazy_iterator";
 
-import {format_list_with_max}  from "../testutil/format";
+import {format_list_with_max} from "../testutil/format";
 import {example_data} from "../testutil/example_data";
 
 import {format_nodes} from "../testutil/format_nodes";
@@ -92,7 +92,7 @@ describe("Tree", function() {
         tree.loadFromData(example_data);
 
         const node = tree.getNodeById(15);
-        expect(node).not.to.be.null;
+        expect(node).not.to.equal(null);
 
         if (node) {
             expect(node.name).to.equal("Avialans");
@@ -106,7 +106,7 @@ describe("Tree", function() {
         const troodontids = tree.getNodeById(14);
         const macronarians = tree.getNodeById(20);
 
-        expect(macronarians).not.to.be.null;
+        expect(macronarians).not.to.equal(null);
         expect(format_nodes(macronarians.children)).to.equal("Brachiosaurids Titanosaurians");
 
         if (macronarians) {
@@ -121,12 +121,12 @@ describe("Tree", function() {
         tree.loadFromData(example_data);
 
         const sauropodomorphs = tree.getNodeById(16);
-        expect(sauropodomorphs).not.to.be.null;
+        expect(sauropodomorphs).not.to.equal(null);
 
         if (sauropodomorphs) {
             const previous = sauropodomorphs.getPreviousSibling();
 
-            expect(previous).not.to.be.null;
+            expect(previous).not.to.equal(null);
 
             if (previous) {
                 expect(previous.name).to.equal("Theropods");
