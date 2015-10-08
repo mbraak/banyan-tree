@@ -492,10 +492,7 @@ export class Node extends EventEmitter {
             };
         };
 
-        // todo: use const when flow supports it
-        /* eslint-disable prefer-const */
-        let [open, selected] = getOpenAndSelectedNodes();
-        /* eslint-enable prefer-const */
+        const [open, selected] = getOpenAndSelectedNodes();
 
         return {
             open: open.map(getNodeInfo),

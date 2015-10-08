@@ -266,9 +266,10 @@ class TreeNodeComponent extends React.Component {
             }
         }
 
+        // todo: use ::this.handleClick when flow supports it
         return (
             <li className={getClasses()} role="presentation">
-                <div className="banyan-element banyan-common" role="presentation" {...mouse_props} onClick={::this.handleClick}>
+                <div className="banyan-element banyan-common" role="presentation" {...mouse_props} onClick={this.handleClick.bind(this)}>
                     <TreeTitleComponent node={node} store={store} />
                     {getButtonElement()}
                 </div>

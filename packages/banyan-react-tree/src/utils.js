@@ -27,10 +27,7 @@ var copy = copyProperties(
 export function copyProperties(properties: Object, skip_keys: Array<string>): Object {
     const result = {};
 
-    // todo: use const when flow supports it
-    /* eslint-disable prefer-const */
-    for (let key in properties) {
-    /* eslint-enable prefer-const */
+    for (const key in properties) {
         if (skip_keys.indexOf(key) >= 0) {
             result[key] = properties[key];
         }
