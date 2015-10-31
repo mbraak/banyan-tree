@@ -10,36 +10,36 @@ const is_production = require("broccoli-env").getEnv() === "production";
 const tasks = {
 	babel: function(tree) {
 		return broccoliBabel(
-		    tree,
+			tree,
 			{
-		        browserPolyfill: true,
+				browserPolyfill: true,
 				sourceMap: "inline",
-		        stage: 0
-		    }
+				stage: 0
+    		}
 		);
 	},
 
 	browserifyExample: function(tree) {
 		return broccoliBrowserify(
-		    tree, {
+			tree, {
 				cache: false,
-		        bundles: {
-		    		"example.js": {
-		    			entryPoints: ["./building/examples/example.js"]
-		    		}
-		    	}
-		    }
+				bundles: {
+					"example.js": {
+						entryPoints: ["./building/examples/example.js"]
+					}
+				}
+			}
 		);
 	},
 
 	compileBanyanCss: function() {
 		return broccoliPostCss(
-		    ["css"],
-		    "banyan-react-tree.css",
-		    "banyan-react-tree.css",
-		    [
-		        {module: require("postcss-nested")}
-		    ]
+			["css"],
+			"banyan-react-tree.css",
+			"banyan-react-tree.css",
+			[
+    			{module: require("postcss-nested")}
+			]
 		);
 	},
 
