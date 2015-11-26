@@ -1,2 +1,0 @@
-rm -rf build
-BROCCOLI_ENV=production broccoli build build
