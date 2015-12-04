@@ -1,5 +1,5 @@
 /* @flow */
-import {Node} from "./tree_node";
+import { Node } from "./tree_node";
 
 
 /*

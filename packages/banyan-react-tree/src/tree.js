@@ -3,10 +3,10 @@ import React from "react";
 
 import classNames from "classnames";
 
-import {TreeStore} from "./tree_store";
-import {timeout} from "./utils";
-import {Position} from "./position";
-import {Tree} from "./tree_node.js";
+import { TreeStore } from "./tree_store";
+import { timeout } from "./utils";
+import { Position } from "./position";
+import { Tree } from "./tree_node.js";
 
 
 function isActiveElementAnInput(): boolean {
@@ -20,7 +20,7 @@ export default class TreeComponent extends React.Component {
     constructor(props: Object) {
         super(props);
 
-        this.state = {store: this.createStore()};
+        this.state = { store: this.createStore() };
     }
 
     createStore() {
@@ -165,7 +165,7 @@ class TreeButtonComponent extends React.Component {
                 className={classes}
                 role="presentation"
                 aria-hidden="true"
-                dangerouslySetInnerHTML={{__html: open_text}}
+                dangerouslySetInnerHTML={{ __html: open_text }}
                 onClick={this.handleClick.bind(this)}
             />
         );

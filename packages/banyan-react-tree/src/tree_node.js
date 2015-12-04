@@ -7,8 +7,8 @@ import invariant from "fbjs/lib/invariant";
 
 import xhttp from "xhttp";
 
-import {copyProperties} from "./utils";
-import {Position} from "./position";
+import { copyProperties } from "./utils";
+import { Position } from "./position";
 
 
 /*
@@ -418,7 +418,7 @@ export class Node extends EventEmitter {
 
             node.is_loading = true;
 
-            const promise = xhttp({url: url});
+            const promise = xhttp({ url: url });
 
             return promise.then(
                 function(tree_data) {

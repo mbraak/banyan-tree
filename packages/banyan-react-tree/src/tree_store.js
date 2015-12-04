@@ -3,8 +3,8 @@ import EventEmitter from "eventemitter3";
 
 import arrify from "arrify";
 
-import {Tree, Node} from "./tree_node";
-import {LazyIterator} from "./lazy_iterator";
+import { Tree, Node } from "./tree_node";
+import { LazyIterator } from "./lazy_iterator";
 import TreeController from "./tree_controller";
 
 

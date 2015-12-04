@@ -1,4 +1,4 @@
-import {format_list} from "./format";
+import { format_list } from "./format";
 
 
 export function format_nodes(nodes) {

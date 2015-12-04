@@ -1,7 +1,7 @@
 /* @flow */
 import EventEmitter from "eventemitter3";
 
-import {proxyEvents, proxyFunctions} from "./utils";
+import { proxyEvents, proxyFunctions } from "./utils";
 
 
 export default class TreeController extends EventEmitter {

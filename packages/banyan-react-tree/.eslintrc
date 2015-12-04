@@ -16,6 +16,7 @@
         "react/jsx-boolean-value": 0,
         "react/no-multi-comp": 0,
         "react/sort-comp": 0,
-        "quotes": [2, "double", "avoid-escape"]
+        "quotes": [2, "double", "avoid-escape"],
+        "space-before-function-paren": 0
     }
 }

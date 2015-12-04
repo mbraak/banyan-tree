@@ -6,18 +6,18 @@ import ReactDOM from "react-dom";
 
 import App from "./app";
 
-import {example_data} from "../testutil/example_data";
+import { example_data } from "../testutil/example_data";
 
 
 function onClickReload() {
     const new_data = [
-        {name: "Tyrannosauroids", id: 9},
-        {name: "Ornithomimosaurians", id: 10},
-        {name: "Therizinosauroids", id: 11},
-        {name: "Oviraptorosaurians", id: 12},
-        {name: "Dromaeosaurids", id: 13},
-        {name: "Troodontids", id: 14},
-        {name: "Avialans", id: 15}
+        { name: "Tyrannosauroids", id: 9 },
+        { name: "Ornithomimosaurians", id: 10 },
+        { name: "Therizinosauroids", id: 11 },
+        { name: "Oviraptorosaurians", id: 12 },
+        { name: "Dromaeosaurids", id: 13 },
+        { name: "Troodontids", id: 14 },
+        { name: "Avialans", id: 15 }
     ];
 
     renderApp(new_data);

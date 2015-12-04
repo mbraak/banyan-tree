@@ -1,17 +1,17 @@
 /* eslint-env mocha */
-import {expect} from "chai";
+import { expect } from "chai";
 
-import {fakeServer, fakeServerWithLoadOnDemand} from "../testutil/fake_server";
+import { fakeServer, fakeServerWithLoadOnDemand } from "../testutil/fake_server";
 
-import {Tree, Node} from "../tree_node";
-import {Position} from "../position";
+import { Tree, Node } from "../tree_node";
+import { Position } from "../position";
 
-import {LazyIterator} from "../lazy_iterator";
+import { LazyIterator } from "../lazy_iterator";
 
-import {format_list_with_max} from "../testutil/format";
-import {example_data} from "../testutil/example_data";
+import { format_list_with_max } from "../testutil/format";
+import { example_data } from "../testutil/example_data";
 
-import {format_nodes} from "../testutil/format_nodes";
+import { format_nodes } from "../testutil/format_nodes";
 
 
 /* eslint-disable no-var */
@@ -43,7 +43,7 @@ describe("Tree", function() {
     it("adds a child node", function() {
         const tree = new Tree();
 
-        const child = new Node({name: "abc", id: 1});
+        const child = new Node({ name: "abc", id: 1 });
         tree.addChild(child);
         expect(child.name).to.equal("abc");
 
@@ -53,10 +53,10 @@ describe("Tree", function() {
     it("adds a child at a position", function() {
         const tree = new Tree();
 
-        tree.addChild(new Node({name: "abc", id: 1}));
-        tree.addChild(new Node({name: "ghi", id: 2}));
+        tree.addChild(new Node({ name: "abc", id: 1 }));
+        tree.addChild(new Node({ name: "ghi", id: 2 }));
 
-        const child = new Node({name: "def", id: 3});
+        const child = new Node({ name: "def", id: 3 });
         tree.addChildAtPosition(child, 1);
 
         expect(child.name).to.equal("def");
@@ -67,7 +67,7 @@ describe("Tree", function() {
     it("removes a child", function() {
         const tree = new Tree();
 
-        const child = new Node({name: "abc", id: 1});
+        const child = new Node({ name: "abc", id: 1 });
         tree.addChild(child);
 
         tree.removeChild(child);
@@ -78,11 +78,11 @@ describe("Tree", function() {
     it("gets the index of a child", function() {
         const tree = new Tree();
 
-        tree.addChild(new Node({name: "abc", id: 1}));
+        tree.addChild(new Node({ name: "abc", id: 1 }));
 
-        const node_def = new Node({name: "def", id: 2});
+        const node_def = new Node({ name: "def", id: 2 });
         tree.addChild(node_def);
-        tree.addChild(new Node({name: "ghi", id: 3}));
+        tree.addChild(new Node({ name: "ghi", id: 3 }));
 
         expect(tree.getChildIndex(node_def)).to.equal(1);
     });
@@ -253,10 +253,10 @@ describe("Tree", function() {
     it("checks if it's the parent of", function() {
         const tree = new Tree();
 
-        const child1 = new Node({name: "abc", id: 1});
+        const child1 = new Node({ name: "abc", id: 1 });
         tree.addChild(child1);
 
-        const child2 = new Node({name: "def", id: 2});
+        const child2 = new Node({ name: "def", id: 2 });
         child1.addChild(child2);
 
         expect(tree.isParentOf(child2)).to.equal(true);

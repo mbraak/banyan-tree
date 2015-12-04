@@ -1,15 +1,15 @@
 /* eslint-env mocha */
-import {expect} from "chai";
+import { expect } from "chai";
 
 import React from "react";
-import {findDOMNode} from "react-dom";
+import { findDOMNode } from "react-dom";
 import TestUtils from "react/lib/ReactTestUtils";
 
-import {example_data} from "../testutil/example_data";
+import { example_data } from "../testutil/example_data";
 
-import {fakeServer, fakeServerWithLoadOnDemand, fakeServerWithError} from "../testutil/fake_server";
+import { fakeServer, fakeServerWithLoadOnDemand, fakeServerWithError } from "../testutil/fake_server";
 
-import {format_list} from "../testutil/format";
+import { format_list } from "../testutil/format";
 import Tree from "../tree.js";
 
 
@@ -143,10 +143,10 @@ describe("Tree component", function() {
 
                     expect(tree_state).to.deep.equal({
                         open: [
-                            {id: 18, parents: [16, 1]}
+                            { id: 18, parents: [16, 1] }
                         ],
                         selected: [
-                            {id: 17, parents: [16, 1]}
+                            { id: 17, parents: [16, 1] }
                         ]
                     });
 
@@ -176,10 +176,10 @@ describe("Tree component", function() {
 
         const tree_state = {
             open: [
-                {id: 18, parents: [16, 1]}
+                { id: 18, parents: [16, 1] }
             ],
             selected: [
-                {id: 17, parents: [16, 1]}
+                { id: 17, parents: [16, 1] }
             ]
         };
 
