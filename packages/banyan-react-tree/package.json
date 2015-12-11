@@ -48,7 +48,7 @@
     "classnames": "^2.2.1",
     "core-js": "^1.2.6",
     "eventemitter3": "^1.1.1",
-    "fbjs": "^0.4.0",
+    "fbjs": "^0.5.0",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "xhttp": "^0.0.9"
