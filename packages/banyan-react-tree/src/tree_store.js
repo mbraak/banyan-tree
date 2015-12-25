@@ -184,11 +184,11 @@ export class TreeStore extends EventEmitter {
         }
     }
 
-    openAllFolders() {
+    openAllFolders(): Promise {
         return this.openFolders(null);
     }
 
-    openFoldersAtLevel(level: number) {
+    openFoldersAtLevel(level: number): Promise {
         function mustContinue(node, node_level) {
             return node.isFolder() && node_level < level;
         }
@@ -198,8 +198,8 @@ export class TreeStore extends EventEmitter {
 
     startDragging(node: Node, placeholder_height: number) {
         this.dragging = {
-            node: node,
-            placeholder_height: placeholder_height,
+            node,
+            placeholder_height,
             hover_node: node
         };
 
@@ -238,7 +238,7 @@ export class TreeStore extends EventEmitter {
         return (dragged_node && dragged_node.id === node.id);
     }
 
-    openFolders(on_must_continue: ?Function) {
+    openFolders(on_must_continue: ?Function): Promise {
         const emitChange = this.emitChange.bind(this);
 
         const iterator = new LazyIterator(this.tree);
@@ -289,7 +289,7 @@ export class TreeStore extends EventEmitter {
 
     // init tree
     // return Promise(is initialized)
-    initTree() {
+    initTree(): Promise {
         const restore_result = this.handleRestoreState();
 
         if (restore_result) {
@@ -318,7 +318,7 @@ export class TreeStore extends EventEmitter {
         }
     }
 
-    handleAutoOpen() {
+    handleAutoOpen(): Promise {
         const auto_open = this.auto_open;
 
         if (typeof auto_open === "number") {

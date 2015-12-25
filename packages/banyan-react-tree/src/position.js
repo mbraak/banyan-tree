@@ -9,11 +9,9 @@ export const Position = {
 
     strings: ["before", "after", "inside", "none"],
 
-    getName: function(position: number): string {
-        return Position.strings[position - 1];
-    },
+    getName: (position: number): string => (Position.strings[position - 1]),
 
-    nameToIndex: function(name: string): number {
+    nameToIndex: (name: string): number => {
         const index = Position.strings.indexOf(name);
 
         if (index < 0) {

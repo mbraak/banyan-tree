@@ -23,7 +23,7 @@ export default class TreeComponent extends React.Component {
         this.state = { store: this.createStore() };
     }
 
-    createStore() {
+    createStore(): TreeStore {
         return new TreeStore({
             data: this.props.data,
             url: this.props.url,
@@ -161,12 +161,12 @@ class TreeButtonComponent extends React.Component {
 
         return (
             <a
-                href="#"
-                className={classes}
-                role="presentation"
-                aria-hidden="true"
-                dangerouslySetInnerHTML={{ __html: open_text }}
-                onClick={this.handleClick.bind(this)}
+              href="#"
+              className={classes}
+              role="presentation"
+              aria-hidden="true"
+              dangerouslySetInnerHTML={{ __html: open_text }}
+              onClick={this.handleClick.bind(this)}
             />
         );
     }

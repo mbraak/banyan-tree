@@ -205,7 +205,7 @@ export class Node extends EventEmitter {
         this.do_iterate(on_node, true);
     }
 
-    do_iterate(on_node: Function, include_self:bool = true) {
+    do_iterate(on_node: Function, include_self: bool = true) {
         function iterate_node(node, level, include_node) {
             function visitNode() {
                 return on_node(node, level);
@@ -418,7 +418,7 @@ export class Node extends EventEmitter {
 
             node.is_loading = true;
 
-            const promise = xhttp({ url: url });
+            const promise = xhttp({ url });
 
             return promise.then(
                 function(tree_data) {
@@ -488,7 +488,7 @@ export class Node extends EventEmitter {
 
             return {
                 id: node.id,
-                parents: parents
+                parents
             };
         };
 
@@ -597,7 +597,7 @@ export class Tree extends Node {
     }
 
     iterate(on_node: Function) {
-        return this.do_iterate(on_node, false);
+        this.do_iterate(on_node, false);
     }
 
     moveDown(): Array<Node> {
