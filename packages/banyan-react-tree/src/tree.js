@@ -195,7 +195,7 @@ class TreeTitleComponent extends React.Component {
         }
 
         const aria_props = {
-            "role": "treeitem",
+            role: "treeitem",
             "aria-selected": node.is_selected,
             "aria-expanded": node.isFolder() && node.is_open
         };

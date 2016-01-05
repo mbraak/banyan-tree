@@ -3,6 +3,7 @@ import "core-js";
 
 import EventEmitter from "eventemitter3";
 
+// $FlowFixMe
 import invariant from "fbjs/lib/invariant";
 
 import xhttp from "xhttp";
@@ -543,7 +544,8 @@ export class Tree extends Node {
             const changed_nodes = this.deselectCurrentNode();
 
             if (node !== null) {
-                node.is_selected = true;
+                const n = node;
+                n.is_selected = true;
                 this.selected_node = node;
 
                 changed_nodes.push(node);

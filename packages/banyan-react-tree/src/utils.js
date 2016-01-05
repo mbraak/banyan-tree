@@ -24,7 +24,7 @@ var copy = copyProperties(
     ['color']
 );
 */
-export function copyProperties(properties: Object, skip_keys: Array<string>): Object {
+export function copyProperties(properties: Object, skip_keys: Array<string> = []): Object {
     const result = {};
 
     for (const key in properties) {
@@ -44,8 +44,10 @@ export function timeout(delay: number = 0): Promise {
 
 
 export function proxyFunctions(target: Object, source:Object, function_names: Array<string>) {
+    const t = target;
+
     function_names.forEach((function_name) => {
-        target[function_name] = source[function_name].bind(source);
+        t[function_name] = source[function_name].bind(source);
     });
 }
 

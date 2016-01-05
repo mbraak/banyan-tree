@@ -1,4 +1,5 @@
 /* @flow */
+// $FlowFixMe
 import "../../css/banyan-react-tree.css";
 
 import React from "react";
