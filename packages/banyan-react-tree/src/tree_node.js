@@ -422,7 +422,7 @@ export class Node extends EventEmitter {
             const promise = xhttp({ url });
 
             return promise.then(
-                function(tree_data) {
+                (tree_data) => {
                     node.is_loading = false;
                     node.loadFromData(tree_data);
                 }
@@ -442,10 +442,10 @@ export class Node extends EventEmitter {
             return Promise.resolve();
         }
         else {
-            const promise = this.loadFromUrl(base_url + "?node=" + this.id);
+            const promise = this.loadFromUrl(`${base_url}?node=${this.id}`);
             const node = this;
 
-            promise.then(function() {
+            promise.then(() => {
                 node.load_on_demand = false;
             });
 
@@ -459,7 +459,7 @@ export class Node extends EventEmitter {
             const selected_nodes = [];
 
             this.iterate(
-                function(node) {
+                (node) => {
                     if (node.is_open) {
                         open_nodes.push(node);
                     }
@@ -585,7 +585,7 @@ export class Tree extends Node {
     getNodeByName(name: string): ?Node {
         let result = null;
 
-        this.iterate(function(node) {
+        this.iterate((node) => {
             if (node.name === name) {
                 result = node;
                 return false;

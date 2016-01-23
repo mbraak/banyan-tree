@@ -15,7 +15,7 @@ export function fakeServer(delay: number, mustLoadOnDemand: bool) {
     }
 
     server.respondWith(
-        function(request) {
+        (request) => {
             let nodes;
 
             const regex = new RegExp("^/examples/data/\\?node=(\\d+)$");
@@ -52,7 +52,7 @@ export function fakeServerWithError() {
     server.autoRespond = true;
 
     server.respondWith(
-        function(request) {
+        (request) => {
             request.respond(404);
         }
     );

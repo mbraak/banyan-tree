@@ -257,7 +257,7 @@ export class TreeStore extends EventEmitter {
         };
 
         return iterator.iterate()
-            .then(function() {
+            .then(() => {
                 if (iterator.visit_count === 0) {
                     emitChange();
                 }
@@ -440,8 +440,8 @@ export class TreeStore extends EventEmitter {
 
         // Ensure that nodes in this tree are loaded
         // Tree is defined by node_ids = [root, child of root, .., child]
-        const ensureLoadTree = node_ids => {
-            return ensureLoadNodeById(node_ids[0])
+        const ensureLoadTree = node_ids =>
+            ensureLoadNodeById(node_ids[0])
                 .then(() => {
                     node_ids.shift();
 
@@ -452,7 +452,6 @@ export class TreeStore extends EventEmitter {
                         return ensureLoadTree(node_ids);
                     }
                 });
-        };
 
         const openNode = node_info => {
             const node_id = node_info.id;
@@ -489,17 +488,15 @@ export class TreeStore extends EventEmitter {
             });
         };
 
-        const openNodes = () => {
-            return Promise.all(
+        const openNodes = () =>
+            Promise.all(
                 tree_state.open.map(openNode)
             );
-        };
 
-        const selectNodes = () => {
-            return Promise.all(
+        const selectNodes = () =>
+            Promise.all(
                 tree_state.selected.map(selectNode)
             );
-        };
 
         if (!tree_state.open.length && !tree_state.selected.length) {
             this.emitChange();

@@ -6,19 +6,19 @@ import TreeController from "../tree_controller";
 
 const tree_controller = new TreeController();
 
-tree_controller.on("init", function() {
+tree_controller.on("init", () => {
     console.log("init");
 });
 
-tree_controller.on("select", function(node) {
+tree_controller.on("select", node => {
     console.log("select", node.name);
 });
 
-tree_controller.on("open", function(node) {
+tree_controller.on("open", node => {
     console.log("open", node.name);
 });
 
-tree_controller.on("close", function(node) {
+tree_controller.on("close", node => {
     console.log("close", node.name);
 });
 

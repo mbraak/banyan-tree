@@ -18,19 +18,19 @@ var server = null;
 /* eslint-enable no-var */
 
 
-beforeEach(function() {
+beforeEach(() => {
     server = null;
 });
 
-afterEach(function() {
+afterEach(() => {
     if (server) {
         server.restore();
     }
 });
 
 
-describe("Tree component", function() {
-    it("renders an empty tree", function() {
+describe("Tree component", () => {
+    it("renders an empty tree", () => {
         const tree_element = TestUtils.renderIntoDocument(<Tree onInit={handleInit} />);
 
         function handleInit() {
@@ -41,7 +41,7 @@ describe("Tree component", function() {
         }
     });
 
-    it("renders second level of a tree", function() {
+    it("renders second level of a tree", () => {
         const tree_element = TestUtils.renderIntoDocument(<Tree data={example_data} autoOpen={2} onInit={handleInit} />);
 
         function handleInit() {
@@ -54,7 +54,7 @@ describe("Tree component", function() {
         }
     });
 
-    it("renders a selected node", function(done) {
+    it("renders a selected node", (done) => {
         // render tree
         const tree_element = TestUtils.renderIntoDocument(<Tree data={example_data} autoOpen={true} onInit={handleInit} />);
 
@@ -81,7 +81,7 @@ describe("Tree component", function() {
         }
     });
 
-    it("loads data from a url", function(done) {
+    it("loads data from a url", (done) => {
         server = fakeServer();
 
         function handleInit() {
@@ -102,7 +102,7 @@ describe("Tree component", function() {
         const tree_element = TestUtils.renderIntoDocument(<Tree url="/data" autoOpen={true} onInit={handleInit} />);
     });
 
-    it("fires the onError event", function(done) {
+    it("fires the onError event", (done) => {
         server = fakeServerWithError();
 
         function handleError() {
@@ -112,7 +112,7 @@ describe("Tree component", function() {
         TestUtils.renderIntoDocument(<Tree url="/examples/data/" onError={handleError} />);
     });
 
-    it("saves the state", function(done) {
+    it("saves the state", (done) => {
         server = fakeServer();
 
         function firstTree() {
@@ -171,7 +171,7 @@ describe("Tree component", function() {
         firstTree();
     });
 
-    it("restores state with loadondemand", function(done) {
+    it("restores state with loadondemand", (done) => {
         server = fakeServerWithLoadOnDemand();
 
         const tree_state = {
@@ -204,7 +204,7 @@ describe("Tree component", function() {
         }
     });
 
-    it("can select a node by clicking on it", function(done) {
+    it("can select a node by clicking on it", (done) => {
         const tree_element = TestUtils.renderIntoDocument(<Tree data={example_data} autoOpen={true} onInit={handleInit} />);
 
         function handleInit() {

@@ -58,9 +58,9 @@ export class LazyIterator {
         }
         else {
             return Promise.all(
-                node.children.map(child => {
-                    return this.iterateNode(child, level + 1, true);
-                })
+                node.children.map(
+                    child => this.iterateNode(child, level + 1, true)
+                )
             );
         }
     }

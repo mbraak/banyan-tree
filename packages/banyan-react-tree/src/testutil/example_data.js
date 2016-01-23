@@ -80,7 +80,7 @@ export const example_data = [
 export function getFirstLevelData(param_nodes) {
     const nodes = param_nodes || example_data;
 
-    return nodes.map(function(node) {
+    return nodes.map((node) => {
         const result = {
             name: node.name,
             id: node.id
@@ -98,7 +98,7 @@ export function getChildrenOfNode(node_id) {
     let result = null;
 
     function iterate(nodes) {
-        nodes.forEach(function(node) {
+        nodes.forEach((node) => {
             if (result) {
                 return;
             }

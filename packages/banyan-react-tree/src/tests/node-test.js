@@ -19,19 +19,19 @@ var server = null;
 /* eslint-enable no-var */
 
 
-beforeEach(function() {
+beforeEach(() => {
     server = null;
 });
 
-afterEach(function() {
+afterEach(() => {
     if (server) {
         server.restore();
     }
 });
 
 
-describe("Tree", function() {
-    it("loads data", function() {
+describe("Tree", () => {
+    it("loads data", () => {
         const tree = new Tree();
         tree.loadFromData(example_data);
 
@@ -40,7 +40,7 @@ describe("Tree", function() {
         expect(format_nodes(tree.children[0].children)).to.equal("Herrerasaurians Theropods Sauropodomorphs");
     });
 
-    it("adds a child node", function() {
+    it("adds a child node", () => {
         const tree = new Tree();
 
         const child = new Node({ name: "abc", id: 1 });
@@ -50,7 +50,7 @@ describe("Tree", function() {
         expect(format_nodes(tree.children)).to.equal("abc");
     });
 
-    it("adds a child at a position", function() {
+    it("adds a child at a position", () => {
         const tree = new Tree();
 
         tree.addChild(new Node({ name: "abc", id: 1 }));
@@ -64,7 +64,7 @@ describe("Tree", function() {
         expect(format_nodes(tree.children)).to.equal("abc def ghi");
     });
 
-    it("removes a child", function() {
+    it("removes a child", () => {
         const tree = new Tree();
 
         const child = new Node({ name: "abc", id: 1 });
@@ -75,7 +75,7 @@ describe("Tree", function() {
         expect(tree.children.length).to.equal(0);
     });
 
-    it("gets the index of a child", function() {
+    it("gets the index of a child", () => {
         const tree = new Tree();
 
         tree.addChild(new Node({ name: "abc", id: 1 }));
@@ -87,7 +87,7 @@ describe("Tree", function() {
         expect(tree.getChildIndex(node_def)).to.equal(1);
     });
 
-    it("gets a node by id", function() {
+    it("gets a node by id", () => {
         const tree = new Tree();
         tree.loadFromData(example_data);
 
@@ -99,7 +99,7 @@ describe("Tree", function() {
         }
     });
 
-    it("moves a node", function() {
+    it("moves a node", () => {
         const tree = new Tree();
         tree.loadFromData(example_data);
 
@@ -116,7 +116,7 @@ describe("Tree", function() {
         }
     });
 
-    it("gets the previous sibling", function() {
+    it("gets the previous sibling", () => {
         const tree = new Tree();
         tree.loadFromData(example_data);
 
@@ -134,14 +134,14 @@ describe("Tree", function() {
         }
     });
 
-    it("iterates", function() {
+    it("iterates", () => {
         const tree = new Tree();
         tree.loadFromData(example_data);
 
         // iterate first level
         const node_names = [];
 
-        tree.iterate(function(node, level) {
+        tree.iterate((node, level) => {
             node_names.push(node.name);
             return level === 1;
         });
@@ -152,7 +152,7 @@ describe("Tree", function() {
         ).to.equal("Saurischia Herrerasaurians Theropods");
     });
 
-    it("iterates lazily", function(done) {
+    it("iterates lazily", done => {
         const tree = new Tree();
 
         const node_names = [];
@@ -185,7 +185,7 @@ describe("Tree", function() {
         iterator.iterate().then(checkResult);
     });
 
-    it("iterates lazily with lazy loading", function(done) {
+    it("iterates lazily with lazy loading", done => {
         const node_names = [];
 
         function mustContinue(node) {
@@ -221,14 +221,14 @@ describe("Tree", function() {
             .then(testIterate);
     });
 
-    it("loads data from an url", function(done) {
+    it("loads data from an url", done => {
         server = fakeServer();
 
         const tree = new Tree();
         const promise = tree.loadFromUrl("/tree_data");
 
         promise.then(
-            function() {
+            () => {
                 try {
                     expect(format_nodes(tree.children)).to.equal("Saurischia Ornithischians");
                     done();
@@ -240,7 +240,7 @@ describe("Tree", function() {
         );
     });
 
-    it("gets the next node", function() {
+    it("gets the next node", () => {
         const tree = new Tree();
         tree.loadFromData(example_data);
 
@@ -250,7 +250,7 @@ describe("Tree", function() {
         expect(node.getNextNode().name).to.equal("Coelophysoids");
     });
 
-    it("checks if it's the parent of", function() {
+    it("checks if it's the parent of", () => {
         const tree = new Tree();
 
         const child1 = new Node({ name: "abc", id: 1 });
