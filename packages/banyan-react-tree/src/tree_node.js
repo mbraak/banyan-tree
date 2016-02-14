@@ -6,9 +6,7 @@ import EventEmitter from "eventemitter3";
 // $FlowFixMe
 import invariant from "fbjs/lib/invariant";
 
-import xhttp from "xhttp";
-
-import { copyProperties } from "./utils";
+import { copyProperties, xhttpPromise } from "./utils";
 import { Position } from "./position";
 
 
@@ -419,14 +417,13 @@ export class Node extends EventEmitter {
 
             node.is_loading = true;
 
-            const promise = xhttp({ url });
-
-            return promise.then(
-                (tree_data) => {
-                    node.is_loading = false;
-                    node.loadFromData(tree_data);
-                }
-            );
+            return xhttpPromise({ url })
+                .then(
+                    tree_data => {
+                        node.is_loading = false;
+                        node.loadFromData(tree_data);
+                    }
+                );
         }
     }
 

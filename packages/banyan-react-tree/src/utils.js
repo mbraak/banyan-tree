@@ -24,6 +24,9 @@ var copy = copyProperties(
     ['color']
 );
 */
+import { xhttp } from "xhttp";
+
+
 export function copyProperties(properties: Object, skip_keys: Array<string> = []): Object {
     const result = {};
 
@@ -58,4 +61,10 @@ export function proxyEvents(target: Object, source: Object, event_names: Array<s
             target.emit(event_name, e);
         });
     });
+}
+
+export function xhttpPromise(params: Object): Promise {
+    return new Promise(
+        (resolve, reject) => xhttp(params, resolve, reject)
+    );
 }
