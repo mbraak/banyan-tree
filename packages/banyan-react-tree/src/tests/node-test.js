@@ -187,6 +187,7 @@ describe("Tree", () => {
 
     it("iterates lazily with lazy loading", done => {
         const node_names = [];
+        const tree = new Tree();
 
         function mustContinue(node) {
             node_names.push(node.name);
@@ -214,8 +215,6 @@ describe("Tree", () => {
         }
 
         server = fakeServerWithLoadOnDemand();
-
-        const tree = new Tree();
 
         tree.loadFromUrl("/examples/data/")
             .then(testIterate);

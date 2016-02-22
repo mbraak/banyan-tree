@@ -29,6 +29,24 @@ afterEach(() => {
 });
 
 
+function findTitleNodeByName(tree_element, name) {
+    return Array.prototype.find.call(
+        findDOMNode(tree_element).getElementsByClassName("banyan-title"),
+        el => el.innerHTML === name
+    );
+}
+
+function format_dom_elements(dom_elements) {
+    const labels = [];
+
+    for (let i = 0; i < dom_elements.length; i++) {
+        labels.push(dom_elements[i].textContent);
+    }
+
+    return format_list(labels);
+}
+
+
 describe("Tree component", () => {
     it("renders an empty tree", () => {
         const tree_element = TestUtils.renderIntoDocument(<Tree onInit={handleInit} />);
@@ -116,7 +134,8 @@ describe("Tree component", () => {
         server = fakeServer();
 
         function firstTree() {
-            let tree_element, store;
+            const tree_element = TestUtils.renderIntoDocument(<Tree url="/examples/data/" saveState={true} onInit={handleInit} />);
+            const store = tree_element.getStore();
 
             function handleInit() {
                 try {
@@ -129,13 +148,10 @@ describe("Tree component", () => {
                     done(err);
                 }
             }
-
-            tree_element = TestUtils.renderIntoDocument(<Tree url="/examples/data/" saveState={true} onInit={handleInit} />);
-            store = tree_element.getStore();
         }
 
         function secondTree() {
-            let tree_element, store;
+            let store;
 
             function handleInit() {
                 try {
@@ -158,7 +174,7 @@ describe("Tree component", () => {
             }
 
             try {
-                tree_element = TestUtils.renderIntoDocument(<Tree url="/examples/data/" saveState={true} onInit={handleInit} />);
+                const tree_element = TestUtils.renderIntoDocument(<Tree url="/examples/data/" saveState={true} onInit={handleInit} />);
                 store = tree_element.getStore();
             }
             catch (err) {
@@ -233,21 +249,3 @@ describe("Tree component", () => {
         }
     });
 });
-
-
-function findTitleNodeByName(tree_element, name) {
-    return Array.prototype.find.call(
-        findDOMNode(tree_element).getElementsByClassName("banyan-title"),
-        el => el.innerHTML === name
-    );
-}
-
-function format_dom_elements(dom_elements) {
-    const labels = [];
-
-    for (let i = 0; i < dom_elements.length; i++) {
-        labels.push(dom_elements[i].textContent);
-    }
-
-    return format_list(labels);
-}

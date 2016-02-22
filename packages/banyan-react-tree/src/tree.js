@@ -295,6 +295,8 @@ class TreeNodeComponent extends React.Component {
                 dragging_started = true;
                 store.startDragging(node, li_node.clientHeight);
             }
+
+            return false;
         }
 
         function handleMouseUp() {

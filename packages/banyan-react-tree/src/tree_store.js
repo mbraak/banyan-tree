@@ -8,6 +8,20 @@ import { LazyIterator } from "./lazy_iterator";
 import TreeController from "./tree_controller";
 
 
+function formatNodes(nodes) {
+    if (!nodes) {
+        return "";
+    }
+    else {
+        const names = [];
+        nodes.forEach((n) => {
+            names.push(n.name);
+        });
+        return names.join(" ");
+    }
+}
+
+
 export class TreeStore extends EventEmitter {
     auto_open: bool|number;
     keyboard_support: bool;
@@ -245,11 +259,11 @@ export class TreeStore extends EventEmitter {
 
         iterator.on_must_continue = on_must_continue;
 
-        iterator.on_before_load = function(node) {
+        iterator.on_before_load = node => {
             emitChange(node);
         };
 
-        iterator.on_visit = function(node) {
+        iterator.on_visit = node => {
             if (node.isFolder()) {
                 node.open();
                 emitChange(node);
@@ -516,18 +530,5 @@ export class TreeStore extends EventEmitter {
                 changed_node => changed_node.id === node.id || node.isParentOf(changed_node)
             );
         }
-    }
-}
-
-function formatNodes(nodes) {
-    if (!nodes) {
-        return "";
-    }
-    else {
-        const names = [];
-        nodes.forEach((n) => {
-            names.push(n.name);
-        });
-        return names.join(" ");
     }
 }

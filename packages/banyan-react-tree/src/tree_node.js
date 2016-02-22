@@ -294,6 +294,9 @@ export class Node extends EventEmitter {
             if (parent) {
                 return parent.getNextNodeSkipChildren();
             }
+            else {
+                return null;
+            }
         }
     }
 
