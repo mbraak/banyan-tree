@@ -24,7 +24,7 @@ var copy = copyProperties(
     ['color']
 );
 */
-import { xhttp } from "xhttp";
+import { xhttp } from "xhttp/dist/xhttp";
 
 
 export function copyProperties(properties: Object, skip_keys: Array<string> = []): Object {
