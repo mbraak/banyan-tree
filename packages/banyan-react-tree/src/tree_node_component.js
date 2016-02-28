@@ -129,7 +129,7 @@ export default class TreeNodeComponent extends React.Component {
         return this.props.store.isNodeChanged(this.props.node);
     }
 
-    handleClick(e: SyntheticMouseEvent) {
+    handleClick(e: any) {
         e.preventDefault();
 
         const node = this.props.node;

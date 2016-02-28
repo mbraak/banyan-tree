@@ -37,7 +37,7 @@ export default class TreeButtonComponent extends React.Component {
         );
     }
 
-    handleClick(e: SyntheticMouseEvent) {
+    handleClick(e: any) {
         e.preventDefault();
 
         this.props.store.toggleNode(this.props.node);
