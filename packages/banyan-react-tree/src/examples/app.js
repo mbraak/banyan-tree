@@ -23,18 +23,14 @@ tree_controller.on("close", node => {
 });
 
 
-export default class App extends React.Component {
-    render() {
-        const data = this.props.data;
-
-        return (
-            <div>
-                <Tree data={data} autoOpen={2} controller={tree_controller} dragAndDrop={true} />
-            </div>
-        );
-    }
-}
+const App = ({ data }) => (
+    <div>
+        <Tree data={data} autoOpen={2} controller={tree_controller} dragAndDrop={true} />
+    </div>
+);
 
 App.propTypes = {
     data: React.PropTypes.array
 };
+
+export default App;
