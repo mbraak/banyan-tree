@@ -1,6 +1,8 @@
 /* @flow */
 import React from "react";
 
+import classNames from "classnames";
+
 import { TreeStore } from "./tree_store";
 import { Node } from "./tree_node";
 
@@ -12,28 +14,28 @@ const TreeButtonComponent = ({ is_open, node, store }) => {
         store.toggleNode(node);
     }
 
-    let open_text, classes;
-
-    if (is_open) {
-        open_text = "&#x25bc;";
-        classes = "banyan-toggler banyan-common";
-    }
-    else {
-        open_text = "&#x25ba;";
-        classes = "banyan-toggler banyan-closed banyan-common";
-    }
-
     return (
         <a
           href="#"
-          className={classes}
+          className={ classNames("banyan-toggler", "banyan-common", { "banyan-closed": !is_open }) }
           role="presentation"
           aria-hidden="true"
-          dangerouslySetInnerHTML={{ __html: open_text }}
+          dangerouslySetInnerHTML={{ __html: getButtonChar(is_open) }}
           onClick={handleClick}
         />
     );
 };
+
+
+function getButtonChar(is_open) {
+    if (is_open) {
+        return "&#x25bc;";
+    }
+    else {
+        return "&#x25ba;";
+    }
+}
+
 
 TreeButtonComponent.propTypes = {
     is_open: React.PropTypes.bool,
