@@ -4,7 +4,9 @@ import React from "react";
 import { TreeStore } from "./tree_store";
 
 
-const TreePlaceholderComponent = ({ store }) => {
+const TreePlaceholderComponent = (props: Object) => {
+    const { store } = props;
+
     const style = {
         height: `${store.dragging.placeholder_height}px`
     };

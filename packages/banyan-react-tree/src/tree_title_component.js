@@ -5,7 +5,9 @@ import { TreeStore } from "./tree_store";
 import { Node } from "./tree_node";
 
 
-const TreeTitleComponent = ({ node, store }) => {
+const TreeTitleComponent = (props: Object) => {
+    const { node, store } = props;
+
     let classes = "banyan-title banyan-common";
 
     if (node.isFolder()) {

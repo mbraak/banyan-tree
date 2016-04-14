@@ -20,8 +20,7 @@ export default class TreeNodeComponent extends React.Component {
     };
 
     render() {
-        const node = this.props.node;
-        const store = this.props.store;
+        const { node, store } = this.props;
 
         function getClasses() {
             return classNames({

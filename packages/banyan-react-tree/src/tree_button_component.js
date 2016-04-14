@@ -7,7 +7,9 @@ import { TreeStore } from "./tree_store";
 import { Node } from "./tree_node";
 
 
-const TreeButtonComponent = ({ is_open, node, store }) => {
+const TreeButtonComponent = (props: Object) => {
+    const { is_open, node, store } = props;
+
     function handleClick(e: any) {
         e.preventDefault();
 
