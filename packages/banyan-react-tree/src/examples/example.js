@@ -26,14 +26,12 @@ function onClickReload() {
 
 function renderApp(data) {
     ReactDOM.render(
-        (
-            <div>
-                <p>
-                    <a href="#" onClick={onClickReload}>load data</a>
-                </p>
-                <App data={data} />
-            </div>
-        ),
+        (<div>
+            <p>
+                <a href="#" onClick={onClickReload}>load data</a>
+            </p>
+            <App data={data} />
+        </div>),
         document.getElementById("tree1")
     );
 }

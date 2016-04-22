@@ -30,11 +30,13 @@ import { xhttp } from "xhttp/dist/xhttp";
 export function copyProperties(properties: Object, skip_keys: Array<string> = []): Object {
     const result = {};
 
-    for (const key in properties) {
-        if (skip_keys.indexOf(key) >= 0) {
-            result[key] = properties[key];
+    Object.entries(properties).forEach(
+        ([key, value]) => {
+            if (skip_keys.indexOf(key) >= 0) {
+                result[key] = value;
+            }
         }
-    }
+    );
 
     return result;
 }

@@ -19,7 +19,7 @@ const TreeButtonComponent = (props: Object) => {
     return (
         <a
           href="#"
-          className={ classNames("banyan-toggler", "banyan-common", { "banyan-closed": !is_open }) }
+          className={classNames("banyan-toggler", "banyan-common", { "banyan-closed": !is_open })}
           role="presentation"
           aria-hidden="true"
           dangerouslySetInnerHTML={{ __html: getButtonChar(is_open) }}
