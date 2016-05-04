@@ -13,6 +13,7 @@ function formatNodes(nodes) {
         return "";
     }
     else {
+        // todo:: use map?
         const names = [];
         nodes.forEach((n) => {
             names.push(n.name);
