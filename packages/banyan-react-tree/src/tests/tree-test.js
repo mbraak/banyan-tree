@@ -54,7 +54,7 @@ describe("Tree component", () => {
         function handleInit() {
             const dom_node = findDOMNode(tree_element);
 
-            expect(dom_node.className).to.equal("banyan_common banyan-tree");
+            expect(dom_node.className).to.equal("banyan-common banyan-tree");
             expect(dom_node.children.length).to.equal(0);
         }
     });
@@ -127,7 +127,7 @@ describe("Tree component", () => {
             done();
         }
 
-        TestUtils.renderIntoDocument(<Tree url="/examples/data/" onError={handleError} />);
+        TestUtils.renderIntoDocument(<Tree url="/examples/error/" onError={handleError} />);
     });
 
     it("saves the state", (done) => {
