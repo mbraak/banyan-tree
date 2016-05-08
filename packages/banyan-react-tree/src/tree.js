@@ -11,7 +11,7 @@ import type TreeController from "./tree_controller";
 function isActiveElementAnInput(): boolean {
     const tag_name = document.activeElement && document.activeElement.tagName.toLowerCase();
 
-    return (tag_name === "input" || tag_name === "textarea" || tag_name === "select");
+    return tag_name === "input" || tag_name === "textarea" || tag_name === "select";
 }
 
 

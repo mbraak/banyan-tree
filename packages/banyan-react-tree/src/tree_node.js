@@ -230,7 +230,7 @@ export class Node extends EventEmitter {
     }
     */
     hasChildren(): bool {
-        return (this.children.length !== 0);
+        return this.children.length !== 0;
     }
 
     /*

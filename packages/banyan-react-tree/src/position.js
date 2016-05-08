@@ -9,7 +9,7 @@ export const Position = {
 
     strings: ["before", "after", "inside", "none"],
 
-    getName: (position: number): string => (Position.strings[position - 1]),
+    getName: (position: number): string => Position.strings[position - 1],
 
     nameToIndex: (name: string): number => {
         const index = Position.strings.indexOf(name);

@@ -244,13 +244,13 @@ export class TreeStore extends EventEmitter {
     isNodeHovered(node: Node): bool {
         const hover_node = this.dragging.hover_node;
 
-        return (hover_node && hover_node.id === node.id);
+        return hover_node && hover_node.id === node.id;
     }
 
     isNodeDragged(node: Node): bool {
         const dragged_node = this.dragging.node;
 
-        return (dragged_node && dragged_node.id === node.id);
+        return dragged_node && dragged_node.id === node.id;
     }
 
     openFolders(on_must_continue: ?Function): Promise {

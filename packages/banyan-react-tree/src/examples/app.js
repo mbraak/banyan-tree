@@ -23,11 +23,11 @@ tree_controller.on("close", node => {
 });
 
 
-const App = ({ data }) => (
+const App = ({ data }) =>
     <div>
         <Tree data={data} autoOpen={2} controller={tree_controller} dragAndDrop={true} />
-    </div>
-);
+    </div>;
+
 
 App.propTypes = {
     data: React.PropTypes.array
