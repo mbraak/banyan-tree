@@ -83,32 +83,38 @@ export default class TreeNodeComponent extends React.Component {
         let waiting_for_delay = true;
         let dragging_started = false;
 
-        function handleMouseMove() {
-            if (waiting_for_delay) {
-                return true;
+        // Uses EventListener objects instead of functions to prevent flow error
+        // todo: use functions when bug in flow is fixed
+        const handleMouseMove = {
+            handleEvent: function handleMouseMove() {
+                if (waiting_for_delay) {
+                    return true;
+                }
+                else if (!dragging_started) {
+                    dragging_started = true;
+                    store.startDragging(node, li_node.clientHeight);
+                }
+
+                return false;
             }
-            else if (!dragging_started) {
-                dragging_started = true;
-                store.startDragging(node, li_node.clientHeight);
+        };
+
+        const handleMouseUp = {
+            handleEvent: function handleMouseUp() {
+                if (store.dragging.hover_node) {
+                    store.tree.moveNode(
+                        store.dragging.node,
+                        store.dragging.hover_node,
+                        Position.BEFORE
+                    );
+                }
+
+                store.stopDragging();
+
+                document.removeEventListener("mousemove", handleMouseMove);
+                document.removeEventListener("mouseup", handleMouseUp);
             }
-
-            return false;
-        }
-
-        function handleMouseUp() {
-            if (store.dragging.hover_node) {
-                store.tree.moveNode(
-                    store.dragging.node,
-                    store.dragging.hover_node,
-                    Position.BEFORE
-                );
-            }
-
-            store.stopDragging();
-
-            document.removeEventListener("mousemove", handleMouseMove);
-            document.removeEventListener("mouseup", handleMouseUp);
-        }
+        };
 
         document.addEventListener("mousemove", handleMouseMove);
         document.addEventListener("mouseup", handleMouseUp);
