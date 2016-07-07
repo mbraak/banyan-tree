@@ -41,7 +41,7 @@ export function copyProperties(properties: Object, skip_keys: Array<string> = []
     return result;
 }
 
-export function timeout(delay: number = 0): Promise {
+export function timeout(delay: number = 0): Promise<null> {
     return new Promise(resolve => {
         setTimeout(resolve, delay || 0);
     });
@@ -65,7 +65,8 @@ export function proxyEvents(target: Object, source: Object, event_names: Array<s
     });
 }
 
-export function xhttpPromise(params: Object): Promise {
+
+export function xhttpPromise(params: Object): Promise<any> {
     return new Promise(
         (resolve, reject) => xhttp(params, resolve, reject)
     );

@@ -411,7 +411,7 @@ export class Node extends EventEmitter {
 
     Return promise(data is loaded)
     */
-    loadFromUrl(url: string): Promise {
+    loadFromUrl(url: string): Promise<*> {
         if (!url) {
             return Promise.resolve();
         }
@@ -435,7 +435,7 @@ export class Node extends EventEmitter {
 
     Return promise(data is loaded)
     */
-    loadOnDemand(): Promise {
+    loadOnDemand(): Promise<null> {
         const base_url = this.tree.base_url;
 
         if (!base_url) {
@@ -518,7 +518,7 @@ export class Node extends EventEmitter {
 
 
 export class Tree extends Node {
-    id_mapping: Map;
+    id_mapping: Map<any, Node>;
     selected_node: ?Node;
     base_url: string;
     tree: Tree;
@@ -684,7 +684,7 @@ export class Tree extends Node {
         }
     }
 
-    loadFromUrl(url: string): Promise {
+    loadFromUrl(url: string): Promise<null> {
         this.base_url = url;
 
         return super.loadFromUrl(url);

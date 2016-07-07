@@ -199,16 +199,14 @@ export class TreeStore extends EventEmitter {
         }
     }
 
-    openAllFolders(): Promise {
+    openAllFolders(): Promise<null> {
         return this.openFolders(null);
     }
 
-    openFoldersAtLevel(level: number): Promise {
-        function mustContinue(node, node_level) {
-            return node.isFolder() && node_level < level;
-        }
-
-        return this.openFolders(mustContinue);
+    openFoldersAtLevel(level: number): Promise<null> {
+        return this.openFolders(
+            (node, node_level) => node.isFolder() && node_level < level
+        );
     }
 
     startDragging(node: Node, placeholder_height: number) {
@@ -253,7 +251,7 @@ export class TreeStore extends EventEmitter {
         return dragged_node && dragged_node.id === node.id;
     }
 
-    openFolders(on_must_continue: ?Function): Promise {
+    openFolders(on_must_continue: ?Function): Promise<*> {
         const emitChange = this.emitChange.bind(this);
 
         const iterator = new LazyIterator(this.tree);
@@ -283,7 +281,7 @@ export class TreeStore extends EventEmitter {
 
     // Create tree
     // return tuple [Tree, Promise]
-    createTree(data: Array<Object>, url: string): [Tree, Promise] {
+    createTree(data: Array<Object>, url: string): [Tree, Promise<null>] {
         const tree = new Tree();
 
         let promise;
@@ -304,7 +302,7 @@ export class TreeStore extends EventEmitter {
 
     // init tree
     // return Promise(is initialized)
-    initTree(): Promise {
+    initTree(): Promise<null> {
         const restore_result = this.handleRestoreState();
 
         if (restore_result) {
@@ -333,7 +331,7 @@ export class TreeStore extends EventEmitter {
         }
     }
 
-    handleAutoOpen(): Promise {
+    handleAutoOpen(): Promise<null> {
         const auto_open = this.auto_open;
 
         if (typeof auto_open === "number") {
@@ -361,7 +359,7 @@ export class TreeStore extends EventEmitter {
         }
     }
 
-    handleRestoreState(): ?Promise {
+    handleRestoreState(): ?Promise<null> {
         const state_key = this.getStateKey();
 
         if (state_key) {
@@ -372,7 +370,7 @@ export class TreeStore extends EventEmitter {
         }
     }
 
-    loadState(state_key: string): ?Promise {
+    loadState(state_key: string): ?Promise<null> {
         function loadStateFromStorage(): Object|bool {
             const state_json = localStorage.getItem(state_key);
 
@@ -410,7 +408,7 @@ export class TreeStore extends EventEmitter {
         }
     }
 
-    restoreState(tree_state: Object): Promise {
+    restoreState(tree_state: Object): Promise<*> {
         const load_nodes_promises = {};
 
         // Make sure that the children of this node are loaded

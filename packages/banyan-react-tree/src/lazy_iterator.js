@@ -25,7 +25,7 @@ export class LazyIterator {
         this.visit_count = 0;
     }
 
-    iterate(): Promise {
+    iterate(): Promise<null> {
         return this.iterateNode(this.root, 0, this.must_include_root);
     }
 
@@ -52,7 +52,7 @@ export class LazyIterator {
     }
 
     // Iterate children of node; return promise
-    iterateChildren(node: Node, level: number): Promise {
+    iterateChildren(node: Node, level: number): Promise<*> {
         if (!node.children) {
             return Promise.resolve();
         }
@@ -66,7 +66,7 @@ export class LazyIterator {
     }
 
     // Iterate node recusively; return promise
-    iterateNode(node: Node, level: number, include_self: bool): Promise {
+    iterateNode(node: Node, level: number, include_self: bool): Promise<null> {
         // Must continue?
         let must_continue;
 
