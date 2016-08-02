@@ -1,11 +1,11 @@
 /* @flow */
-// $FlowFixMe
 import React from "react";
 import ReactDOM from "react-dom";
 
 import App from "./app";
 
 import { example_data } from "../testutil/example_data";
+// $FlowFixMe
 import "../../css/banyan-react-tree.css";
 
 
