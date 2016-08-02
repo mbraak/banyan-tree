@@ -11,7 +11,7 @@ const TreePlaceholderComponent = (props: Object) => {
         height: `${store.dragging.placeholder_height}px`
     };
 
-    return <li style={style} className="banyan-placeholder banyan-common"></li>;
+    return <li style={style} className="banyan-placeholder banyan-common" />;
 };
 
 TreePlaceholderComponent.propTypes = {

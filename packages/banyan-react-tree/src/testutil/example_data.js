@@ -102,13 +102,11 @@ export function getChildrenOfNode(node_id) {
             if (result) {
                 return;
             }
-            else {
-                if (node.id === node_id) {
-                    result = node;
-                }
-                else if (node.children) {
-                    iterate(node.children);
-                }
+            else if (node.id === node_id) {
+                result = node;
+            }
+            else if (node.children) {
+                iterate(node.children);
             }
         });
     }

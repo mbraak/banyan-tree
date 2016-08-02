@@ -318,14 +318,11 @@ export class Node extends EventEmitter {
                     return previous_sibling.getLastChild();
                 }
             }
+            else if (parent.parent) {
+                return parent;
+            }
             else {
-                // Parent
-                if (parent.parent) {
-                    return parent;
-                }
-                else {
-                    return null;
-                }
+                return null;
             }
         }
     }
@@ -503,10 +500,10 @@ export class Node extends EventEmitter {
 
     getParent(): ?Node {
         // Return parent except if it is the root node
-        if (! this.parent) {
+        if (!this.parent) {
             return null;
         }
-        else if (! this.parent.parent) {
+        else if (!this.parent.parent) {
             // Root node -> null
             return null;
         }

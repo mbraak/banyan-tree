@@ -421,21 +421,18 @@ export class TreeStore extends EventEmitter {
                 // Node is already loaded
                 return Promise.resolve();
             }
+            else if (node.is_loading) {
+                // Node is loading; return existing promise
+                return load_nodes_promises[node.id];
+            }
             else {
-                // Node is loaded on demand
-                if (node.is_loading) {
-                    // Node is loading; return existing promise
-                    return load_nodes_promises[node.id];
-                }
-                else {
-                    // Load node; store promise
-                    const promise = node.loadOnDemand();
-                    this.emitChange();
+                // Load node; store promise
+                const promise = node.loadOnDemand();
+                this.emitChange();
 
-                    load_nodes_promises[node.id] = promise;
+                load_nodes_promises[node.id] = promise;
 
-                    return promise;
-                }
+                return promise;
             }
         };
 

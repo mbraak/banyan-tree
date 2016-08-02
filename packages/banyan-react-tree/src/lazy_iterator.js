@@ -81,34 +81,32 @@ export class LazyIterator {
             // No
             return Promise.resolve();
         }
+        // Yes
+        else if (!node.load_on_demand) {
+            if (include_self) {
+                this.visitNode(node, include_self);
+            }
+
+            return this.iterateChildren(node, level);
+        }
         else {
-            // Yes
-            if (!node.load_on_demand) {
+            // load node on demand
+            const promise = node.loadOnDemand().then(() => {
                 if (include_self) {
-                    this.visitNode(node, include_self);
+                    this.visitNode(node);
                 }
 
                 return this.iterateChildren(node, level);
+            });
+
+            // call on_before_load
+            const on_before_load = this.on_before_load;
+
+            if (on_before_load) {
+                on_before_load(node);
             }
-            else {
-                // load node on demand
-                const promise = node.loadOnDemand().then(() => {
-                    if (include_self) {
-                        this.visitNode(node);
-                    }
 
-                    return this.iterateChildren(node, level);
-                });
-
-                // call on_before_load
-                const on_before_load = this.on_before_load;
-
-                if (on_before_load) {
-                    on_before_load(node);
-                }
-
-                return promise;
-            }
+            return promise;
         }
     }
 }
