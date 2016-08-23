@@ -1,3 +1,5 @@
+var DashboardPlugin = require('webpack-dashboard/plugin');
+
 module.exports = {
     entry: {
         app: ["./src/examples/example.js"]
@@ -24,6 +26,9 @@ module.exports = {
             }
         ]
     },
+    plugins: [
+        new DashboardPlugin()
+    ],
     postcss: function() {
         return [require("postcss-nested")];
     },
