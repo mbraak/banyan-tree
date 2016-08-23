@@ -432,7 +432,7 @@ export class Node extends EventEmitter {
 
     Return promise(data is loaded)
     */
-    loadOnDemand(): Promise<null> {
+    loadOnDemand(): Promise<> {
         const base_url = this.tree.base_url;
 
         if (!base_url) {

@@ -66,7 +66,7 @@ export class LazyIterator {
     }
 
     // Iterate node recusively; return promise
-    iterateNode(node: Node, level: number, include_self: bool): Promise<null> {
+    iterateNode(node: Node, level: number, include_self: bool): Promise<> {
         // Must continue?
         let must_continue;
 

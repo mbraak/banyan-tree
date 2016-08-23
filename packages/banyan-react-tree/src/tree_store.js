@@ -281,7 +281,7 @@ export class TreeStore extends EventEmitter {
 
     // Create tree
     // return tuple [Tree, Promise]
-    createTree(data: Array<Object>, url: string): [Tree, Promise<null>] {
+    createTree(data: Array<Object>, url: string): [Tree, Promise<>] {
         const tree = new Tree();
 
         let promise;
