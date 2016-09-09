@@ -37,13 +37,9 @@ function findTitleNodeByName(tree_element, name) {
 }
 
 function format_dom_elements(dom_elements) {
-    const labels = [];
-
-    for (let i = 0; i < dom_elements.length; i++) {
-        labels.push(dom_elements[i].textContent);
-    }
-
-    return format_list(labels);
+    return format_list(
+        dom_elements.map(el => el.textContent)
+    );
 }
 
 

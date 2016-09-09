@@ -30,7 +30,7 @@ const App = ({ data }) =>
 
 
 App.propTypes = {
-    data: React.PropTypes.array
+    data: React.PropTypes.arrayOf(React.PropTypes.any)
 };
 
 export default App;
