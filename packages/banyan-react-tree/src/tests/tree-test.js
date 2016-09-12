@@ -38,7 +38,8 @@ function findTitleNodeByName(tree_element, name) {
 
 function format_dom_elements(dom_elements) {
     return format_list(
-        dom_elements.map(el => el.textContent)
+        Array.from(dom_elements)
+            .map(el => el.textContent)
     );
 }
 
