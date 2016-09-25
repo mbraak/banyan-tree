@@ -10,7 +10,7 @@ import { example_data } from "../testutil/example_data";
 import { fakeServer, fakeServerWithLoadOnDemand, fakeServerWithError } from "../testutil/fake_server";
 
 import { format_list } from "../testutil/format";
-import Tree from "../tree.js";
+import Tree from "../tree";
 
 
 /* eslint-disable no-var */
