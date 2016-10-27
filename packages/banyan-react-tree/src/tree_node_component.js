@@ -44,7 +44,7 @@ export default class TreeNodeComponent extends React.Component {
         }
 
         function getFolderElement() {
-            if (node.isFolder() && node.is_open) {
+            if (node.isFolder()) {
                 return <TreeFolderComponent node={node} store={store} />;
             }
             else {

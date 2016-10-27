@@ -3,6 +3,8 @@ import React from "react";
 
 import classNames from "classnames";
 
+import { VelocityTransitionGroup } from "velocity-react";
+
 import TreePlaceholderComponent from "./tree_place_holder_component";
 import TreeNodeComponent from "./tree_node_component";
 
@@ -19,11 +21,12 @@ export default class TreeFolderComponent extends React.Component {
     render() {
         const folder = this.props.node;
         const store = this.props.store;
+        const is_root = !folder.parent;
 
         const classes = classNames({
             "banyan-common": true,
             "banyan-loading": folder.is_loading,
-            "banyan-tree": !folder.parent
+            "banyan-tree": is_root
         });
 
         function getRole() {
@@ -37,21 +40,29 @@ export default class TreeFolderComponent extends React.Component {
 
         const children = [];
 
-        folder.children.forEach((node) => {
-            if (store.isNodeHovered(node)) {
-                children.push(
-                    <TreePlaceholderComponent key={`${node.id}-placeholder`} store={store} />
-                );
-            }
+        if (folder.is_open || is_root) {
+            folder.children.forEach((node) => {
+                if (store.isNodeHovered(node)) {
+                    children.push(
+                        <TreePlaceholderComponent key={`${node.id}-placeholder`} store={store} />
+                    );
+                }
 
-            if (!store.isNodeDragged(node)) {
-                children.push(
-                    <TreeNodeComponent key={node.id} node={node} store={store} />
-                );
-            }
-        });
+                if (!store.isNodeDragged(node)) {
+                    children.push(
+                        <TreeNodeComponent key={node.id} node={node} store={store} />
+                    );
+                }
+            });
+        }
 
-        return <ul className={classes} role={getRole()}>{children}</ul>;
+        return (
+            <ul className={classes} role={getRole()}>
+                <VelocityTransitionGroup enter={{ animation: "slideDown" }} leave={{ animation: "slideUp" }}>
+                    {children}
+                </VelocityTransitionGroup>
+            </ul>
+        );
     }
 
     shouldComponentUpdate(): boolean {
