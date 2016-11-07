@@ -99,14 +99,13 @@ export function getChildrenOfNode(node_id) {
 
     function iterate(nodes) {
         nodes.forEach((node) => {
-            if (result) {
-                return;
-            }
-            else if (node.id === node_id) {
-                result = node;
-            }
-            else if (node.children) {
-                iterate(node.children);
+            if (!result) {
+                if (node.id === node_id) {
+                    result = node;
+                }
+                else if (node.children) {
+                    iterate(node.children);
+                }
             }
         });
     }
