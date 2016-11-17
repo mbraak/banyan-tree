@@ -3,7 +3,7 @@ import { expect } from "chai";
 
 import React from "react";
 import { findDOMNode } from "react-dom";
-import TestUtils from "react/lib/ReactTestUtils";
+import TestUtils from "react-addons-test-utils";
 
 import { example_data } from "../testutil/example_data";
 
