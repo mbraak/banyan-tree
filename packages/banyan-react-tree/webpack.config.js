@@ -1,4 +1,5 @@
 var DashboardPlugin = require('webpack-dashboard/plugin');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
     entry: {
@@ -22,12 +23,14 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: "style-loader!css-loader!postcss-loader"
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader!postcss-loader")
+                //loader: "style-loader!css-loader!postcss-loader"
             }
         ]
     },
     plugins: [
-        new DashboardPlugin()
+        new DashboardPlugin(),
+        new ExtractTextPlugin("[name].css")
     ],
     postcss: function() {
         return [require("postcss-nested")];

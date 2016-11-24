@@ -11,7 +11,8 @@
   "scripts": {
     "test": "karma start --browsers Chrome --single-run && eslint src",
     "flow": "flow",
-    "build": "webpack"
+    "build": "webpack",
+    "dashboard": "webpack-dashboard -- webpack"
   },
   "devDependencies": {
     "babel-core": "^6.18.2",
@@ -32,6 +33,7 @@
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.7.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "flow-bin": "^0.36.0",
     "karma": "^1.3.0",
     "karma-browserify": "^5.1.0",
