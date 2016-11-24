@@ -1,4 +1,7 @@
 /* @flow */
+import superagent from "superagent";
+import superagent_promise from "superagent-promise";
+
 /*
 Copy an object
 
@@ -24,9 +27,6 @@ var copy = copyProperties(
     ['color']
 );
 */
-import { xhttp } from "xhttp/dist/xhttp";
-
-
 export function copyProperties(properties: Object, skip_keys: Array<string> = []): Object {
     const result = {};
 
@@ -65,9 +65,11 @@ export function proxyEvents(target: Object, source: Object, event_names: Array<s
     });
 }
 
+const agent = superagent_promise(superagent, Promise);
 
-export function xhttpPromise(params: Object): Promise<any> {
-    return new Promise(
-        (resolve, reject) => xhttp(params, resolve, reject)
-    );
+export function loadJson(url: string): Promise<Object> {
+    return agent
+        .get(url)
+        .set("Accept", "application/json")
+        .then(response => response.body);
 }
