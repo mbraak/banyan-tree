@@ -1,4 +1,5 @@
-var DashboardPlugin = require('webpack-dashboard/plugin');
+var path = require('path');
+var DashboardPlugin = require("webpack-dashboard/plugin");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
@@ -6,7 +7,7 @@ module.exports = {
         app: ["./src/examples/example.js"]
     },
     output: {
-        path: __dirname + "/build",
+        path: path.join(__dirname, "/build"),
         filename: "bundle.js",
         publicPath: "http://localhost:8080/build/"
     },
@@ -24,7 +25,6 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract("style-loader", "css-loader!postcss-loader")
-                //loader: "style-loader!css-loader!postcss-loader"
             }
         ]
     },
