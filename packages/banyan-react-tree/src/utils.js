@@ -1,5 +1,8 @@
 /* @flow */
+
+// $FlowFixMe:
 import superagent from "superagent";
+
 import superagent_promise from "superagent-promise";
 
 /*
@@ -67,7 +70,7 @@ export function proxyEvents(target: Object, source: Object, event_names: Array<s
 
 const agent = superagent_promise(superagent, Promise);
 
-export function loadJson(url: string): Promise<Object> {
+export function loadJson(url: string): Promise<any> {
     return agent
         .get(url)
         .set("Accept", "application/json")
