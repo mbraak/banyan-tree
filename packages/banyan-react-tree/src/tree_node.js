@@ -3,7 +3,6 @@ import "core-js";
 
 import EventEmitter from "eventemitter3";
 
-// $FlowFixMe
 import invariant from "fbjs/lib/invariant";
 
 import { copyProperties, loadJson } from "./utils";

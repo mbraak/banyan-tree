@@ -1,9 +1,6 @@
 [ignore]
 .*/build/.*
-.*/node_modules/babel.*
 .*/node_modules/babylon/.*
-.*/node_modules/fbjs/.*
-.*/node_modules/.*\.json
 
 [options]
 suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
