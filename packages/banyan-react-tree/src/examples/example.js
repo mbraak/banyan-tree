@@ -1,37 +1,33 @@
 /* @flow */
+import "babel-polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
 
+import { createStore, combineReducers } from "redux";
+import { Provider, connect } from "react-redux";
+
 import App from "./app";
+import { Tree } from "../immutable_tree";
+import reduceTree from "../reducer";
 
 import { example_data } from "../testutil/example_data";
 import "../../css/banyan-react-tree.css";
 
 
-function onClickReload() {
-    const new_data = [
-        { name: "Tyrannosauroids", id: 9 },
-        { name: "Ornithomimosaurians", id: 10 },
-        { name: "Therizinosauroids", id: 11 },
-        { name: "Oviraptorosaurians", id: 12 },
-        { name: "Dromaeosaurids", id: 13 },
-        { name: "Troodontids", id: 14 },
-        { name: "Avialans", id: 15 }
-    ];
+const store = createStore(
+    combineReducers({
+        tree: reduceTree
+    }),
+    { tree: new Tree(example_data) }
+);
 
-    renderApp(new_data);
-}
+const ConnectedApp = connect(state => state)(App);
 
-function renderApp(data) {
-    ReactDOM.render(
-        <div>
-            <p>
-                <a href="#" onClick={onClickReload}>load data</a>
-            </p>
-            <App data={data} />
-        </div>,
-        document.getElementById("tree1")
-    );
-}
-
-renderApp(example_data);
+ReactDOM.render(
+    (
+        <Provider store={store}>
+            <ConnectedApp />
+        </Provider>
+    ),
+    document.getElementById("tree1")
+);

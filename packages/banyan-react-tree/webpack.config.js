@@ -1,6 +1,7 @@
 var path = require('path');
 var DashboardPlugin = require("webpack-dashboard/plugin");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var AnyBarWebpackPlugin = require('anybar-webpack');
 
 module.exports = {
     entry: {
@@ -30,7 +31,8 @@ module.exports = {
     },
     plugins: [
         new DashboardPlugin(),
-        new ExtractTextPlugin("[name].css")
+        new ExtractTextPlugin("[name].css"),
+        new AnyBarWebpackPlugin(process.env.ANYBAR_PORT || 1738, '127.0.0.1', {enableNotifications: true})
     ],
     postcss: function() {
         return [require("postcss-nested")];

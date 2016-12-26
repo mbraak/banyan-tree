@@ -4,6 +4,9 @@
     "env": {
         "browser": true
     },
+    "globals": {
+        "Iterable": true
+    },
     "rules": {
         "arrow-parens": 0,
         "brace-style": 0,
@@ -21,6 +24,8 @@
         "newline-per-chained-call": 0,
         "no-console": 0,
         "no-else-return": 0,
+        "no-restricted-syntax": 0,
+        "no-underscore-dangle": 0,
         "no-use-before-define": 0,
         "one-var": 0,
         "one-var-declaration-per-line": 0,
