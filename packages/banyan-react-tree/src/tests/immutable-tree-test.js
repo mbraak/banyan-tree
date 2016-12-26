@@ -127,4 +127,11 @@ describe("Tree", () => {
         expect(t2.getNodeById(7).name).to.equal("n3");
         expect(t3.getNodeById(5)).to.equal(undefined);
     });
+
+    it("select node", () => {
+        const t1 = new Tree(data1);
+        const t2 = t1.selectNode(5);
+
+        expect(t2.selected).to.equal(5);
+    });
 });
