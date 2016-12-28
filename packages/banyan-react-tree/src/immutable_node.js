@@ -2,7 +2,7 @@
 
 import { Record, List } from "immutable";
 
-import { first, tail, last, dropRight } from "lodash/array";
+import { first, last, dropRight, tail } from "lodash/array";
 
 
 export const Node = Record({
@@ -176,12 +176,16 @@ export function* iterateTree(root: Node, include_root: boolean = false): Iterabl
     }
 }
 
-
 // Find node by name; return readonly node or nil
 export function getNodeByName(root: Node, name: string): ?Node {
     for (const readonly_node of iterateTreeWithParents(root)) {
         if (readonly_node.node.name === name) {
-            return readonly_node;
+            const { node, parents } = readonly_node;
+
+            return {
+                node,
+                parents: parents.reverse()
+            };
         }
     }
 
@@ -255,8 +259,8 @@ function updateParents(initial_old_child: Node, intitial_new_child: Node, parent
     );
 
     return [
-        first(new_parents),
-        tail(new_parents)
+        last(new_parents),
+        dropRight(new_parents)
     ];
 }
 
@@ -275,7 +279,7 @@ function replaceChild(node: Node, old_child: Node, new_child: Node) {
 export function removeNode(readonly_child: Object): [Node, Object] {
     const child = readonly_child.node;
     const { parents } = readonly_child;
-    const parent = last(parents);
+    const parent = first(parents);
 
     if (parent.is_root) {
         return removeNodeFromRoot(parent, child);
@@ -299,9 +303,9 @@ function removeNodeFromRoot(root: Node, child: Node): [Node, Object] {
 }
 
 function removeNodeFromParent(parents: Array<Node>, child: Node): [Node, Object] {
-    const parent = last(parents);
+    const parent = first(parents);
     const new_parent = removeChild(parent, child);
-    const [new_root, changed_parents] = updateParents(parent, new_parent, dropRight(parents));
+    const [new_root, changed_parents] = updateParents(parent, new_parent, tail(parents));
     const removed_nodes = Array.from(iterateTree(child, true));
 
     return [
@@ -319,4 +323,17 @@ function removeChild(node: Node, child: Node) {
     const new_children = children.delete(child_index);
 
     return node.set("children", new_children);
+}
+
+export function updateNode(readonly_node: Object, attributes: Object): [Node, Object] {
+    const { node, parents } = readonly_node;
+    const new_node = node.merge(attributes);
+    const [new_root, changed_parents] = updateParents(node, new_node, parents);
+
+    return [
+        new_root,
+        {
+            changed_nodes: [new_node].concat(changed_parents)
+        }
+    ];
 }

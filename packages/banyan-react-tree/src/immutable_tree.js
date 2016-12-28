@@ -101,6 +101,15 @@ export class Tree {
         }
     }
 
+    updateNode(n: Node, attributes: Object): Tree {
+        const [new_root, update_info] = node.updateNode(
+            this._getReadonlyNode(n),
+            attributes
+        );
+
+        return this._updateTree(new_root, update_info.changed_nodes, []);
+    }
+
     _addNodeToRoot(child: Object): Tree {
         const [new_root, update_info] = node.addNode(this.root, child);
 
@@ -141,7 +150,7 @@ export class Tree {
 
             parents.push(this.root);
 
-            return parents.reverse();
+            return parents;
         }
     }
 

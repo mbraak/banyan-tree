@@ -134,4 +134,16 @@ describe("Tree", () => {
 
         expect(t2.selected).to.equal(5);
     });
+
+    it("update node", () => {
+        const t1 = new Tree(data1);
+        const t2 = t1.updateNode(
+            t1.getNodeByName("n2a"),
+            { name: "N2A" }
+        );
+
+        expect(t1.getNodeById(5).toJS()).to.deep.equal({ id: 5, name: "n2a", is_root: false, parent_id: 4, children: null });
+        expect(t2.getNodeById(5).toJS()).to.deep.equal({ id: 5, name: "N2A", is_root: false, parent_id: 4, children: null });
+        expect(t2.toString()).to.equal("n1(n1a n1b) n2(N2A n2b)");
+    });
 });
