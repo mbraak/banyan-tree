@@ -10,8 +10,15 @@ import * as actions from "./actions";
 const { Node } = inode;
 
 
-export default function TreeComponent({ tree, dispatch }: {tree: Tree, dispatch: Function}) {
-    function TreeNode({ node }: {node: Node}) {
+class TreeNode extends React.Component {
+    props: {
+        node: Node,
+        dispatch: Function
+    }
+
+    render() {
+        const { node, dispatch } = this.props;
+
         function handleClick(e) {
             e.preventDefault();
 
@@ -36,68 +43,74 @@ export default function TreeComponent({ tree, dispatch }: {tree: Tree, dispatch:
             <li key={node.id} className={li_classes}>
                 <div className="banyan-element banyan-common" onClick={handleClick}>
                     <TreeTitle node={node} />
-                    {is_folder ? <TreeButton node={node} is_open={is_open_folder} /> : null}
+                    {is_folder ? <TreeButton node={node} dispatch={dispatch} /> : null}
                 </div>
-                {is_open_folder ? <TreeFolder node={node} is_root={false} /> : null}
+                {is_open_folder ? <TreeFolder node={node} dispatch={dispatch} /> : null}
             </li>
         );
     }
 
-    function TreeFolder({ node, is_root }: {node: Node, is_root: boolean}) {
-        const ul_classes = classNames({
-            "banyan-common": true,
-            "banyan-tree": is_root
-        });
+    shouldComponentUpdate(nextProps) {
+        return nextProps.node !== this.props.node;
+    }
+}
 
-        return (
-            <ul className={ul_classes}>
-                {inode.getChildren(node).map(
-                    child => <TreeNode key={child.id} node={child} />
-                )}
-            </ul>
-        );
+function TreeFolder({ node, dispatch }: {node: Node, dispatch: Function}) {
+    const ul_classes = classNames({
+        "banyan-common": true,
+        "banyan-tree": node.is_root
+    });
+
+    return (
+        <ul className={ul_classes}>
+            {inode.getChildren(node).map(
+                child => <TreeNode key={child.id} node={child} dispatch={dispatch} />
+            )}
+        </ul>
+    );
+}
+
+function TreeTitle({ node }: {node: Node}) {
+    const title_classes = classNames({
+        "banyan-common": true,
+        "banyan-title": true,
+        "banyan-title-folder": inode.hasChildren(node)
+    });
+    // const random_number = Math.trunc(Math.random() * 100);
+    // {`${random_number}`}
+
+    return (
+        <span className={title_classes}>
+            {node.name}
+        </span>
+    );
+}
+
+function TreeButton({ node, dispatch }: {node: Node, dispatch: Function}) {
+    function handleClick(e) {
+        e.preventDefault();
+
+        dispatch({
+            type: actions.TOGGLE_NODE,
+            node_id: node.id
+        });
     }
 
-    function TreeTitle({ node }: {node: Node}) {
-        const title_classes = classNames({
-            "banyan-common": true,
-            "banyan-title": true,
-            "banyan-title-folder": inode.hasChildren(node)
-        });
-        // const random_number = Math.trunc(Math.random() * 100);
-        // {`${random_number}`}
+    const button_classes = classNames({
+        "banyan-common": true,
+        "banyan-toggler": true,
+        "banyan-closed": !node.is_open
+    });
 
-        return (
-            <span className={title_classes}>
-                {node.name}
-            </span>
-        );
-    }
+    const button_char = node.is_open ? "▼" : "►";
 
-    function TreeButton({ node, is_open }: {node: Node, is_open: boolean}) {
-        function handleClick(e) {
-            e.preventDefault();
+    return (
+        <a href="#" className={button_classes} onClick={handleClick}>
+            {button_char}
+        </a>
+    );
+}
 
-            dispatch({
-                type: actions.TOGGLE_NODE,
-                node_id: node.id
-            });
-        }
-
-        const button_classes = classNames({
-            "banyan-common": true,
-            "banyan-toggler": true,
-            "banyan-closed": !is_open
-        });
-
-        const button_char = is_open ? "▼" : "►";
-
-        return (
-            <a href="#" className={button_classes} onClick={handleClick}>
-                {button_char}
-            </a>
-        );
-    }
-
-    return <TreeFolder node={tree.root} is_root />;
+export default function TreeComponent({ tree, dispatch }: {tree: Tree, dispatch: Function}) {
+    return <TreeFolder node={tree.root} dispatch={dispatch} />;
 }

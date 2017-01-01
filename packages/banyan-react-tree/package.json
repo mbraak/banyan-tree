@@ -47,7 +47,7 @@
     "postcss": "^5.2.8",
     "postcss-loader": "^1.2.1",
     "postcss-nested": "^1.0.0",
-    "sinon": "^1.17.6",
+    "sinon": "^1.17.7",
     "style-loader": "^0.13.1",
     "watchify": "^3.8.0",
     "webpack": "^1.14.0",
@@ -55,20 +55,16 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
-    "arrify": "^1.0.0",
     "babel-polyfill": "^6.20.0",
     "classnames": "^2.2.5",
     "core-js": "^2.4.1",
     "eventemitter3": "^2.0.2",
     "fbjs": "^0.8.8",
-    "lodash": "^4.17.3",
+    "lodash": "^4.17.4",
     "react": "^15.4.1",
     "react-addons-test-utils": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-redux": "^5.0.1",
-    "redux": "^3.6.0",
-    "superagent": "^3.3.1",
-    "superagent-promise": "^1.1.0",
-    "velocity-react": "^1.1.11"
+    "redux": "^3.6.0"
   }
 }
