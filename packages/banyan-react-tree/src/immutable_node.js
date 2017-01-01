@@ -10,7 +10,8 @@ export const Node = Record({
     name: "",
     is_root: false,
     parent_id: undefined,
-    children: undefined
+    children: undefined,
+    is_open: undefined
 });
 
 

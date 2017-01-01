@@ -1,6 +1,6 @@
 /* @flow */
 
-import { Set, Map, List } from "immutable";
+import { Map, List } from "immutable";
 
 import * as node from "./immutable_node";
 
@@ -10,14 +10,12 @@ const { Node } = node;
 export class Tree {
     root: Node;
     ids: Map<number, Node>;
-    open_nodes: Set<number>;
     selected: ?number;
 
     constructor(data: Array<Object> = []) {
         this.root = node.create(data);
         this.ids = createIdMap(this.root);
 
-        this.open_nodes = new Set();
         this.selected = null;
     }
 
@@ -68,21 +66,36 @@ export class Tree {
     }
 
     openNode(id: number): Tree {
-        const new_tree = this._createCopy();
-        new_tree.open_nodes = this.open_nodes.add(id);
+        const n = this.getNodeById(id);
 
-        return new_tree;
+        if (!n) {
+            return this;
+        }
+        else {
+            return this.updateNode(n, { is_open: true });
+        }
     }
 
     closeNode(id: number): Tree {
-        const new_tree = this._createCopy();
-        new_tree.open_nodes = this.open_nodes.remove(id);
+        const n = this.getNodeById(id);
 
-        return new_tree;
+        if (!n) {
+            return this;
+        }
+        else {
+            return this.updateNode(n, { is_open: false });
+        }
     }
 
     isNodeOpen(id: number): boolean {
-        return this.open_nodes.has(id);
+        const n = this.getNodeById(id);
+
+        if (!n) {
+            return false;
+        }
+        else {
+            return Boolean(n.is_open);
+        }
     }
 
     selectNode(id: number): Tree {
@@ -170,7 +183,6 @@ export class Tree {
 
         new_tree.ids = this.ids;
         new_tree.root = this.root;
-        new_tree.open_nodes = this.open_nodes;
         new_tree.selected = this.selected;
 
         return new_tree;

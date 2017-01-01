@@ -67,9 +67,7 @@ describe("Node", () => {
         expect(node.toString(t3)).to.equal("n1(n1a)");
         expect(t3.is_root).to.equal(true);
         expect(node.nodeListToString(changed_t3.changed_nodes)).to.equal("n1");
-        expect(changed_t3.new_child.toObject()).to.deep.equal({
-            id: 2, name: "n1a", parent_id: 1, is_root: false, children: undefined
-        });
+        expect(changed_t3.new_child.get("name")).to.equal("n1a");
         expect(n1a.node.parent_id).to.equal(1);
         expect(node.nodeListToString(changed_t4.changed_nodes)).to.equal("n1a n1");
         expect(node.toString(t4)).to.equal("n1(n1a(n1b))");

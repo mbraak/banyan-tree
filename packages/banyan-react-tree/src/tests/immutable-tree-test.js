@@ -109,11 +109,14 @@ describe("Tree", () => {
 
     it("is node open", () => {
         const t1 = new Tree(data1);
-        const n1 = t1.getNodeByName("n1");
-        const t2 = t1.openNode(n1);
+        const t2 = t1.openNode(1);
+        const t3 = t2.closeNode(1);
+        const t4 = t3.toggleNode(1);
 
-        expect(t1.isNodeOpen(n1)).to.equal(false);
-        expect(t2.isNodeOpen(n1)).to.equal(true);
+        expect(t1.isNodeOpen(1)).to.equal(false);
+        expect(t2.isNodeOpen(1)).to.equal(true);
+        expect(t3.isNodeOpen(1)).to.equal(false);
+        expect(t4.isNodeOpen(1)).to.equal(true);
     });
 
     it("get node by id", () => {
@@ -142,8 +145,8 @@ describe("Tree", () => {
             { name: "N2A" }
         );
 
-        expect(t1.getNodeById(5).toJS()).to.deep.equal({ id: 5, name: "n2a", is_root: false, parent_id: 4, children: null });
-        expect(t2.getNodeById(5).toJS()).to.deep.equal({ id: 5, name: "N2A", is_root: false, parent_id: 4, children: null });
+        expect(t1.getNodeById(5).get("name")).to.equal("n2a");
+        expect(t2.getNodeById(5).get("name")).to.equal("N2A");
         expect(t2.toString()).to.equal("n1(n1a n1b) n2(N2A n2b)");
     });
 });
