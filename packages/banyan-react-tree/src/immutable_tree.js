@@ -98,11 +98,36 @@ export class Tree {
         }
     }
 
-    selectNode(id: number): Tree {
-        const new_tree = this._createCopy();
-        new_tree.selected = id;
+    _deselect(): Tree {
+        if (!this.selected) {
+            return this;
+        }
+        else {
+            const n = this.getNodeById(this.selected);
 
-        return new_tree;
+            if (!n) {
+                return this;
+            }
+            else {
+                const new_tree = this.updateNode(n, { is_selected: false });
+                new_tree.selected = null;
+
+                return new_tree;
+            }
+        }
+    }
+
+    selectNode(id: number): Tree {
+        const t = this._deselect();
+        const n = t.getNodeById(id);
+
+        if (!n) {
+            return t;
+        }
+        else {
+            t.selected = id;
+            return t.updateNode(n, { is_selected: true });
+        }
     }
 
     toggleNode(id: number): Tree {

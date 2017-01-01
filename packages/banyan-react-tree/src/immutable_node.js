@@ -11,7 +11,8 @@ export const Node = Record({
     is_root: false,
     parent_id: undefined,
     children: undefined,
-    is_open: undefined
+    is_open: false,
+    is_selected: false
 });
 
 

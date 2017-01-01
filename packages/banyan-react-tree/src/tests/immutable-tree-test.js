@@ -134,8 +134,12 @@ describe("Tree", () => {
     it("select node", () => {
         const t1 = new Tree(data1);
         const t2 = t1.selectNode(5);
+        const t3 = t1.selectNode(6);
 
-        expect(t2.selected).to.equal(5);
+        expect(t1.getNodeById(5).is_selected).to.equal(false);
+        expect(t2.getNodeById(5).is_selected).to.equal(true);
+        expect(t3.getNodeById(5).is_selected).to.equal(false);
+        expect(t3.getNodeById(6).is_selected).to.equal(true);
     });
 
     it("update node", () => {
