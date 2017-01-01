@@ -22,8 +22,8 @@ export default function TreeComponent({ tree, dispatch }: {tree: Tree, dispatch:
         }
 
         const is_folder = inode.hasChildren(node);
-        const is_open_folder = tree.isNodeOpen(node.id);
-        const is_selected = tree.selected === node.id;
+        const is_open_folder = node.is_open;
+        const is_selected = node.is_selected;
 
         const li_classes = classNames({
             "banyan-common": true,
