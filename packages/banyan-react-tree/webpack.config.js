@@ -17,7 +17,7 @@ module.exports = {
         loaders: [
             {
                 test: /\.js$/,
-                loader: "babel",
+                loader: "babel-loader",
                 exclude: /node_modules/,
                 query: {
                     cacheDirectory: true
@@ -25,7 +25,10 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract("style-loader", "css-loader!postcss-loader")
+                loader: ExtractTextPlugin.extract({
+                    fallbackLoader: "style-loader",
+                    loader: "css-loader!postcss-loader"
+                })
             }
         ]
     },
@@ -34,8 +37,5 @@ module.exports = {
         new ExtractTextPlugin("[name].css"),
         new AnyBarWebpackPlugin(process.env.ANYBAR_PORT || 1738, '127.0.0.1', {enableNotifications: true})
     ],
-    postcss: function() {
-        return [require("postcss-nested")];
-    },
     devtool: "source-map"
 };
