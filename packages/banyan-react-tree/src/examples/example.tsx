@@ -1,5 +1,3 @@
-/* @flow */
-import "babel-polyfill";
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -13,13 +11,10 @@ import reduceTree from "../reducer";
 import { example_data } from "../testutil/example_data";
 import "../../css/banyan-react-tree.css";
 
+const root_reducer = combineReducers({ tree: reduceTree });
+const initial = { tree: new Tree(example_data) };
 
-const store = createStore(
-    combineReducers({
-        tree: reduceTree
-    }),
-    { tree: new Tree(example_data) }
-);
+const store = createStore(root_reducer, initial);
 
 const ConnectedApp = connect(state => state)(App);
 

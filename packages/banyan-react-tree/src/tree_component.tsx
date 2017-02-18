@@ -1,22 +1,19 @@
-/* @flow */
 import React from "react";
 
 import classNames from "classnames";
 
-import type { Tree } from "./immutable_tree";
+import { Tree } from "./immutable_tree";
 import * as inode from "./immutable_node";
+import { Node } from "./immutable_node";
 import * as actions from "./actions";
 
-const { Node } = inode;
+interface ITreeNodeProps {
+  node: Node;
+  dispatch: Function;
+}
 
-
-class TreeNode extends React.Component {
-    props: {
-        node: Node,
-        dispatch: Function
-    }
-
-    render() {
+class TreeNode extends React.Component<ITreeNodeProps, {}> {
+    public render() {
         const { node, dispatch } = this.props;
 
         function handleClick(e) {
@@ -50,7 +47,7 @@ class TreeNode extends React.Component {
         );
     }
 
-    shouldComponentUpdate(nextProps) {
+    public shouldComponentUpdate(nextProps) {
         return nextProps.node !== this.props.node;
     }
 }

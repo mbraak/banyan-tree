@@ -81,7 +81,7 @@ export function getFirstLevelData(param_nodes) {
     const nodes = param_nodes || example_data;
 
     return nodes.map((node) => {
-        const result = {
+        const result:any = {
             name: node.name,
             id: node.id
         };

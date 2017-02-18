@@ -1,7 +1,6 @@
 import * as actions from "./actions";
 import { Tree } from "./immutable_tree";
 
-
 export default function reduceTree(tree, action) {
     switch (action.type) {
         case actions.SELECT_NODE:

@@ -5,7 +5,7 @@ var AnyBarWebpackPlugin = require('anybar-webpack');
 
 module.exports = {
     entry: {
-        app: ["./src/examples/example.js"]
+        app: ["./src/examples/example.tsx"]
     },
     output: {
         path: path.join(__dirname, "/build"),
@@ -13,15 +13,15 @@ module.exports = {
         publicPath: "http://localhost:8080/build/"
     },
     watch: true,
+    resolve: {
+        extensions: [".ts", ".tsx", ".js"]
+    },
     module: {
         loaders: [
             {
-                test: /\.js$/,
-                loader: "babel-loader",
-                exclude: /node_modules/,
-                query: {
-                    cacheDirectory: true
-                }
+                test: /\.tsx?$/,
+                loader: "ts-loader",
+                exclude: /node_modules/
             },
             {
                 test: /\.css$/,

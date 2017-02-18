@@ -2,7 +2,7 @@ import React from "react";
 
 import TreeComponent from "../tree_component";
 
-import type { Tree } from "../immutable_tree";
+import { Tree } from "../immutable_tree";
 
 
 function App({ tree, dispatch }: {tree: Tree, dispatch: Function}) {

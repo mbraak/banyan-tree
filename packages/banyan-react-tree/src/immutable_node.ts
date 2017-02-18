@@ -1,11 +1,36 @@
-/* @flow */
+import { List, Record } from "immutable";
 
-import { Record, List } from "immutable";
+import { first, last, dropRight, tail } from "lodash";
 
-import { first, last, dropRight, tail } from "lodash/array";
+export type NodeId = number|string;
 
+export interface INodeData {
+    id: NodeId;
+    name: string;
+    children?: INodeData[];
+    load_on_demand?: boolean;
+}
 
-export const Node = Record({
+export interface IReadonlyNode {
+    node: Node;
+    parents: Node[];
+}
+
+export interface IRemoveInfo {
+    changed_nodes: Node[];
+    removed_nodes: Node[];
+}
+
+export interface IUpdateInfo {
+    changed_nodes: Node[];
+}
+
+export interface IAddInfo {
+    new_child: Node;
+    changed_nodes: Node[];
+}
+
+const _Node = Record({
     id: undefined,
     name: "",
     is_root: false,
@@ -15,20 +40,29 @@ export const Node = Record({
     is_selected: false
 });
 
+export class Node extends _Node {
+    public id: NodeId;
+    public name: string;
+    public is_root: boolean;
+    public parent_id: any;
+    public children: List<Node>;
+    public is_open: boolean;
+    public is_selected: boolean;
+}
 
 function createEmptyTree(): Node {
     return new Node({ is_root: true });
 }
 
-function createNodesFromData(parent_id: ?number, children_data: Array<Object>): List<Node> {
-    return new List(
+function createNodesFromData(parent_id: NodeId|null, children_data: INodeData[]): List<Node> {
+    return List(
         children_data.map(
             node_data => createNodeFromData(parent_id, node_data)
         )
     );
 }
 
-function createNodeFromData(parent_id: ?number, node_data: Object): Node {
+function createNodeFromData(parent_id: NodeId|null, node_data: INodeData): Node {
     function createChildren() {
         if (!node_data.children) {
             return null;
@@ -38,34 +72,34 @@ function createNodeFromData(parent_id: ?number, node_data: Object): Node {
         }
     }
 
-    return new Node(node_data)
+    return <Node> new Node(node_data)
         .set("parent_id", parent_id)
         .set("children", createChildren());
 }
 
-export function create(children_data: Array<Object>): Node {
-    function createChildren() {
+export function create(children_data?: INodeData[]): Node {
+    function createChildren(): List<Node> {
         if (children_data) {
             return createNodesFromData(null, children_data);
         }
         else {
-            return new List();
+            return List<Node>();
         }
     }
 
-    return createEmptyTree()
+    return <Node> createEmptyTree()
         .set("children", createChildren());
 }
 
-function nodesToString(nodes: Array<Node>): string {
+function nodesToString(nodes: List<Node>): string {
     return nodes
         .map(toString)
         .join(" ");
 }
 
 export function toString(node: Node): string {
-    const children = node.children || [];
-    const has_children = children.length !== 0;
+    const children = node.children ? node.children : List<Node>();
+    const has_children = !children.isEmpty();
 
     if (node.is_root) {
         if (!has_children) {
@@ -83,7 +117,7 @@ export function toString(node: Node): string {
     }
 }
 
-export function nodeListToString(nodes: Array<Node>): string {
+export function nodeListToString(nodes: Node[]): string {
     return nodes
         .map(
             n => {
@@ -105,7 +139,7 @@ export function hasChildren(node: Node): boolean {
         return false;
     }
     else {
-        return children.length !== 0;
+        return !children.isEmpty();
     }
 }
 
@@ -114,7 +148,7 @@ export function getChildren(node: Node): List<Node> {
         return node.children;
     }
     else {
-        return new List();
+        return List<Node>();
     }
 }
 
@@ -122,7 +156,7 @@ export function getChildren(node: Node): List<Node> {
   - generator
   - walks depth-first
 */
-function treeSeqPath(is_branch: Function, get_children: Function, root: Node): Iterable<[Node, Array<Node>]> {
+function treeSeqPath(is_branch: Function, get_children: Function, root: Node): Iterable<[Node, Node[]]> {
     function* walk(path: List<Node>, node: Node) {
         yield [node, path.toArray()];
 
@@ -136,12 +170,12 @@ function treeSeqPath(is_branch: Function, get_children: Function, root: Node): I
         }
     }
 
-    return walk(new List(), root);
+    return walk(List<Node>(), root);
 }
 
 // Iterate tree; return lazy sequence of readonly nodes
 // - skip root
-function* iterateTreeWithParents(root: Node): Iterable<Object> {
+function* iterateTreeWithParents(root: Node): Iterable<IReadonlyNode> {
     for (const [node, parents] of treeSeqPath(hasChildren, getChildren, root)) {
         if (node !== root) {
             yield { node, parents };
@@ -179,7 +213,7 @@ export function* iterateTree(root: Node, include_root: boolean = false): Iterabl
 }
 
 // Find node by name; return readonly node or nil
-export function getNodeByName(root: Node, name: string): ?Node {
+export function getNodeByName(root: Node, name: string): IReadonlyNode|null {
     for (const readonly_node of iterateTreeWithParents(root)) {
         if (readonly_node.node.name === name) {
             const { node, parents } = readonly_node;
@@ -196,18 +230,19 @@ export function getNodeByName(root: Node, name: string): ?Node {
 
 // Add node
 //  - return [new-root {new-child changed-nodes}]
-export function addNode(root: Node, readonly_parent: Node|Object, child_data: ?Object) {
+export function addNode(root: Node, readonly_parent, child_data?): [Node, IAddInfo] {
     if (child_data) {
         return addNodeToNonRoot(root, readonly_parent, new Node(child_data));
     }
     else {
-        return addNodeToRoot(root, new Node(readonly_parent));
+        const data = <Object> readonly_parent;
+        return addNodeToRoot(root, new Node(data));
     }
 }
 
-function addNodeToNonRoot(root: Node, readonly_parent: Object, child: Node) {
+function addNodeToNonRoot(root: Node, readonly_parent: IReadonlyNode, child: Node): [Node, IAddInfo] {
     const parent = readonly_parent.node;
-    const new_child = child.set("parent_id", parent.id);
+    const new_child = <Node> child.set("parent_id", parent.id);
     const new_parent = addChild(parent, new_child);
     const [new_root, changed_nodes] = updateParents(parent, new_parent, readonly_parent.parents);
 
@@ -220,7 +255,7 @@ function addNodeToNonRoot(root: Node, readonly_parent: Object, child: Node) {
     ];
 }
 
-function addNodeToRoot(root: Node, child: Node) {
+function addNodeToRoot(root: Node, child: Node): [Node, IAddInfo] {
     const new_root = addChild(root, child);
 
     return [
@@ -232,10 +267,10 @@ function addNodeToRoot(root: Node, child: Node) {
     ];
 }
 
-function addChild(parent: Node, child: Object): Node {
+function addChild(parent: Node, child: Node): Node {
     const children = getChildren(parent);
 
-    return parent.set("children", children.push(child));
+    return <Node> parent.set("children", children.push(child));
 }
 
 /*
@@ -245,7 +280,7 @@ function addChild(parent: Node, child: Object): Node {
   - 'parents' are the parents of the child; direct parent first
   - returns: [new root, affected]
 */
-function updateParents(initial_old_child: Node, intitial_new_child: Node, parents: Array<Node>): [Node, Array<Node>] {
+function updateParents(initial_old_child: Node, intitial_new_child: Node, parents: Node[]): [Node, Node[]] {
     let old_child = initial_old_child;
     let new_child = intitial_new_child;
 
@@ -266,19 +301,19 @@ function updateParents(initial_old_child: Node, intitial_new_child: Node, parent
     ];
 }
 
-function replaceChild(node: Node, old_child: Node, new_child: Node) {
+function replaceChild(node: Node, old_child: Node, new_child: Node): Node {
     const { children } = node;
     const child_index = children.indexOf(old_child);
     const new_children = children.set(child_index, new_child);
 
-    return node.set("children", new_children);
+    return <Node> node.set("children", new_children);
 }
 
 /*
   Remove node
   - return {new_root changed_nodes removed_nodes}
 */
-export function removeNode(readonly_child: Object): [Node, Object] {
+export function removeNode(readonly_child: IReadonlyNode): [Node, IRemoveInfo] {
     const child = readonly_child.node;
     const { parents } = readonly_child;
     const parent = first(parents);
@@ -291,7 +326,7 @@ export function removeNode(readonly_child: Object): [Node, Object] {
     }
 }
 
-function removeNodeFromRoot(root: Node, child: Node): [Node, Object] {
+function removeNodeFromRoot(root: Node, child: Node): [Node, IRemoveInfo] {
     const new_root = removeChild(root, child);
     const removed_nodes = Array.from(iterateTree(child, true));
 
@@ -304,7 +339,7 @@ function removeNodeFromRoot(root: Node, child: Node): [Node, Object] {
     ];
 }
 
-function removeNodeFromParent(parents: Array<Node>, child: Node): [Node, Object] {
+function removeNodeFromParent(parents: Node[], child: Node): [Node, IRemoveInfo] {
     const parent = first(parents);
     const new_parent = removeChild(parent, child);
     const [new_root, changed_parents] = updateParents(parent, new_parent, tail(parents));
@@ -319,17 +354,17 @@ function removeNodeFromParent(parents: Array<Node>, child: Node): [Node, Object]
     ];
 }
 
-function removeChild(node: Node, child: Node) {
+function removeChild(node: Node, child: Node): Node {
     const children = getChildren(node);
     const child_index = children.indexOf(child);
     const new_children = children.delete(child_index);
 
-    return node.set("children", new_children);
+    return <Node> node.set("children", new_children);
 }
 
-export function updateNode(readonly_node: Object, attributes: Object): [Node, Object] {
+export function updateNode(readonly_node: IReadonlyNode, attributes: Object): [Node, IUpdateInfo] {
     const { node, parents } = readonly_node;
-    const new_node = node.merge(attributes);
+    const new_node = <Node> node.merge(attributes);
     const [new_root, changed_parents] = updateParents(node, new_node, parents);
 
     return [

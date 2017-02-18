@@ -1,5 +1,3 @@
-/* eslint-env mocha */
-import "babel-polyfill";
 import { expect } from "chai";
 
 import { Tree } from "../immutable_tree";
