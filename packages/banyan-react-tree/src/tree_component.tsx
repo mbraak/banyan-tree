@@ -13,10 +13,10 @@ interface ITreeNodeProps {
 }
 
 class TreeNode extends React.Component<ITreeNodeProps, {}> {
-    public render() {
+    public render(): JSX.Element | null {
         const { node, dispatch } = this.props;
 
-        function handleClick(e) {
+        function handleClick(e: React.MouseEvent<HTMLDivElement>) {
             e.preventDefault();
 
             dispatch({
@@ -47,7 +47,7 @@ class TreeNode extends React.Component<ITreeNodeProps, {}> {
         );
     }
 
-    public shouldComponentUpdate(nextProps) {
+    public shouldComponentUpdate(nextProps: ITreeNodeProps): boolean {
         return nextProps.node !== this.props.node;
     }
 }
@@ -84,7 +84,7 @@ function TreeTitle({ node }: {node: Node}) {
 }
 
 function TreeButton({ node, dispatch }: {node: Node, dispatch: Function}) {
-    function handleClick(e) {
+    function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
         e.preventDefault();
 
         dispatch({

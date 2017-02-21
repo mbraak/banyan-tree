@@ -4,6 +4,7 @@
         "jsx": "react",
         "target": "es6",
         "allowSyntheticDefaultImports": true,
+        "noImplicitAny": true,
         "moduleResolution": "node"
     },
     "exclude": [

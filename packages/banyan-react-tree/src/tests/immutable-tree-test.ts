@@ -2,7 +2,6 @@ import { expect } from "chai";
 
 import { Tree } from "../immutable_tree";
 
-
 const data1 = [
     {
         name: "n1",

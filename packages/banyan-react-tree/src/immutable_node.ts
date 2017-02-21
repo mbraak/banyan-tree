@@ -157,7 +157,7 @@ export function getChildren(node: Node): List<Node> {
   - walks depth-first
 */
 function treeSeqPath(is_branch: Function, get_children: Function, root: Node): Iterable<[Node, Node[]]> {
-    function* walk(path: List<Node>, node: Node) {
+    function* walk(path: List<Node>, node: Node): Iterable<[Node, Node[]]> {
         yield [node, path.toArray()];
 
         if (is_branch(node)) {
@@ -184,7 +184,7 @@ function* iterateTreeWithParents(root: Node): Iterable<IReadonlyNode> {
 }
 
 function treeSeq(is_branch: Function, get_children: Function, root: Node): Iterable<Node> {
-    function* walk(node: Node) {
+    function* walk(node: Node): Iterable<Node> {
         yield node;
 
         if (is_branch(node)) {
@@ -230,7 +230,7 @@ export function getNodeByName(root: Node, name: string): IReadonlyNode|null {
 
 // Add node
 //  - return [new-root {new-child changed-nodes}]
-export function addNode(root: Node, readonly_parent, child_data?): [Node, IAddInfo] {
+export function addNode(root: Node, readonly_parent: any, child_data?: any): [Node, IAddInfo] {
     if (child_data) {
         return addNodeToNonRoot(root, readonly_parent, new Node(child_data));
     }

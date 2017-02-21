@@ -1,3 +1,6 @@
+import { List } from "immutable";
+import { Node, NodeId } from "../immutable_node";
+
 export const example_data = [
     {
         name: "Saurischia",
@@ -77,11 +80,11 @@ export const example_data = [
     }
 ];
 
-export function getFirstLevelData(param_nodes) {
+export function getFirstLevelData(param_nodes?: any[]) {
     const nodes = param_nodes || example_data;
 
-    return nodes.map((node) => {
-        const result:any = {
+    return nodes.map((node: any) => {
+        const result: any = {
             name: node.name,
             id: node.id
         };
@@ -94,11 +97,11 @@ export function getFirstLevelData(param_nodes) {
     });
 }
 
-export function getChildrenOfNode(node_id) {
-    let result = null;
+export function getChildrenOfNode(node_id: NodeId): any[] {
+    let result: any = null;
 
-    function iterate(nodes) {
-        nodes.forEach((node) => {
+    function iterate(nodes: any[]) {
+        nodes.forEach((node: any) => {
             if (!result) {
                 if (node.id === node_id) {
                     result = node;
