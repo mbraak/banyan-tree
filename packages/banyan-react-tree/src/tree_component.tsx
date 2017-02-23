@@ -13,7 +13,7 @@ interface ITreeNodeProps {
 }
 
 class TreeNode extends React.Component<ITreeNodeProps, {}> {
-    public render(): JSX.Element | null {
+    public render(): JSX.Element|null {
         const { node, dispatch } = this.props;
 
         function handleClick(e: React.MouseEvent<HTMLDivElement>) {
