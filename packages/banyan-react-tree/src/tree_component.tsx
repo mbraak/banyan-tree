@@ -8,8 +8,8 @@ import { Node } from "./immutable_node";
 import * as actions from "./actions";
 
 interface ITreeNodeProps {
-  node: Node;
-  dispatch: Function;
+    node: Node;
+    dispatch: Function;
 }
 
 class TreeNode extends React.Component<ITreeNodeProps, {}> {

@@ -1,25 +1,7 @@
 import { expect } from "chai";
 
 import { Tree } from "../immutable_tree";
-
-const data1 = [
-    {
-        name: "n1",
-        id: 1,
-        children: [
-            { name: "n1a", id: 2 },
-            { name: "n1b", id: 3 }
-        ]
-    },
-    {
-        name: "n2",
-        id: 4,
-        children: [
-            { name: "n2a", id: 5 },
-            { name: "n2b", id: 6 }
-        ]
-    }
-];
+import { test_data } from "./test_data";
 
 describe("Tree", () => {
     it("create empty tree", () => {
@@ -30,7 +12,7 @@ describe("Tree", () => {
     });
 
     it("create tree from data", () => {
-        const t = new Tree(data1);
+        const t = new Tree(test_data);
 
         expect(t.getChildren().count()).to.equal(2);
         expect(t.toString()).to.equal("n1(n1a n1b) n2(n2a n2b)");
@@ -45,7 +27,7 @@ describe("Tree", () => {
     });
 
     it("get node by name", () => {
-        const t = new Tree(data1);
+        const t = new Tree(test_data);
         const n2a = t.getNodeByName("n2a");
 
         expect(n2a.name).to.equal("n2a");
@@ -77,7 +59,7 @@ describe("Tree", () => {
     });
 
     it("remove node with children", () => {
-        const t1 = new Tree(data1);
+        const t1 = new Tree(test_data);
 
         const n2 = t1.getNodeByName("n2");
         const t2 = t1.removeNode(n2);
@@ -88,7 +70,7 @@ describe("Tree", () => {
     });
 
     it("remove child node", () => {
-        const t1 = new Tree(data1);
+        const t1 = new Tree(test_data);
 
         const n1a = t1.getNodeByName("n1a");
         const t2 = t1.removeNode(n1a);
@@ -99,13 +81,13 @@ describe("Tree", () => {
     });
 
     it("has children", () => {
-        const t1 = new Tree(data1);
+        const t1 = new Tree(test_data);
 
         expect(t1.hasChildren()).to.equal(true);
     });
 
     it("is node open", () => {
-        const t1 = new Tree(data1);
+        const t1 = new Tree(test_data);
         const t2 = t1.openNode(1);
         const t3 = t2.closeNode(1);
         const t4 = t3.toggleNode(1);
@@ -117,7 +99,7 @@ describe("Tree", () => {
     });
 
     it("get node by id", () => {
-        const t1 = new Tree(data1);
+        const t1 = new Tree(test_data);
         const t2 = t1.addNode({ name: "n3", id: 7 });
 
         const n2a = t1.getNodeByName("n2a");
@@ -129,7 +111,7 @@ describe("Tree", () => {
     });
 
     it("select node", () => {
-        const t1 = new Tree(data1);
+        const t1 = new Tree(test_data);
         const t2 = t1.selectNode(5);
         const t3 = t1.selectNode(6);
 
@@ -140,7 +122,7 @@ describe("Tree", () => {
     });
 
     it("update node", () => {
-        const t1 = new Tree(data1);
+        const t1 = new Tree(test_data);
         const t2 = t1.updateNode(
             t1.getNodeByName("n2a"),
             { name: "N2A" }

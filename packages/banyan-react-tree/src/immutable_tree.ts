@@ -126,6 +126,16 @@ export class Tree {
         return this._updateTree(new_root, update_info.changed_nodes, []);
     }
 
+    public openAllFolders(): Tree {
+        let tree: Tree = this;
+
+        for (const n of node.iterateTree(this.root)) {
+            tree = tree.openNode(n.id);
+        }
+
+        return tree;
+    }
+
     private _addNodeToRoot(child: INodeData): Tree {
         const [new_root, update_info] = node.addNode(this.root, child);
 

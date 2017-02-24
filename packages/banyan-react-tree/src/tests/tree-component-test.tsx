@@ -1,22 +1,24 @@
 import React from "react";
 import { createStore } from "redux";
 import { Provider, connect } from "react-redux";
-import { mount } from "enzyme";
 import { expect } from "chai";
+import cheerio from "cheerio";
 
 import TreeComponent from "../tree_component";
 import { Tree } from "../immutable_tree";
 import reduceTree from "../reducer";
+import { test_data } from "./test_data";
+import { render, treeElementToString } from "../testutil/render";
 
 describe("TreeComponent", () => {
     it("renders", () => {
-        const data = [ { id: 1, name: "node1" } ];
-        const tree = new Tree(data);
+        const tree = new Tree(test_data).openAllFolders();
 
         const store = createStore(reduceTree, tree);
 
-        const wrapper = mount(<TreeComponent tree={tree} dispatch={store.dispatch} />);
+        const el = render(<TreeComponent tree={tree} dispatch={store.dispatch} />);
+        expect(el.hasClass("banyan-tree")).to.eq(true);
 
-        expect(wrapper.find(".banyan-title").text()).to.equal("node1");
+        expect(treeElementToString(el)).to.equal("n1(n1a n1b) n2(n2a n2b)")
     });
 });
