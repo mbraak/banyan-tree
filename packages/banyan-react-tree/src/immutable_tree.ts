@@ -30,10 +30,10 @@ export class Tree {
     // todo: reverse params
     public addNode(parent: Node|INodeData, child?: INodeData): Tree {
         if (!child) {
-            return this._addNodeToRoot(parent as INodeData);
+            return this.addNodeToRoot(parent as INodeData);
         }
         else {
-            return this._addNodeToParent(parent as Node, child as INodeData);
+            return this.addNodeToParent(parent as Node, child as INodeData);
         }
     }
 
@@ -49,9 +49,9 @@ export class Tree {
     }
 
     public removeNode(n: Node): Tree {
-        const [new_root, affected_info] = node.removeNode(this._getReadonlyNode(n));
+        const [new_root, affected_info] = node.removeNode(this.getReadonlyNode(n));
 
-        return this._updateTree(
+        return this.updateTree(
             new_root,
             affected_info.changed_nodes,
             affected_info.removed_nodes.map(removed_node => removed_node.id)
@@ -96,7 +96,7 @@ export class Tree {
     }
 
     public selectNode(id: NodeId): Tree {
-        const t = this._deselect();
+        const t = this.deselect();
         const n = t.getNodeById(id);
 
         if (!n) {
@@ -119,11 +119,11 @@ export class Tree {
 
     public updateNode(n: Node, attributes: Object): Tree {
         const [new_root, update_info] = node.updateNode(
-            this._getReadonlyNode(n),
+            this.getReadonlyNode(n),
             attributes
         );
 
-        return this._updateTree(new_root, update_info.changed_nodes, []);
+        return this.updateTree(new_root, update_info.changed_nodes, []);
     }
 
     public openAllFolders(): Tree {
@@ -136,31 +136,31 @@ export class Tree {
         return tree;
     }
 
-    private _addNodeToRoot(child: INodeData): Tree {
+    private addNodeToRoot(child: INodeData): Tree {
         const [new_root, update_info] = node.addNode(this.root, child);
 
-        return this._updateTree(new_root, [update_info.new_child], []);
+        return this.updateTree(new_root, [update_info.new_child], []);
     }
 
-    private _addNodeToParent(parent: Node, child: INodeData): Tree {
-        const readonly_parent = this._getReadonlyNode(parent);
+    private addNodeToParent(parent: Node, child: INodeData): Tree {
+        const readonly_parent = this.getReadonlyNode(parent);
         const [new_root, update_info] = node.addNode(this.root, readonly_parent, child);
 
-        return this._updateTree(
+        return this.updateTree(
             new_root,
             update_info.changed_nodes.concat([update_info.new_child]),
             []
         );
     }
 
-    private _getReadonlyNode(n: Node): IReadonlyNode {
+    private getReadonlyNode(n: Node): IReadonlyNode {
         return {
             node: n,
-            parents: this._getParents(n)
+            parents: this.getParents(n)
         };
     }
 
-    private _getParents(n: Node): Node[] {
+    private getParents(n: Node): Node[] {
         if (n.is_root) {
             return [];
         }
@@ -180,10 +180,10 @@ export class Tree {
         }
     }
 
-    private _updateTree(new_root: Node, updated_nodes: Node[], deleted_ids: NodeId[]): Tree {
-        const new_ids = this._updateIds(updated_nodes, deleted_ids);
+    private updateTree(new_root: Node, updated_nodes: Node[], deleted_ids: NodeId[]): Tree {
+        const new_ids = this.updateIds(updated_nodes, deleted_ids);
 
-        const new_tree = this._createCopy();
+        const new_tree = this.createCopy();
 
         new_tree.ids = new_ids;
         new_tree.root = new_root;
@@ -191,7 +191,7 @@ export class Tree {
         return new_tree;
     }
 
-    private _createCopy(): Tree {
+    private createCopy(): Tree {
         const new_tree = new Tree();
 
         new_tree.ids = this.ids;
@@ -201,7 +201,7 @@ export class Tree {
         return new_tree;
     }
 
-    private _updateIds(updated_nodes: Node[], deleted_ids: NodeId[]): Map<NodeId, Node> {
+    private updateIds(updated_nodes: Node[], deleted_ids: NodeId[]): Map<NodeId, Node> {
         const updates_node_map = Map<NodeId, Node>(
             updated_nodes.map(
                 (n: Node) => ([n.id, n])
@@ -217,7 +217,7 @@ export class Tree {
         return new_ids;
     }
 
-    private _deselect(): Tree {
+    private deselect(): Tree {
         if (!this.selected) {
             return this;
         }
