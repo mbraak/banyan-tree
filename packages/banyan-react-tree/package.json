@@ -9,7 +9,7 @@
     "tree"
   ],
   "scripts": {
-    "test": "mocha-webpack --webpack-config webpack.config-test.js \"src/tests/*-test.ts*\" && tslint src/**/*.ts*",
+    "test": "mocha-webpack --webpack-config webpack.config-test.js --require src/testutil/setup.js \"src/tests/*-test.ts*\" && tslint src/**/*.ts*",
     "test-watch": "mocha-webpack --webpack-config webpack.config-test.js --watch --require src/testutil/setup.js \"src/tests/*.ts*\"",
     "build": "webpack",
     "dashboard": "webpack-dashboard -- webpack",
