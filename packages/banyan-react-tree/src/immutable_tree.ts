@@ -48,6 +48,10 @@ export class Tree {
         }
     }
 
+    public doGetNodeByName(name: string): Node {
+        return node.doGetNodeByName(this.root, name).node;
+    }
+
     public removeNode(n: Node): Tree {
         const [new_root, affected_info] = node.removeNode(this.getReadonlyNode(n));
 
@@ -60,6 +64,16 @@ export class Tree {
 
     public getNodeById(id: NodeId): Node|null {
         return this.ids.get(id);
+    }
+
+    public doGetNodeById(id: NodeId): Node {
+        const result = this.getNodeById(id);
+
+        if (!result) {
+            throw Error(`Node with id '${id} not found`);
+        }
+
+        return result;
     }
 
     public openNode(id: NodeId): Tree {
@@ -174,12 +188,16 @@ export class Tree {
             return [];
         }
         else {
-            const parents = [];
-            let current_node = n;
+            const parents: Node[] = [];
+            let current_node: Node|null = n;
 
-            while (current_node.parent_id) {
-                const parent = this.getNodeById(current_node.parent_id);
-                parents.push(parent);
+            while (current_node && current_node.parent_id) {
+                const parent: Node|null = this.getNodeById(current_node.parent_id);
+
+                if (parent) {
+                    parents.push(parent);
+                }
+
                 current_node = parent;
             }
 

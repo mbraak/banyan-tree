@@ -1,6 +1,7 @@
 import { expect } from "chai";
 
 import * as node from "../immutable_node";
+import { IReadonlyNode } from "../immutable_node";
 
 const data1 = [
     {
@@ -24,8 +25,8 @@ const data1 = [
 describe("Node", () => {
     it("has children", () => {
         const t1 = node.create(data1);
-        const n1 = node.getNodeByName(t1, "n1").node;
-        const n1a = node.getNodeByName(t1, "n1a").node;
+        const n1 = node.doGetNodeByName(t1, "n1").node;
+        const n1a = node.doGetNodeByName(t1, "n1a").node;
 
         expect(node.hasChildren(n1)).to.equal(true);
         expect(node.hasChildren(n1a)).to.equal(false);
@@ -55,7 +56,7 @@ describe("Node", () => {
         const [t3, changed_t3] = node.addNode(t2, n1, { name: "n1a", id: 2 });
 
         // t4: add 'n1/n1a/n1b'
-        const n1a = node.getNodeByName(t3, "n1a");
+        const n1a = node.doGetNodeByName(t3, "n1a");
         const [t4, changed_t4] = node.addNode(t3, n1a, { name: "n1b", id: 3 });
 
         expect(node.toString(t2)).to.equal("n1");
@@ -75,11 +76,11 @@ describe("Node", () => {
         const t1 = node.create(data1);
 
         // t2: remove n1
-        const n1 = node.getNodeByName(t1, "n1");
+        const n1 = node.doGetNodeByName(t1, "n1");
         const [t2, info_t2] = node.removeNode(n1);
 
         // t3: remove n2a
-        const n2a = node.getNodeByName(t2, "n2a");
+        const n2a = node.doGetNodeByName(t2, "n2a");
         const [t3, info_t3] = node.removeNode(n2a);
 
         expect(node.toString(t2)).to.equal("n2(n2a n2b)");
@@ -94,19 +95,19 @@ describe("Node", () => {
         const t1 = node.create(data1);
 
         const [t2, update_info] = node.updateNode(
-            node.getNodeByName(t1, "n2a"),
+            node.doGetNodeByName(t1, "n2a"),
             { name: "N2A" }  // todo: color: "green"
         );
 
-        expect(node.getNodeByName(t1, "n2a").node.id).to.equal(5);
-        expect(node.getNodeByName(t2, "N2A").node.id).to.equal(5);
+        expect(node.doGetNodeByName(t1, "n2a").node.id).to.equal(5);
+        expect(node.doGetNodeByName(t2, "N2A").node.id).to.equal(5);
         expect(node.nodeListToString(update_info.changed_nodes)).to.equal("N2A n2");
         expect(node.toString(t2)).to.equal("n1(n1a n1b) n2(N2A n2b)");
     });
 
     it("get node by name", () => {
         const t1 = node.create(data1);
-        const n1a = node.getNodeByName(t1, "n1a");
+        const n1a = node.doGetNodeByName(t1, "n1a");
 
         expect(n1a.node.name).to.equal("n1a");
         expect(node.nodeListToString(n1a.parents)).to.equal("n1 [root]");

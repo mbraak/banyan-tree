@@ -61,7 +61,7 @@ function TreeFolder({ node, dispatch }: {node: Node, dispatch: Function}) {
     return (
         <ul className={ul_classes}>
             {inode.getChildren(node).map(
-                child => <TreeNode key={child.id} node={child} dispatch={dispatch} />
+                (child: inode.Node) => <TreeNode key={child.id} node={child} dispatch={dispatch} />
             )}
         </ul>
     );

@@ -28,7 +28,7 @@ describe("Tree", () => {
 
     it("get node by name", () => {
         const t = new Tree(test_data);
-        const n2a = t.getNodeByName("n2a");
+        const n2a = t.doGetNodeByName("n2a");
 
         expect(n2a.name).to.equal("n2a");
     });
@@ -38,7 +38,7 @@ describe("Tree", () => {
             .addNode({ name: "n1", id: 1 })
             .addNode({ name: "n2", id: 2 });
 
-        const n1 = t1.getNodeByName("n1");
+        const n1 = t1.doGetNodeByName("n1");
         const t2 = t1.addNode(n1, { name: "n1a", id: 3 });
 
         expect(t1.toString()).to.equal("n1 n2");
@@ -50,7 +50,7 @@ describe("Tree", () => {
             .addNode({ name: "n1", id: 1 })
             .addNode({ name: "n2", id: 2 });
 
-        const n1 = t1.getNodeByName("n1");
+        const n1 = t1.doGetNodeByName("n1");
         const t2 = t1.removeNode(n1);
 
         expect(t1.toString()).to.equal("n1 n2");
@@ -61,7 +61,7 @@ describe("Tree", () => {
     it("remove node with children", () => {
         const t1 = new Tree(test_data);
 
-        const n2 = t1.getNodeByName("n2");
+        const n2 = t1.doGetNodeByName("n2");
         const t2 = t1.removeNode(n2);
 
         expect(t2.toString()).to.equal("n1(n1a n1b)");
@@ -72,7 +72,7 @@ describe("Tree", () => {
     it("remove child node", () => {
         const t1 = new Tree(test_data);
 
-        const n1a = t1.getNodeByName("n1a");
+        const n1a = t1.doGetNodeByName("n1a");
         const t2 = t1.removeNode(n1a);
 
         expect(t1.toString()).to.equal("n1(n1a n1b) n2(n2a n2b)");
@@ -102,11 +102,11 @@ describe("Tree", () => {
         const t1 = new Tree(test_data);
         const t2 = t1.addNode({ name: "n3", id: 7 });
 
-        const n2a = t1.getNodeByName("n2a");
+        const n2a = t1.doGetNodeByName("n2a");
         const t3 = t1.removeNode(n2a);
 
-        expect(t1.getNodeById(2).name).to.equal("n1a");
-        expect(t2.getNodeById(7).name).to.equal("n3");
+        expect(t1.doGetNodeById(2).name).to.equal("n1a");
+        expect(t2.doGetNodeById(7).name).to.equal("n3");
         expect(t3.getNodeById(5)).to.equal(undefined);
     });
 
@@ -115,21 +115,21 @@ describe("Tree", () => {
         const t2 = t1.selectNode(5);
         const t3 = t1.selectNode(6);
 
-        expect(t1.getNodeById(5).is_selected).to.equal(false);
-        expect(t2.getNodeById(5).is_selected).to.equal(true);
-        expect(t3.getNodeById(5).is_selected).to.equal(false);
-        expect(t3.getNodeById(6).is_selected).to.equal(true);
+        expect(t1.doGetNodeById(5).is_selected).to.equal(false);
+        expect(t2.doGetNodeById(5).is_selected).to.equal(true);
+        expect(t3.doGetNodeById(5).is_selected).to.equal(false);
+        expect(t3.doGetNodeById(6).is_selected).to.equal(true);
     });
 
     it("update node", () => {
         const t1 = new Tree(test_data);
         const t2 = t1.updateNode(
-            t1.getNodeByName("n2a"),
+            t1.doGetNodeByName("n2a"),
             { name: "N2A" }
         );
 
-        expect(t1.getNodeById(5).get("name")).to.equal("n2a");
-        expect(t2.getNodeById(5).get("name")).to.equal("N2A");
+        expect(t1.doGetNodeById(5).get("name")).to.equal("n2a");
+        expect(t2.doGetNodeById(5).get("name")).to.equal("N2A");
         expect(t2.toString()).to.equal("n1(n1a n1b) n2(N2A n2b)");
     });
 });

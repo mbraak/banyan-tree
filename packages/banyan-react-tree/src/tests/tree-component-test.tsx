@@ -40,7 +40,13 @@ describe("TreeComponent", () => {
 
         div.simulate("click");
 
-        expect(store.getState().getSelectedNode().name).to.eql("Theropods");
+        const selected_node = store.getState().getSelectedNode();
+
+        expect(selected_node).to.not.be.null;
+
+        if (selected_node) {
+            expect(selected_node.name).to.eql("Theropods");
+        }
 
         // check tree
         const updated_component = <TreeComponent tree={store.getState()} dispatch={store.dispatch} />;

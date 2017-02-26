@@ -228,6 +228,16 @@ export function getNodeByName(root: Node, name: string): IReadonlyNode|null {
     return null;
 }
 
+export function doGetNodeByName(root: Node, name: string): IReadonlyNode {
+    const result = getNodeByName(root, name);
+
+    if (!result) {
+        throw Error(`Node ${name} not found`);
+    }
+
+    return result;
+}
+
 // Add node
 //  - return [new-root {new-child changed-nodes}]
 export function addNode(root: Node, readonly_parent: any, child_data?: any): [Node, IAddInfo] {
