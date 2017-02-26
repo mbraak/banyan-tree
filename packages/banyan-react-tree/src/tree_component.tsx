@@ -26,12 +26,12 @@ class TreeNode extends React.Component<ITreeNodeProps, {}> {
         }
 
         const is_folder = inode.hasChildren(node);
-        const is_open_folder = node.is_open;
+        const is_open_folder = is_folder && node.is_open;
         const is_selected = node.is_selected;
 
         const li_classes = classNames({
             "banyan-common": true,
-            "banyan-closed": !is_open_folder,
+            "banyan-closed": is_folder && !node.is_open,
             "banyan-folder": is_folder,
             "banyan-selected": is_selected
         });
