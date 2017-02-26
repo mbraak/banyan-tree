@@ -17,17 +17,19 @@ module.exports = {
         extensions: [".ts", ".tsx", ".js"]
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.tsx?$/,
-                loader: "ts-loader",
-                exclude: /node_modules/
+                exclude: /node_modules/,
+                use: {
+                    loader: "ts-loader"
+                }
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract({
-                    fallbackLoader: "style-loader",
-                    loader: "css-loader!postcss-loader"
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: ["css-loader", "postcss-loader"]
                 })
             }
         ]
