@@ -40,6 +40,8 @@ describe("TreeComponent", () => {
 
         div.simulate("click");
 
+        expect(store.getState().getSelectedNode().name).to.eql("Theropods");
+
         // check tree
         const updated_component = <TreeComponent tree={store.getState()} dispatch={store.dispatch} />;
         const updated_wrapper = mount(updated_component);

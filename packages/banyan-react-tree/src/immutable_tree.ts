@@ -136,6 +136,15 @@ export class Tree {
         return tree;
     }
 
+    public getSelectedNode(): Node|null {
+        if (!this.selected) {
+            return null;
+        }
+        else {
+            return this.getNodeById(this.selected);
+        }
+    }
+
     private addNodeToRoot(child: INodeData): Tree {
         const [new_root, update_info] = node.addNode(this.root, child);
 
