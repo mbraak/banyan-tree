@@ -2,6 +2,16 @@ import { List, Record } from "immutable";
 
 import { first, last, dropRight, tail } from "lodash";
 
+declare module "immutable" {
+    // tslint:disable-next-line: interface-name
+    interface List<T> {
+        [Symbol.iterator](): IterableIterator<T>;
+    }
+}
+
+type GetChildren = (node: Node) => List<Node>;
+type IsBranch = (node: Node) => boolean;
+
 export type NodeId = number|string;
 
 export interface INodeData {
@@ -72,9 +82,9 @@ function createNodeFromData(parent_id: NodeId|null, node_data: INodeData): Node 
         }
     }
 
-    return <Node> new Node(node_data)
+    return new Node(node_data)
         .set("parent_id", parent_id)
-        .set("children", createChildren());
+        .set("children", createChildren()) as Node;
 }
 
 export function create(children_data?: INodeData[]): Node {
@@ -87,8 +97,8 @@ export function create(children_data?: INodeData[]): Node {
         }
     }
 
-    return <Node> createEmptyTree()
-        .set("children", createChildren());
+    return createEmptyTree()
+        .set("children", createChildren()) as Node;
 }
 
 function nodesToString(nodes: List<Node>): string {
@@ -156,7 +166,9 @@ export function getChildren(node: Node): List<Node> {
   - generator
   - walks depth-first
 */
-function treeSeqPath(is_branch: Function, get_children: Function, root: Node): Iterable<[Node, Node[]]> {
+function treeSeqPath(
+    is_branch: IsBranch, get_children: GetChildren, root: Node
+): Iterable<[Node, Node[]]> {
     function* walk(path: List<Node>, node: Node): Iterable<[Node, Node[]]> {
         yield [node, path.toArray()];
 
@@ -183,7 +195,7 @@ function* iterateTreeWithParents(root: Node): Iterable<IReadonlyNode> {
     }
 }
 
-function treeSeq(is_branch: Function, get_children: Function, root: Node): Iterable<Node> {
+function treeSeq(is_branch: IsBranch, get_children: GetChildren, root: Node): Iterable<Node> {
     function* walk(node: Node): Iterable<Node> {
         yield node;
 
@@ -245,14 +257,14 @@ export function addNode(root: Node, readonly_parent: any, child_data?: any): [No
         return addNodeToNonRoot(root, readonly_parent, new Node(child_data));
     }
     else {
-        const data = <Object> readonly_parent;
+        const data = readonly_parent;
         return addNodeToRoot(root, new Node(data));
     }
 }
 
 function addNodeToNonRoot(root: Node, readonly_parent: IReadonlyNode, child: Node): [Node, IAddInfo] {
     const parent = readonly_parent.node;
-    const new_child = <Node> child.set("parent_id", parent.id);
+    const new_child = child.set("parent_id", parent.id) as Node;
     const new_parent = addChild(parent, new_child);
     const [new_root, changed_nodes] = updateParents(parent, new_parent, readonly_parent.parents);
 
@@ -280,7 +292,7 @@ function addNodeToRoot(root: Node, child: Node): [Node, IAddInfo] {
 function addChild(parent: Node, child: Node): Node {
     const children = getChildren(parent);
 
-    return <Node> parent.set("children", children.push(child));
+    return parent.set("children", children.push(child)) as Node;
 }
 
 /*
@@ -316,7 +328,7 @@ function replaceChild(node: Node, old_child: Node, new_child: Node): Node {
     const child_index = children.indexOf(old_child);
     const new_children = children.set(child_index, new_child);
 
-    return <Node> node.set("children", new_children);
+    return node.set("children", new_children) as Node;
 }
 
 /*
@@ -369,12 +381,12 @@ function removeChild(node: Node, child: Node): Node {
     const child_index = children.indexOf(child);
     const new_children = children.delete(child_index);
 
-    return <Node> node.set("children", new_children);
+    return node.set("children", new_children) as Node;
 }
 
-export function updateNode(readonly_node: IReadonlyNode, attributes: Object): [Node, IUpdateInfo] {
+export function updateNode(readonly_node: IReadonlyNode, attributes: any): [Node, IUpdateInfo] {
     const { node, parents } = readonly_node;
-    const new_node = <Node> node.merge(attributes);
+    const new_node = node.merge(attributes) as Node;
     const [new_root, changed_parents] = updateParents(node, new_node, parents);
 
     return [

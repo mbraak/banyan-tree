@@ -1,5 +1,5 @@
 import React from "react";
-import { createStore } from "redux";
+import { createStore, Store } from "redux";
 import { Provider, connect } from "react-redux";
 import { expect } from "chai";
 import cheerio from "cheerio";
@@ -24,24 +24,22 @@ describe("TreeComponent", () => {
 
     it("select", () => {
         // setup
-        const tree = new Tree(example_data).openAllFolders();
-        const store = createStore(reduceTree, tree);
-        const tree_component = <TreeComponent tree={tree} dispatch={store.dispatch} />;
-        const wrapper = mount(tree_component);
+        const store = initialStore();
 
         // find titles
-        expect(wrapper.find(".banyan-title").length).to.eq(31);
-        expect(wrapper.find(".banyan-selected").length).to.eq(0);
+        const wrapper1 = renderTree(store);
 
-        // click
-        const div = wrapper.findWhere(
+        expect(wrapper1.find(".banyan-title").length).to.eq(31);
+        expect(wrapper1.find(".banyan-selected").length).to.eq(0);
+
+        // click on node
+        const div = wrapper1.findWhere(
             el => el.name() === "TreeNode" && el.prop("node").name === "Theropods"
         ).first().children("div").first();
 
         div.simulate("click");
 
         const selected_node = store.getState().getSelectedNode();
-
         expect(selected_node).to.not.be.null;
 
         if (selected_node) {
@@ -49,8 +47,20 @@ describe("TreeComponent", () => {
         }
 
         // check tree
-        const updated_component = <TreeComponent tree={store.getState()} dispatch={store.dispatch} />;
-        const updated_wrapper = mount(updated_component);
-        expect(updated_wrapper.find(".banyan-selected").length).to.eq(1);
+        const wrapper2 = renderTree(store);
+        expect(wrapper2.find(".banyan-selected").length).to.eq(1);
    });
 });
+
+const initialStore = () => (
+    createStore(
+        reduceTree,
+        new Tree(example_data).openAllFolders()
+    )
+);
+
+const renderTree = (store: Store<Tree>) => (
+    mount(
+        <TreeComponent tree={store.getState()} dispatch={store.dispatch} />
+    )
+);

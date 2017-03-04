@@ -7,9 +7,11 @@ import * as inode from "./immutable_node";
 import { Node } from "./immutable_node";
 import * as actions from "./actions";
 
+type Dispatch = (...params: any[]) => void;
+
 interface ITreeNodeProps {
     node: Node;
-    dispatch: Function;
+    dispatch: Dispatch;
 }
 
 class TreeNode extends React.Component<ITreeNodeProps, {}> {
@@ -52,7 +54,7 @@ class TreeNode extends React.Component<ITreeNodeProps, {}> {
     }
 }
 
-function TreeFolder({ node, dispatch }: {node: Node, dispatch: Function}) {
+function TreeFolder({ node, dispatch }: {node: Node, dispatch: Dispatch}) {
     const ul_classes = classNames({
         "banyan-common": true,
         "banyan-tree": node.is_root
@@ -83,7 +85,7 @@ function TreeTitle({ node }: {node: Node}) {
     );
 }
 
-function TreeButton({ node, dispatch }: {node: Node, dispatch: Function}) {
+function TreeButton({ node, dispatch }: {node: Node, dispatch: Dispatch}) {
     function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
         e.preventDefault();
 
@@ -108,6 +110,6 @@ function TreeButton({ node, dispatch }: {node: Node, dispatch: Function}) {
     );
 }
 
-export default function TreeComponent({ tree, dispatch }: {tree: Tree, dispatch: Function}) {
+export default function TreeComponent({ tree, dispatch }: {tree: Tree, dispatch: Dispatch}) {
     return <TreeFolder node={tree.root} dispatch={dispatch} />;
 }

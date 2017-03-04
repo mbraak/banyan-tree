@@ -131,7 +131,7 @@ export class Tree {
         }
     }
 
-    public updateNode(n: Node, attributes: Object): Tree {
+    public updateNode(n: Node, attributes: any): Tree {
         const [new_root, update_info] = node.updateNode(
             this.getReadonlyNode(n),
             attributes
