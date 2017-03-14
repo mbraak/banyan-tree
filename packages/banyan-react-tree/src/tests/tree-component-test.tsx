@@ -1,8 +1,6 @@
 import React from "react";
 import { createStore, Store } from "redux";
-import { Provider, connect } from "react-redux";
 import { expect } from "chai";
-import cheerio from "cheerio";
 import { mount } from "enzyme";
 
 import TreeComponent from "../tree_component";

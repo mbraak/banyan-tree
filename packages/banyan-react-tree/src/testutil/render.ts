@@ -26,7 +26,7 @@ function elementToString(el: Cheerio): string {
 
 function elementsToString(els: Cheerio): string {
     return els.map(
-        (i, el) => elementToString(cheerio(el))
+        (_, el) => elementToString(cheerio(el))
     )
     .get().join(" ");
 }

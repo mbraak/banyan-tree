@@ -1,5 +1,4 @@
-import { List } from "immutable";
-import { Node, NodeId } from "../immutable_node";
+import { NodeId } from "../immutable_node";
 
 export const test_data = [
     {

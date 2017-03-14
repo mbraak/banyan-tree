@@ -254,7 +254,7 @@ export function doGetNodeByName(root: Node, name: string): IReadonlyNode {
 //  - return [new-root {new-child changed-nodes}]
 export function addNode(root: Node, readonly_parent: any, child_data?: any): [Node, IAddInfo] {
     if (child_data) {
-        return addNodeToNonRoot(root, readonly_parent, new Node(child_data));
+        return addNodeToNonRoot(readonly_parent, new Node(child_data));
     }
     else {
         const data = readonly_parent;
@@ -262,7 +262,7 @@ export function addNode(root: Node, readonly_parent: any, child_data?: any): [No
     }
 }
 
-function addNodeToNonRoot(root: Node, readonly_parent: IReadonlyNode, child: Node): [Node, IAddInfo] {
+function addNodeToNonRoot(readonly_parent: IReadonlyNode, child: Node): [Node, IAddInfo] {
     const parent = readonly_parent.node;
     const new_child = child.set("parent_id", parent.id) as Node;
     const new_parent = addChild(parent, new_child);

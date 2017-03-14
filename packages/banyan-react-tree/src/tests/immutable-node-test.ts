@@ -1,7 +1,6 @@
 import { expect } from "chai";
 
 import * as node from "../immutable_node";
-import { IReadonlyNode } from "../immutable_node";
 
 const data1 = [
     {
