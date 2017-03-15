@@ -1,0 +1,33 @@
+import { List } from "immutable";
+import { Node, NodeId, INodeData } from "./immutable_node";
+export declare class Tree {
+    root: Node;
+    private ids;
+    private selected;
+    constructor(data?: INodeData[]);
+    toString(): string;
+    getChildren(): List<Node>;
+    hasChildren(): boolean;
+    addNode(parent: Node | INodeData, child?: INodeData): Tree;
+    getNodeByName(name: string): Node | null;
+    doGetNodeByName(name: string): Node;
+    removeNode(n: Node): Tree;
+    getNodeById(id: NodeId): Node | null;
+    doGetNodeById(id: NodeId): Node;
+    openNode(id: NodeId): Tree;
+    closeNode(id: NodeId): Tree;
+    isNodeOpen(id: NodeId): boolean;
+    selectNode(id: NodeId): Tree;
+    toggleNode(id: NodeId): Tree;
+    updateNode(n: Node, attributes: any): Tree;
+    openAllFolders(): Tree;
+    getSelectedNode(): Node | null;
+    private addNodeToRoot(child);
+    private addNodeToParent(parent, child);
+    private getReadonlyNode(n);
+    private getParents(n);
+    private updateTree(new_root, updated_nodes, deleted_ids);
+    private createCopy();
+    private updateIds(updated_nodes, deleted_ids);
+    private deselect();
+}
