@@ -7,7 +7,7 @@ import * as inode from "./immutable_node";
 import { Node } from "./immutable_node";
 import * as actions from "./actions";
 
-type Dispatch = (...params: any[]) => void;
+export type Dispatch = (...params: any[]) => void;
 
 interface ITreeNodeProps {
     node: Node;

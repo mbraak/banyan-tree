@@ -40,7 +40,7 @@ export interface IAddInfo {
     changed_nodes: Node[];
 }
 
-const _Node = Record({
+export const _Node = Record({
     id: undefined,
     name: "",
     is_root: false,
