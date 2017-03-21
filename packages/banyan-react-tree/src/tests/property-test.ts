@@ -4,7 +4,7 @@ import TreeModel, { Node as ModelNode } from "tree-model";
 
 import { Tree } from "../immutable_tree";
 import { INodeData, NodeId, Node } from "../immutable_node";
-import { newId, randomString, randomNodeIdOrNull, randomNodeId, pickRandom } from "../testutil/test_util";
+import { newId, randomString, randomNodeIdOrNull, randomNodeId, pickWeightedRandom } from "../testutil/test_util";
 
 interface ITreeImplementation<T> {
     createTree: () => T;
@@ -184,37 +184,47 @@ const param_creators: any = {
     updateNode: getUpdateNodeParams
 };
 
-const operations = Object.keys(param_creators);
+const operation_weights = {
+    addNode: 60,
+    removeNode: 20,
+    updateNode: 20
+};
 
 describe("Tree.property", () => {
-    let trees = implementations.map(
-        implementation => implementation.createTree()
-    );
+    it("test properties", () => {
+        range(10).forEach(
+            () => {
+                let trees = implementations.map(
+                    implementation => implementation.createTree()
+                );
 
-    range(100).forEach(
-        _ => {
-            // pick operation and params
-            const operation = pickRandom(operations);
-            const createParams = param_creators[operation];
-            const params = createParams(trees[0]);
+                range(200).forEach(
+                    () => {
+                        // pick operation and params
+                        const operation = pickWeightedRandom(operation_weights);
+                        const createParams = param_creators[operation];
+                        const params = createParams(trees[0]);
 
-            // run operation
-            trees = trees.map(
-                (tree, i) => (implementations[i] as any)[operation](tree, ...params)
-            );
+                        // run operation
+                        trees = trees.map(
+                            (tree, i) => (implementations[i] as any)[operation](tree, ...params)
+                        );
 
-            // compare trees
-            const tree_strings = trees.map(
-                (tree, i) => (implementations[i] as any).toString(tree)
-            );
+                        // compare trees
+                        const tree_strings = trees.map(
+                            (tree, i) => (implementations[i] as any).toString(tree)
+                        );
 
-            const first_string = tree_strings[0];
+                        const first_string = tree_strings[0];
 
-            tree_strings.forEach(
-                s => {
-                    expect(s).to.eq(first_string);
-                }
-            );
-        }
-    );
+                        tree_strings.forEach(
+                            s => {
+                                expect(s).to.eq(first_string);
+                            }
+                        );
+                    }
+                );
+            }
+        );
+    });
 });

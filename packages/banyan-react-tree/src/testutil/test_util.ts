@@ -3,12 +3,29 @@ import { random, range, join } from "lodash";
 import { Tree } from "../immutable_tree";
 import { NodeId } from "../immutable_node";
 
-export function pickRandom<T>(array: T[]): T {
+function pickRandom<T>(array: T[]): T {
     if (!array.length) {
         throw new Error("pickRandom: array is empty");
     }
 
     return array[random(array.length - 1)];
+}
+
+export function pickWeightedRandom(weights: any): any {
+    const n = random(99);
+
+    let subtotal = 0;
+
+    for (const value of Object.keys(weights)) {
+        const weight = weights[value];
+        subtotal += weight;
+
+        if (n < subtotal) {
+            return value;
+        }
+    }
+
+    throw new Error("pickWeightedRandom: weights are invalid");
 }
 
 export const randomNodeId = (tree: Tree): NodeId|null => {
