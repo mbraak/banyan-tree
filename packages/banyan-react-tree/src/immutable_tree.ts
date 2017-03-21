@@ -159,6 +159,14 @@ export class Tree {
         }
     }
 
+    public getIds(): NodeId[] {
+        return this.ids.keySeq().toArray();
+    }
+
+    public getNodes(): Node[] {
+        return this.ids.valueSeq().toArray();
+    }
+
     private addNodeToRoot(child: INodeData): Tree {
         const [new_root, update_info] = node.addNode(this.root, child);
 
