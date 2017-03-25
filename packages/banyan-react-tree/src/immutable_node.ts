@@ -195,33 +195,32 @@ function* iterateTreeWithParents(root: Node): Iterable<IReadonlyNode> {
     }
 }
 
-function treeSeq(is_branch: IsBranch, get_children: GetChildren, root: Node): Iterable<Node> {
-    function* walk(node: Node): Iterable<Node> {
-        yield node;
+function treeSeq(
+    is_branch: IsBranch, get_children: GetChildren, root: Node, include_root: boolean
+): Iterable<[Node, number]> {
+    function* walk(node: Node, level: number): Iterable<[Node, number]> {
+        if (node !== root || include_root) {
+            yield [node, level];
+        }
 
         if (is_branch(node)) {
-            const children = get_children(node);
-
-            for (const child of children) {
-                yield* walk(child);
+            for (const child of get_children(node)) {
+                yield* walk(child, level + 1);
             }
         }
     }
 
-    return walk(root);
+    return walk(root, 0);
 }
 
 export function* iterateTree(root: Node, include_root: boolean = false): Iterable<Node> {
-    if (include_root) {
-        yield* treeSeq(hasChildren, getChildren, root);
+    for (const [node, _] of treeSeq(hasChildren, getChildren, root, include_root)) {
+        yield node;
     }
-    else {
-        for (const node of treeSeq(hasChildren, getChildren, root)) {
-            if (node !== root) {
-                yield node;
-            }
-        }
-    }
+}
+
+export function* iterateTreeAndLevel(root: Node): Iterable<[Node, number]> {
+    yield* treeSeq(hasChildren, getChildren, root, false);
 }
 
 // Find node by name; return readonly node or nil

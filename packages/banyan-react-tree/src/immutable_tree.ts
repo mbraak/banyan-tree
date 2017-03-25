@@ -150,6 +150,18 @@ export class Tree {
         return tree;
     }
 
+    public openLevel(level: number): Tree {
+        let tree: Tree = this;
+
+        for (const [n, node_level] of node.iterateTreeAndLevel(this.root)) {
+            if (node_level <= level) {
+                tree = tree.openNode(n.id);
+            }
+        }
+
+        return tree;
+    }
+
     public getSelectedNode(): Node|null {
         if (!this.selected) {
             return null;
