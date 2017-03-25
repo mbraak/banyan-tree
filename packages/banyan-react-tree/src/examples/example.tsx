@@ -10,9 +10,11 @@ import reduceTree from "../reducer";
 import example_data from "./dinosaurs.json";
 
 import "../../css/banyan-react-tree.css";
+import "./example.css";
 
 const root_reducer = combineReducers({ tree: reduceTree });
-const tree = new Tree(example_data).openLevel(1);
+const tree = new Tree([example_data])
+    .openLevel(1);
 
 const initial = { tree };
 

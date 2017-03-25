@@ -32,7 +32,7 @@ describe("TreeComponent", () => {
 
         // click on node
         const div = wrapper1.findWhere(
-            el => el.name() === "TreeNode" && el.prop("node").name === "Theropods"
+            el => el.name() === "TreeNode" && el.prop("node").get("name") === "Theropods"
         ).first().children("div").first();
 
         div.simulate("click");
@@ -41,7 +41,7 @@ describe("TreeComponent", () => {
         expect(selected_node).to.not.be.null;
 
         if (selected_node) {
-            expect(selected_node.name).to.eql("Theropods");
+            expect(selected_node.get("name")).to.eql("Theropods");
         }
 
         // check tree

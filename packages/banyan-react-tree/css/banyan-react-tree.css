@@ -29,13 +29,10 @@ ul.banyan-tree {
        margin-bottom: 4px;
        background-color: #ddd;
        padding: 8px;
+       position: relative;
    }
 
    .banyan-selected > .banyan-element {
        background-color: #97BDD6;
    }
-}
-
-.banyan-placeholder {
-    border: dashed 2px #ccc;
 }

@@ -1,4 +1,4 @@
-import { List, Record } from "immutable";
+import { List, Map } from "immutable";
 
 import { first, last, dropRight, tail } from "lodash";
 
@@ -9,6 +9,8 @@ declare module "immutable" {
     }
 }
 
+export type Node = Map<string, any>;
+
 type GetChildren = (node: Node) => List<Node>;
 type IsBranch = (node: Node) => boolean;
 
@@ -18,7 +20,7 @@ export interface INodeData {
     id: NodeId;
     name: string;
     children?: INodeData[];
-    load_on_demand?: boolean;
+    [key: string]: any;
 }
 
 export interface IReadonlyNode {
@@ -40,37 +42,17 @@ export interface IAddInfo {
     changed_nodes: Node[];
 }
 
-export const _Node = Record({
-    id: undefined,
-    name: "",
-    is_root: false,
-    parent_id: undefined,
-    children: undefined,
-    is_open: false,
-    is_selected: false
-});
+const createEmptyTree = (): Node => createNode({ is_root: true });
 
-export class Node extends _Node {
-    public id: NodeId;
-    public name: string;
-    public is_root: boolean;
-    public parent_id: any;
-    public children: List<Node>;
-    public is_open: boolean;
-    public is_selected: boolean;
-}
+const createNode = (data: any) => Map<string, any>(data) as any as Node;
 
-function createEmptyTree(): Node {
-    return new Node({ is_root: true });
-}
-
-function createNodesFromData(parent_id: NodeId|null, children_data: INodeData[]): List<Node> {
-    return List(
+const createNodesFromData = (parent_id: NodeId|null, children_data: INodeData[]): List<Node> => (
+    List(
         children_data.map(
             node_data => createNodeFromData(parent_id, node_data)
         )
-    );
-}
+    )
+);
 
 function createNodeFromData(parent_id: NodeId|null, node_data: INodeData): Node {
     function createChildren() {
@@ -82,9 +64,9 @@ function createNodeFromData(parent_id: NodeId|null, node_data: INodeData): Node 
         }
     }
 
-    return new Node(node_data)
+    return Map<string, any>(node_data)
         .set("parent_id", parent_id)
-        .set("children", createChildren()) as Node;
+        .set("children", createChildren()) as any as Node;
 }
 
 export function create(children_data?: INodeData[]): Node {
@@ -108,10 +90,12 @@ function nodesToString(nodes: List<Node>): string {
 }
 
 export function toString(node: Node): string {
-    const children = node.children ? node.children : List<Node>();
+    const children = getChildren(node);
     const has_children = !children.isEmpty();
+    const is_root = node.get("is_root");
+    const name = node.get("name");
 
-    if (node.is_root) {
+    if (is_root) {
         if (!has_children) {
             return "";
         }
@@ -120,10 +104,10 @@ export function toString(node: Node): string {
         }
     }
     else if (!has_children) {
-        return node.name;
+        return name;
     }
     else {
-        return `${node.name}(${nodesToString(children)})`;
+        return `${name}(${nodesToString(children)})`;
     }
 }
 
@@ -131,11 +115,11 @@ export function nodeListToString(nodes: Node[]): string {
     return nodes
         .map(
             n => {
-                if (n.is_root) {
+                if (n.get("is_root")) {
                     return "[root]";
                 }
                 else {
-                    return n.name;
+                    return n.get("name");
                 }
             }
         )
@@ -143,7 +127,7 @@ export function nodeListToString(nodes: Node[]): string {
 }
 
 export function hasChildren(node: Node): boolean {
-    const { children } = node;
+    const children = node.get("children");
 
     if (!children) {
         return false;
@@ -154,8 +138,10 @@ export function hasChildren(node: Node): boolean {
 }
 
 export function getChildren(node: Node): List<Node> {
-    if (node.children) {
-        return node.children;
+    const children = node.get("children");
+
+    if (children) {
+        return children;
     }
     else {
         return List<Node>();
@@ -226,7 +212,7 @@ export function* iterateTreeAndLevel(root: Node): Iterable<[Node, number]> {
 // Find node by name; return readonly node or nil
 export function getNodeByName(root: Node, name: string): IReadonlyNode|null {
     for (const readonly_node of iterateTreeWithParents(root)) {
-        if (readonly_node.node.name === name) {
+        if (readonly_node.node.get("name") === name) {
             const { node, parents } = readonly_node;
 
             return {
@@ -253,17 +239,17 @@ export function doGetNodeByName(root: Node, name: string): IReadonlyNode {
 //  - return [new-root {new-child changed-nodes}]
 export function addNode(root: Node, readonly_parent: any, child_data?: any): [Node, IAddInfo] {
     if (child_data) {
-        return addNodeToNonRoot(readonly_parent, new Node(child_data));
+        return addNodeToNonRoot(readonly_parent, createNode(child_data));
     }
     else {
         const data = readonly_parent;
-        return addNodeToRoot(root, new Node(data));
+        return addNodeToRoot(root, createNode(data));
     }
 }
 
 function addNodeToNonRoot(readonly_parent: IReadonlyNode, child: Node): [Node, IAddInfo] {
     const parent = readonly_parent.node;
-    const new_child = child.set("parent_id", parent.id) as Node;
+    const new_child = child.set("parent_id", parent.get("id")) as Node;
     const new_parent = addChild(parent, new_child);
     const [new_root, changed_nodes] = updateParents(parent, new_parent, readonly_parent.parents);
 
@@ -323,7 +309,7 @@ function updateParents(initial_old_child: Node, intitial_new_child: Node, parent
 }
 
 function replaceChild(node: Node, old_child: Node, new_child: Node): Node {
-    const { children } = node;
+    const children = getChildren(node);
     const child_index = children.indexOf(old_child);
     const new_children = children.set(child_index, new_child);
 
@@ -339,7 +325,7 @@ export function removeNode(readonly_child: IReadonlyNode): [Node, IRemoveInfo] {
     const { parents } = readonly_child;
     const parent = first(parents);
 
-    if (parent.is_root) {
+    if (parent.get("is_root")) {
         return removeNodeFromRoot(parent, child);
     }
     else {

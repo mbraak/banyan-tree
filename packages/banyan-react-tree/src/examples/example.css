@@ -1,0 +1,10 @@
+body {
+    font-family: sans-serif;
+}
+
+.rank {
+    margin-right: 8px;
+    color: #888;
+    position: absolute;
+    right: 0;
+}

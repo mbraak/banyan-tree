@@ -58,7 +58,7 @@ export class Tree {
         return this.updateTree(
             new_root,
             affected_info.changed_nodes,
-            affected_info.removed_nodes.map(removed_node => removed_node.id)
+            affected_info.removed_nodes.map(removed_node => removed_node.get("id"))
         );
     }
 
@@ -105,7 +105,7 @@ export class Tree {
             return false;
         }
         else {
-            return Boolean(n.is_open);
+            return Boolean(n.get("is_open"));
         }
     }
 
@@ -144,7 +144,7 @@ export class Tree {
         let tree: Tree = this;
 
         for (const n of node.iterateTree(this.root)) {
-            tree = tree.openNode(n.id);
+            tree = tree.openNode(n.get("id"));
         }
 
         return tree;
@@ -155,7 +155,7 @@ export class Tree {
 
         for (const [n, node_level] of node.iterateTreeAndLevel(this.root)) {
             if (node_level <= level) {
-                tree = tree.openNode(n.id);
+                tree = tree.openNode(n.get("id"));
             }
         }
 
@@ -204,15 +204,15 @@ export class Tree {
     }
 
     private getParents(n: Node): Node[] {
-        if (n.is_root) {
+        if (n.get("is_root")) {
             return [];
         }
         else {
             const parents: Node[] = [];
             let current_node: Node|null = n;
 
-            while (current_node && current_node.parent_id) {
-                const parent: Node|null = this.getNodeById(current_node.parent_id);
+            while (current_node && current_node.get("parent_id")) {
+                const parent: Node|null = this.getNodeById(current_node.get("parent_id"));
 
                 if (parent) {
                     parents.push(parent);
@@ -251,7 +251,7 @@ export class Tree {
     private updateIds(updated_nodes: Node[], deleted_ids: NodeId[]): Map<NodeId, Node> {
         const updates_node_map = Map<NodeId, Node>(
             updated_nodes.map(
-                (n: Node) => ([n.id, n])
+                (n: Node) => ([n.get("id"), n])
             )
         );
 
@@ -287,7 +287,7 @@ export class Tree {
 function createIdMap(root: Node): Map<NodeId, Node> {
     function* iteratePairs() {
         for (const n of node.iterateTree(root)) {
-            yield [n.id, n];
+            yield [n.get("id"), n];
         }
     }
 

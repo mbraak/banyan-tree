@@ -1,5 +1,3 @@
-import { NodeId } from "../immutable_node";
-
 export const test_data = [
     {
         name: "n1",
@@ -97,46 +95,3 @@ export const example_data = [
         ]
     }
 ];
-
-export function getFirstLevelData(param_nodes?: any[]) {
-    const nodes = param_nodes || example_data;
-
-    return nodes.map((node: any) => {
-        const result: any = {
-            name: node.name,
-            id: node.id
-        };
-
-        if (node.children) {
-            result.load_on_demand = true;
-        }
-
-        return result;
-    });
-}
-
-export function getChildrenOfNode(node_id: NodeId): any[] {
-    let result: any = null;
-
-    function iterate(nodes: any[]) {
-        nodes.forEach((node: any) => {
-            if (!result) {
-                if (node.id === node_id) {
-                    result = node;
-                }
-                else if (node.children) {
-                    iterate(node.children);
-                }
-            }
-        });
-    }
-
-    iterate(example_data);
-
-    if (result) {
-        return getFirstLevelData(result.children);
-    }
-    else {
-        return [];
-    }
-}

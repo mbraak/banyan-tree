@@ -30,7 +30,7 @@ describe("Tree", () => {
         const t = new Tree(test_data);
         const n2a = t.doGetNodeByName("n2a");
 
-        expect(n2a.name).to.equal("n2a");
+        expect(n2a.get("name")).to.equal("n2a");
     });
 
     it("add child node", () => {
@@ -105,8 +105,8 @@ describe("Tree", () => {
         const n2a = t1.doGetNodeByName("n2a");
         const t3 = t1.removeNode(n2a);
 
-        expect(t1.doGetNodeById(2).name).to.equal("n1a");
-        expect(t2.doGetNodeById(7).name).to.equal("n3");
+        expect(t1.doGetNodeById(2).get("name")).to.equal("n1a");
+        expect(t2.doGetNodeById(7).get("name")).to.equal("n3");
         expect(t3.getNodeById(5)).to.equal(undefined);
     });
 
@@ -115,10 +115,10 @@ describe("Tree", () => {
         const t2 = t1.selectNode(5);
         const t3 = t1.selectNode(6);
 
-        expect(t1.doGetNodeById(5).is_selected).to.equal(false);
-        expect(t2.doGetNodeById(5).is_selected).to.equal(true);
-        expect(t3.doGetNodeById(5).is_selected).to.equal(false);
-        expect(t3.doGetNodeById(6).is_selected).to.equal(true);
+        expect(t1.doGetNodeById(5).get("is_selected")).to.not.eq(true);
+        expect(t2.doGetNodeById(5).get("is_selected")).to.equal(true);
+        expect(t3.doGetNodeById(5).get("is_selected")).to.equal(false);
+        expect(t3.doGetNodeById(6).get("is_selected")).to.equal(true);
     });
 
     it("update node", () => {

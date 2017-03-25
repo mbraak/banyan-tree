@@ -62,10 +62,10 @@ describe("Node", () => {
         expect(Object.keys(changed_t2)).to.deep.equal(["new_child", "changed_nodes"]);
         expect(changed_t2.changed_nodes).to.deep.equal([]);
         expect(node.toString(t3)).to.equal("n1(n1a)");
-        expect(t3.is_root).to.equal(true);
+        expect(t3.get("is_root")).to.equal(true);
         expect(node.nodeListToString(changed_t3.changed_nodes)).to.equal("n1");
         expect(changed_t3.new_child.get("name")).to.equal("n1a");
-        expect(n1a.node.parent_id).to.equal(1);
+        expect(n1a.node.get("parent_id")).to.equal(1);
         expect(node.nodeListToString(changed_t4.changed_nodes)).to.equal("n1a n1");
         expect(node.toString(t4)).to.equal("n1(n1a(n1b))");
     });
@@ -98,8 +98,8 @@ describe("Node", () => {
             { name: "N2A" }  // todo: color: "green"
         );
 
-        expect(node.doGetNodeByName(t1, "n2a").node.id).to.equal(5);
-        expect(node.doGetNodeByName(t2, "N2A").node.id).to.equal(5);
+        expect(node.doGetNodeByName(t1, "n2a").node.get("id")).to.equal(5);
+        expect(node.doGetNodeByName(t2, "N2A").node.get("id")).to.equal(5);
         expect(node.nodeListToString(update_info.changed_nodes)).to.equal("N2A n2");
         expect(node.toString(t2)).to.equal("n1(n1a n1b) n2(N2A n2b)");
     });
@@ -108,7 +108,21 @@ describe("Node", () => {
         const t1 = node.create(data1);
         const n1a = node.doGetNodeByName(t1, "n1a");
 
-        expect(n1a.node.name).to.equal("n1a");
+        expect(n1a.node.get("name")).to.equal("n1a");
         expect(node.nodeListToString(n1a.parents)).to.equal("n1 [root]");
+    });
+
+    it("has attributes", () => {
+        const data = [
+            { name: "node1", id: 1, color: "green" }
+        ];
+
+        const t1 = node.create(data);
+
+        const n1 = node.getNodeByName(t1, "node1");
+
+        if (n1) {
+            expect(n1.node.get("color")).to.eq("green");
+        }
     });
 });
