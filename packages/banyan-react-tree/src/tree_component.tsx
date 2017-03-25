@@ -110,6 +110,11 @@ function TreeButton({ node, dispatch }: {node: Node, dispatch: Dispatch}) {
     );
 }
 
-export default function TreeComponent({ tree, dispatch }: {tree: Tree, dispatch: Dispatch}) {
+export interface ITreeComponentProps {
+    tree: Tree;
+    dispatch: Dispatch;
+}
+
+export default function TreeComponent({ tree, dispatch }: ITreeComponentProps) {
     return <TreeFolder node={tree.root} dispatch={dispatch} />;
 }
