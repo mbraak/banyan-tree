@@ -102,6 +102,7 @@ function TreeTitle({ node, renderTitle }: ITreeTitleProps) {
 function TreeButton({ node, dispatch }: {node: Node, dispatch: Dispatch}) {
     function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
         e.preventDefault();
+        e.stopPropagation();
 
         dispatch({
             type: actions.TOGGLE_NODE,
