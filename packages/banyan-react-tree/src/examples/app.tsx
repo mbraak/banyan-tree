@@ -8,6 +8,10 @@ const renderTitle = (node: Node) => (
     <span>
         {node.get("name")}
         <span className="rank">{node.get("rank")}</span>
+        { node.get("species_count")
+            ? <span className="species-count">{ node.get("species_count") } species</span>
+            : null
+        }
     </span>
 );
 

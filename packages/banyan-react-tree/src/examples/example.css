@@ -2,9 +2,12 @@ body {
     font-family: sans-serif;
 }
 
-.rank {
-    margin-right: 8px;
+.rank, .species-count {
     color: #888;
     position: absolute;
-    right: 0;
+    right: 8px;
+}
+
+.rank {
+    right: 150px;
 }
