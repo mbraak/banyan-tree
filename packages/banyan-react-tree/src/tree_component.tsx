@@ -27,10 +27,12 @@ class TreeNode extends React.Component<ITreeNodeProps, {}> {
         const { node, tree_context, renderTitle } = this.props;
 
         function handleClick(e: React.MouseEvent<HTMLDivElement>) {
-            e.preventDefault();
+            if ((e.target as any).tagName !== "A") {
+                e.preventDefault();
 
-            if (tree_context.onSelectNode) {
-                tree_context.onSelectNode(node);
+                if (tree_context.onSelectNode) {
+                    tree_context.onSelectNode(node);
+                }
             }
         }
 
