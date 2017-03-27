@@ -6,7 +6,7 @@ import { Provider, connect } from "react-redux";
 
 import App from "./app";
 import { Tree } from "../immutable_tree";
-import reduceTree from "../reducer";
+import reduceTree from "../redux/reducer";
 import example_data from "./dinosaurs.json";
 
 import "../../css/banyan-react-tree.css";

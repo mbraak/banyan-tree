@@ -5,29 +5,33 @@ import classNames from "classnames";
 import { Tree } from "./immutable_tree";
 import * as inode from "./immutable_node";
 import { Node } from "./immutable_node";
-import * as actions from "./actions";
-
-export type Dispatch = (...params: any[]) => void;
 
 export type RenderNode = (node: Node) => JSX.Element;
 
+export type NodeCallback = (node: Node) => void;
+
+interface ITreeContext {
+    onToggleNode?: NodeCallback;
+    onSelectNode?: NodeCallback;
+    renderTitle?: RenderNode;
+}
+
 interface ITreeNodeProps {
     node: Node;
-    dispatch: Dispatch;
+    tree_context: ITreeContext;
     renderTitle?: RenderNode;
 }
 
 class TreeNode extends React.Component<ITreeNodeProps, {}> {
     public render(): JSX.Element|null {
-        const { node, dispatch, renderTitle } = this.props;
+        const { node, tree_context, renderTitle } = this.props;
 
         function handleClick(e: React.MouseEvent<HTMLDivElement>) {
             e.preventDefault();
 
-            dispatch({
-                type: actions.SELECT_NODE,
-                node_id: node.get("id")
-            });
+            if (tree_context.onSelectNode) {
+                tree_context.onSelectNode(node);
+            }
         }
 
         const is_folder = inode.hasChildren(node);
@@ -45,9 +49,12 @@ class TreeNode extends React.Component<ITreeNodeProps, {}> {
             <li key={node.get("id")} className={li_classes}>
                 <div className="banyan-element banyan-common" onClick={handleClick}>
                     <TreeTitle node={node} renderTitle={renderTitle} />
-                    {is_folder ? <TreeButton node={node} dispatch={dispatch} /> : null}
+                    {is_folder ? <TreeButton node={node} onToggleNode={tree_context.onToggleNode} /> : null}
                 </div>
-                {is_open_folder ? <TreeFolder node={node} dispatch={dispatch} renderTitle={renderTitle} /> : null}
+                {is_open_folder
+                    ? <TreeFolder node={node} tree_context={tree_context} renderTitle={renderTitle} />
+                    : null
+                }
             </li>
         );
     }
@@ -59,11 +66,11 @@ class TreeNode extends React.Component<ITreeNodeProps, {}> {
 
 interface ITreeFolderProps {
     node: Node;
-    dispatch: Dispatch;
+    tree_context: ITreeContext;
     renderTitle?: RenderNode;
 }
 
-function TreeFolder({ node, dispatch, renderTitle }: ITreeFolderProps) {
+function TreeFolder({ node, tree_context, renderTitle }: ITreeFolderProps) {
     const ul_classes = classNames({
         "banyan-common": true,
         "banyan-tree": node.get("is_root")
@@ -73,7 +80,9 @@ function TreeFolder({ node, dispatch, renderTitle }: ITreeFolderProps) {
         <ul className={ul_classes}>
             {inode.getChildren(node).map(
                 (child: Node) => (
-                    <TreeNode key={child.get("id")} node={child} dispatch={dispatch} renderTitle={renderTitle} />
+                    <TreeNode
+                        key={child.get("id")} node={child} tree_context={tree_context} renderTitle={renderTitle}
+                    />
                 )
             )}
         </ul>
@@ -99,15 +108,19 @@ function TreeTitle({ node, renderTitle }: ITreeTitleProps) {
     );
 }
 
-function TreeButton({ node, dispatch }: {node: Node, dispatch: Dispatch}) {
+interface ITreeButtonProps {
+    node: Node;
+    onToggleNode?: NodeCallback;
+}
+
+function TreeButton({ node, onToggleNode }: ITreeButtonProps) {
     function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
         e.preventDefault();
         e.stopPropagation();
 
-        dispatch({
-            type: actions.TOGGLE_NODE,
-            node_id: node.get("id")
-        });
+        if (onToggleNode) {
+            onToggleNode(node);
+        }
     }
 
     const button_classes = classNames({
@@ -127,10 +140,17 @@ function TreeButton({ node, dispatch }: {node: Node, dispatch: Dispatch}) {
 
 export interface ITreeComponentProps {
     tree: Tree;
-    dispatch: Dispatch;
+    onToggleNode?: NodeCallback;
+    onSelectNode?: NodeCallback;
     renderTitle?: RenderNode;
 }
 
-export default function TreeComponent({ tree, dispatch, renderTitle }: ITreeComponentProps) {
-    return <TreeFolder node={tree.root} dispatch={dispatch} renderTitle={renderTitle} />;
+export default function TreeComponent({ tree, onToggleNode, onSelectNode, renderTitle }: ITreeComponentProps) {
+    const tree_context: ITreeContext = {
+        onToggleNode, onSelectNode, renderTitle
+    };
+
+    return (
+        <TreeFolder node={tree.root} tree_context={tree_context} renderTitle={renderTitle} />
+    );
 }

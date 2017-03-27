@@ -1,5 +1,5 @@
 import * as actions from "./actions";
-import { Tree } from "./immutable_tree";
+import { Tree } from "../immutable_tree";
 
 export default function reduceTree(tree: Tree, action: any) {
     switch (action.type) {

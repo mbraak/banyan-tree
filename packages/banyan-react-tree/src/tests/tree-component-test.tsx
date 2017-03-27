@@ -3,9 +3,9 @@ import { createStore, Store } from "redux";
 import { expect } from "chai";
 import { mount } from "enzyme";
 
-import TreeComponent from "../tree_component";
+import ReduxComponent from "../redux/component";
 import { Tree } from "../immutable_tree";
-import reduceTree from "../reducer";
+import reduceTree from "../redux/reducer";
 import { test_data, example_data } from "../testutil/example_data";
 import { render, treeElementToString } from "../testutil/render";
 
@@ -14,7 +14,7 @@ describe("TreeComponent", () => {
         const tree = new Tree(test_data).openAllFolders();
         const store = createStore(reduceTree, tree);
 
-        const el = render(<TreeComponent tree={tree} dispatch={store.dispatch} />);
+        const el = render(<ReduxComponent tree={tree} dispatch={store.dispatch} />);
         expect(el.hasClass("banyan-tree")).to.eq(true);
 
         expect(treeElementToString(el)).to.equal("n1(n1a n1b) n2(n2a n2b)");
@@ -59,6 +59,6 @@ const initialStore = () => (
 
 const renderTree = (store: Store<Tree>) => (
     mount(
-        <TreeComponent tree={store.getState()} dispatch={store.dispatch} />
+        <ReduxComponent tree={store.getState()} dispatch={store.dispatch} />
     )
 );
