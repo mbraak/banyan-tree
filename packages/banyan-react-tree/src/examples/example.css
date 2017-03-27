@@ -11,3 +11,7 @@ body {
 .rank {
     right: 150px;
 }
+
+a.title {
+    color: #333;
+}
