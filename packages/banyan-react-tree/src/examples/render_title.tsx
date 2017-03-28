@@ -1,10 +1,8 @@
 import React from "react";
 
-import { TreeComponent } from "../tree_component";
-import { Tree } from "../immutable_tree";
 import { Node } from "../immutable_node";
 
-const renderTitle = (node: Node) => {
+export default function renderTitle(node: Node) {
     const name = node.get("name");
     const rank = node.get("rank");
     const url = node.get("url");
@@ -23,10 +21,4 @@ const renderTitle = (node: Node) => {
             }
         </span>
     );
-};
-
-function App({ tree }: { tree: Tree }) {
-    return <TreeComponent tree={tree} renderTitle={renderTitle} />;
 }
-
-export default App;
