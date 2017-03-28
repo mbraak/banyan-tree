@@ -29,6 +29,8 @@ export default function ReduxTree({ tree, dispatch, renderTitle }: ITreeComponen
     };
 
     return (
-        <BaseTreeComponent tree={tree} onToggleNode={handleToggle} onSelectNode={handleSelect} renderTitle={renderTitle} />
+        <BaseTreeComponent
+            tree={tree} onToggleNode={handleToggle} onSelectNode={handleSelect} renderTitle={renderTitle}
+        />
     );
 }
