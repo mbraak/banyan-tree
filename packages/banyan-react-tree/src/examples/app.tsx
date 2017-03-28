@@ -1,6 +1,6 @@
 import React from "react";
 
-import ReduxComponent from "../redux/component";
+import { TreeComponent } from "../tree_component";
 import { Tree } from "../immutable_tree";
 import { Node } from "../immutable_node";
 
@@ -25,8 +25,8 @@ const renderTitle = (node: Node) => {
     );
 };
 
-function App({ tree, dispatch }: {tree: Tree, dispatch: any}) {
-    return <ReduxComponent tree={tree} dispatch={dispatch} renderTitle={renderTitle} />;
+function App({ tree }: { tree: Tree }) {
+    return <TreeComponent tree={tree} renderTitle={renderTitle} />;
 }
 
 export default App;

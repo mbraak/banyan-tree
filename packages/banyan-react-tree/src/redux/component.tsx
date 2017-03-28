@@ -1,6 +1,6 @@
 import React from "react";
 
-import TreeComponent, { RenderNode } from "../tree_component";
+import { BaseTreeComponent, RenderNode } from "../tree_component";
 import * as actions from "./actions";
 import { Tree } from "../immutable_tree";
 import { Node } from "../immutable_node";
@@ -29,6 +29,6 @@ export default function ReduxTree({ tree, dispatch, renderTitle }: ITreeComponen
     };
 
     return (
-        <TreeComponent tree={tree} onToggleNode={handleToggle} onSelectNode={handleSelect} renderTitle={renderTitle} />
+        <BaseTreeComponent tree={tree} onToggleNode={handleToggle} onSelectNode={handleSelect} renderTitle={renderTitle} />
     );
 }

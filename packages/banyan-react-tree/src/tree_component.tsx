@@ -140,19 +140,68 @@ function TreeButton({ node, onToggleNode }: ITreeButtonProps) {
     );
 }
 
-export interface ITreeComponentProps {
+export interface IBaseTreeComponentProps {
     tree: Tree;
     onToggleNode?: NodeCallback;
     onSelectNode?: NodeCallback;
     renderTitle?: RenderNode;
 }
 
-export default function TreeComponent({ tree, onToggleNode, onSelectNode, renderTitle }: ITreeComponentProps) {
-    const tree_context: ITreeContext = {
-        onToggleNode, onSelectNode, renderTitle
-    };
+export function BaseTreeComponent({ tree, onToggleNode, onSelectNode, renderTitle }: IBaseTreeComponentProps) {
+    const tree_context: ITreeContext = { onToggleNode, onSelectNode, renderTitle };
 
     return (
         <TreeFolder node={tree.root} tree_context={tree_context} renderTitle={renderTitle} />
     );
+}
+
+export interface ITreeComponentProps {
+    tree: Tree;
+    renderTitle?: RenderNode;
+}
+
+export interface ITreeComponentState {
+    tree: Tree;
+}
+
+export class TreeComponent extends React.Component<ITreeComponentProps, ITreeComponentState> {
+    constructor(props: ITreeComponentProps) {
+        super(props);
+
+        this.state = { tree: props.tree };
+
+        this.handleToggle = this.handleToggle.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
+    }
+
+    public render(): JSX.Element {
+        const { tree } = this.state;
+        const { renderTitle } = this.props;
+
+        return (
+            <BaseTreeComponent
+                tree={tree}
+                renderTitle={renderTitle}
+                onToggleNode={ this.handleToggle }
+                onSelectNode={ this.handleSelect }
+            />
+        );
+    }
+
+    private handleToggle(node: Node) {
+        const { tree } = this.state;
+
+        this.setState({
+            tree: tree.toggleNode(node.get("id"))
+        });
+    }
+
+    private handleSelect(node: Node) {
+        const { tree } = this.state;
+
+        this.setState({
+            tree: tree.selectNode(node.get("id"))
+        });
+
+    }
 }
