@@ -13,6 +13,7 @@
         "noUnusedParameters": true,
         "moduleResolution": "node",
         "strictNullChecks": true,
+        "experimentalDecorators": true,
         "outDir": "lib"
     },
     "exclude": [
