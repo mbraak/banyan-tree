@@ -5,7 +5,7 @@ import { Provider, connect } from "react-redux";
 import logger from "redux-logger";
 
 import App from "./app";
-import reduceTree from "../../redux/reducer";
+import { createReducerForTreeId } from "../../redux/reducer";
 import { Tree } from "../../immutable_tree";
 import example_data from "../dinosaurs.json";
 
@@ -16,7 +16,7 @@ const tree = new Tree([example_data])
     .openLevel(1);
 
 const initial = { tree };
-const root_reducer = combineReducers({ tree: reduceTree });
+const root_reducer = combineReducers({ tree: createReducerForTreeId("example") });
 const store = createStore(
     root_reducer,
     initial,

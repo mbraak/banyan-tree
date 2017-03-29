@@ -5,7 +5,7 @@ import { mount } from "enzyme";
 
 import ReduxComponent from "../redux/component";
 import { Tree } from "../immutable_tree";
-import reduceTree from "../redux/reducer";
+import { reduceTree } from "../redux/reducer";
 import { test_data, example_data } from "../testutil/example_data";
 import { render, treeElementToString } from "../testutil/render";
 

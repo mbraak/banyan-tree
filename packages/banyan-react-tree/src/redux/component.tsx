@@ -11,20 +11,23 @@ export interface ITreeComponentProps {
     tree: Tree;
     dispatch: Dispatch;
     renderTitle?: RenderNode;
+    tree_id?: string;
 }
 
-export default function ReduxTree({ tree, dispatch, renderTitle }: ITreeComponentProps) {
+export default function ReduxTree({ tree, dispatch, renderTitle, tree_id }: ITreeComponentProps) {
     const handleSelect = (node: Node) => {
         dispatch({
             type: actions.SELECT_NODE,
-            node_id: node.get("id")
+            node_id: node.get("id"),
+            tree_id
         });
     };
 
     const handleToggle = (node: Node) => {
         dispatch({
             type: actions.TOGGLE_NODE,
-            node_id: node.get("id")
+            node_id: node.get("id"),
+            tree_id
         });
     };
 
