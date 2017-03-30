@@ -38,7 +38,7 @@ describe("TreeComponent", () => {
         div.simulate("click");
 
         const selected_node = store.getState().getSelectedNode();
-        expect(selected_node).to.not.be.null;
+        expect(selected_node).to.not.eql(null);
 
         if (selected_node) {
             expect(selected_node.get("name")).to.eql("Theropods");
