@@ -5,6 +5,7 @@ import classNames from "classnames";
 import { Tree } from "./immutable_tree";
 import * as inode from "./immutable_node";
 import { Node } from "./immutable_node";
+import KeyHandler, { HandleKey } from "./key_handler";
 
 export type RenderNode = (node: Node) => JSX.Element;
 
@@ -145,14 +146,26 @@ export interface IBaseTreeComponentProps {
     onToggleNode?: NodeCallback;
     onSelectNode?: NodeCallback;
     renderTitle?: RenderNode;
+    onHandleKey?: HandleKey;
 }
 
-export function BaseTreeComponent({ tree, onToggleNode, onSelectNode, renderTitle }: IBaseTreeComponentProps) {
+export function BaseTreeComponent(
+    { tree, onToggleNode, onSelectNode, renderTitle, onHandleKey }: IBaseTreeComponentProps
+) {
     const tree_context: ITreeContext = { onToggleNode, onSelectNode, renderTitle };
 
-    return (
-        <TreeFolder node={tree.root} tree_context={tree_context} renderTitle={renderTitle} />
-    );
+    const tree_folder = <TreeFolder node={tree.root} tree_context={tree_context} renderTitle={renderTitle} />;
+
+    if (!onHandleKey) {
+        return tree_folder;
+    }
+    else {
+        return (
+            <KeyHandler onHandleKey={onHandleKey}>
+                {tree_folder}
+            </KeyHandler>
+        );
+    }
 }
 
 export interface ITreeComponentProps {
@@ -172,6 +185,7 @@ export class TreeComponent extends React.Component<ITreeComponentProps, ITreeCom
 
         this.handleToggle = this.handleToggle.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.handleKey = this.handleKey.bind(this);
     }
 
     public render(): JSX.Element {
@@ -184,6 +198,7 @@ export class TreeComponent extends React.Component<ITreeComponentProps, ITreeCom
                 renderTitle={renderTitle}
                 onToggleNode={ this.handleToggle }
                 onSelectNode={ this.handleSelect }
+                onHandleKey={ this.handleKey }
             />
         );
     }
@@ -202,6 +217,13 @@ export class TreeComponent extends React.Component<ITreeComponentProps, ITreeCom
         this.setState({
             tree: tree.selectNode(node.get("id"))
         });
+    }
 
+    private handleKey(key: string) {
+        const { tree } = this.state;
+
+        this.setState({
+            tree: tree.handleKey(key)
+        });
     }
 }

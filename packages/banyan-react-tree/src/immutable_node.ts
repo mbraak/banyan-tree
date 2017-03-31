@@ -381,3 +381,115 @@ export function updateNode(readonly_node: IReadonlyNode, attributes: any): [Node
         }
     ];
 }
+
+export type GetNodeById = (id: NodeId) => Node|null;
+
+export function getNextNode(node: Node, getNodeById: GetNodeById, include_children = true): Node|null {
+    if (include_children && hasChildren(node) && node.get("is_open")) {
+        // First child
+        return getChildren(node).first();
+    }
+    else {
+        const parent = getParent(node, getNodeById);
+
+        if (!parent) {
+            return null;
+        }
+        else {
+            const next_sibling = getNextSibling(node, getNodeById);
+
+            if (next_sibling) {
+                // Next sibling
+                return next_sibling;
+            }
+            else {
+                // Next node of parent
+                return getNextNode(parent, getNodeById, false);
+            }
+        }
+    }
+}
+
+export function getPreviousNode(node: Node, getNodeById: GetNodeById): Node|null {
+    const parent = getParent(node, getNodeById);
+
+    if (!parent) {
+        return null;
+    }
+    else {
+        const previous_sibling = getPreviousSibling(node, getNodeById);
+
+        if (!previous_sibling) {
+            // Parent
+            return parent;
+        }
+        else {
+            if (!hasChildren(previous_sibling) || !previous_sibling.get("is_open")) {
+                // Previous sibling
+                return previous_sibling;
+            }
+            else {
+                // Last child of previous sibling
+                return getChildren(previous_sibling).last();
+            }
+        }
+    }
+}
+
+function getParent(node: Node, getNodeById: GetNodeById): Node|null {
+    const parent_id: NodeId|null = node.get("parent_id");
+
+    if (!parent_id) {
+        return null;
+    }
+    else {
+        return getNodeById(parent_id);
+    }
+}
+
+function getChildIndex(parent: Node, child: Node): number|null {
+    const index = getChildren(parent).indexOf(child);
+
+    if (index === -1) {
+        return null;
+    }
+    else {
+        return index;
+    }
+}
+
+function getNextSibling(node: Node, getNodeById: GetNodeById): Node|null {
+    const parent = getParent(node, getNodeById);
+
+    if (!parent) {
+        return null;
+    }
+    else {
+        const child_index = getChildIndex(parent, node);
+
+        if (child_index === null) {
+            return null;
+        }
+        else {
+            return getChildren(parent).get(child_index + 1);
+        }
+    }
+}
+
+function getPreviousSibling(node: Node, getNodeById: GetNodeById): Node|null {
+    const parent = getParent(node, getNodeById);
+
+    if (!parent) {
+        return null;
+    }
+    else {
+        const child_index = getChildIndex(parent, node);
+
+        if (child_index === null || child_index === 0) {
+            return null;
+        }
+        else {
+            return getChildren(parent).get(child_index - 1);
+        }
+    }
+}

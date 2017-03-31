@@ -179,6 +179,74 @@ export class Tree {
         return this.ids.valueSeq().toArray();
     }
 
+    public handleKey(key: string): Tree {
+        const selected_node = this.getSelectedNode();
+
+        if (!selected_node) {
+            return this;
+        }
+        else {
+            const selectNode = (n: Node|null) => (
+                n ? this.selectNode(n.get("id")) : this
+            );
+
+            switch (key) {
+                case "ArrowUp":
+                    return selectNode(this.getPreviousNode(selected_node));
+
+                case "ArrowDown":
+                    return selectNode(this.getNextNode(selected_node));
+
+                case "ArrowRight":
+                    if (!node.hasChildren(selected_node)) {
+                        return this;
+                    }
+                    else {
+                        const is_open = selected_node.get("is_open");
+
+                        if (is_open) {
+                            // Right moves to the first child of an open node
+                            return selectNode(this.getNextNode(selected_node));
+                        }
+                        else {
+                            // Right expands a closed node
+                            return this.openNode(selected_node.get("id"));
+                        }
+                    }
+
+                case "ArrowLeft":
+                    const is_open = selected_node.get("is_open");
+
+                    if (node.hasChildren(selected_node) && is_open) {
+                        // Left on an open node closes the node
+                        return this.closeNode(selected_node.get("id"));
+                    }
+                    else {
+                        // Left on a closed or end node moves focus to the node's parent
+                        const parent_id = selected_node.get("parent_id");
+
+                        if (parent_id === null) {
+                            return this;
+                        }
+                        else {
+                            return this.selectNode(parent_id);
+                        }
+                    }
+
+                default:
+                    return this;
+            }
+        }
+    }
+
+    private getPreviousNode(n: Node): Node|null {
+        return node.getPreviousNode(n, this.getNodeById.bind(this));
+    }
+
+    private getNextNode(n: Node): Node|null {
+        return node.getNextNode(n, this.getNodeById.bind(this))
+    }
+
     private addNodeToRoot(child: INodeData): Tree {
         const [new_root, update_info] = node.addNode(this.root, child);
 

@@ -17,4 +17,8 @@ export default class TreeStore {
     public toggle(node: Node) {
         this.tree = this.tree.toggleNode(node.get("id"));
     }
+
+    public handleKey(key: string) {
+        this.tree = this.tree.handleKey(key);
+    }
 }
