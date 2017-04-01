@@ -5,11 +5,11 @@ import { Provider, connect } from "react-redux";
 import logger from "redux-logger";
 
 import App from "./app";
-import { createReducerForTreeId } from "../../redux/reducer";
-import { Tree } from "../../immutable_tree";
+import { createReducerForTreeId } from "../../src/redux/reducer";
+import { Tree } from "../../src/immutable_tree";
 import example_data from "../dinosaurs.json";
 
-import "../../../css/banyan-react-tree.css";
+import "../../css/banyan-react-tree.css";
 import "../example.css";
 
 const tree = new Tree([example_data])

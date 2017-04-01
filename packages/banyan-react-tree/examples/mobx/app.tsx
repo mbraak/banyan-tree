@@ -1,8 +1,8 @@
 import React from "react";
 
 import renderTitle from "../render_title";
-import MobxTree from "../../mobx/component";
-import TreeStore from "../../mobx/tree_store";
+import MobxTree from "../../src/mobx/component";
+import TreeStore from "../../src/mobx/tree_store";
 
 export interface IAppProps {
     tree_store: TreeStore;

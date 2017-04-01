@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Node } from "../immutable_node";
+import { Node } from "../src/immutable_node";
 
 export default function renderTitle(node: Node) {
     const name = node.get("name");

@@ -1,8 +1,17 @@
-ul.banyan-tree.banyan-loading:after {
-    content: url(spinner.gif);
+body {
+    font-family: sans-serif;
 }
 
-.banyan-tree .banyan-loading > div .banyan-title:after {
-    content: url(spinner.gif);
-    margin-left: 8px;
+.rank, .species-count {
+    color: #888;
+    position: absolute;
+    right: 8px;
+}
+
+.rank {
+    right: 150px;
+}
+
+a.title {
+    color: #333;
 }

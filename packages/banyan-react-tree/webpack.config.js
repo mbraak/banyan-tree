@@ -5,7 +5,7 @@ var AnyBarWebpackPlugin = require('anybar-webpack');
 
 module.exports = {
     entry: {
-        app: ["./src/examples/default/example.tsx"]
+        app: ["./examples/default/example.tsx"]
     },
     output: {
         path: path.join(__dirname, "/build"),

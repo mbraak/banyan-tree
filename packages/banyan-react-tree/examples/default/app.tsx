@@ -1,7 +1,7 @@
 import React from "react";
 
-import { TreeComponent } from "../../tree_component";
-import { Tree } from "../../immutable_tree";
+import { TreeComponent } from "../../src/tree_component";
+import { Tree } from "../../src/immutable_tree";
 import renderTitle from "../render_title";
 
 function App({ tree }: { tree: Tree }) {
