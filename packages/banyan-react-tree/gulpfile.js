@@ -6,7 +6,7 @@ const sourcemaps = require("gulp-sourcemaps");
 gulp.task("lib_ts", function() {
     const tsProject = ts.createProject('tsconfig.json');
 
-    const {js, dts} = gulp.src("./src/*.ts*")
+    const {js, dts} = gulp.src("./src/**/*.ts*")
         .pipe(sourcemaps.init())
         .pipe(tsProject())
 
