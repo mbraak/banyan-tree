@@ -30,7 +30,7 @@ class ImmutableTreeImplementation implements ITreeImplementation<Tree> {
         else {
             const parent = this.getNodeById(tree, parent_id);
 
-            return tree.addNode(parent, node_data);
+            return tree.addNode(node_data, parent);
         }
     }
 

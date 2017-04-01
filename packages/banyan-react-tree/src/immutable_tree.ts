@@ -27,13 +27,12 @@ export class Tree {
         return node.hasChildren(this.root);
     }
 
-    // todo: reverse params
-    public addNode(parent: Node|INodeData, child?: INodeData): Tree {
-        if (!child) {
-            return this.addNodeToRoot(parent as INodeData);
+    public addNode(child: INodeData, parent?: Node): Tree {
+        if (!parent) {
+            return this.addNodeToRoot(child);
         }
         else {
-            return this.addNodeToParent(parent as Node, child as INodeData);
+            return this.addNodeToParent(parent, child);
         }
     }
 

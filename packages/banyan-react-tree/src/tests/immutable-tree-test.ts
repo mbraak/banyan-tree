@@ -39,7 +39,7 @@ describe("Tree", () => {
             .addNode({ name: "n2", id: 2 });
 
         const n1 = t1.doGetNodeByName("n1");
-        const t2 = t1.addNode(n1, { name: "n1a", id: 3 });
+        const t2 = t1.addNode({ name: "n1a", id: 3 }, n1);
 
         expect(t1.toString()).to.equal("n1 n2");
         expect(t2.toString()).to.equal("n1(n1a) n2");
