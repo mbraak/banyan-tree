@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import * as node from "../immutable_node";
+import * as node from "../src/immutable_node";
 
 const data1 = [
     {

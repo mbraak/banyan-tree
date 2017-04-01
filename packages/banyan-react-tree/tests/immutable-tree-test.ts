@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
-import { Tree } from "../immutable_tree";
-import { test_data } from "../testutil/example_data";
+import { Tree } from "../src/immutable_tree";
+import { test_data } from "./testutil/example_data";
 
 describe("Tree", () => {
     it("create empty tree", () => {

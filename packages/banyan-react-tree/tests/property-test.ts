@@ -2,9 +2,9 @@ import { expect } from "chai";
 import { range } from "lodash";
 import TreeModel, { Node as ModelNode } from "tree-model";
 
-import { Tree } from "../immutable_tree";
-import { INodeData, NodeId, Node } from "../immutable_node";
-import { newId, randomString, randomNodeIdOrNull, randomNodeId, pickWeightedRandom } from "../testutil/test_util";
+import { Tree } from "../src/immutable_tree";
+import { INodeData, NodeId, Node } from "../src/immutable_node";
+import { newId, randomString, randomNodeIdOrNull, randomNodeId, pickWeightedRandom } from "./testutil/test_util";
 
 interface ITreeImplementation<T> {
     createTree: () => T;

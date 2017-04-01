@@ -1,3 +1,3 @@
 --webpack-config webpack.config-test.js
---require src/testutil/setup.js
-src/tests/*.ts*
+--require tests/testutil/setup.js
+tests/*-test.ts*

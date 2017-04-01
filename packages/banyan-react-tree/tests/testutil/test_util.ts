@@ -1,7 +1,7 @@
 import { random, range, join } from "lodash";
 
-import { Tree } from "../immutable_tree";
-import { NodeId } from "../immutable_node";
+import { Tree } from "../../src/immutable_tree";
+import { NodeId } from "../../src/immutable_node";
 
 function pickRandom<T>(array: T[]): T {
     if (!array.length) {
