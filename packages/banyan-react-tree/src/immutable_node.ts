@@ -382,68 +382,64 @@ export function updateNode(readonly_node: IReadonlyNode, attributes: any): [Node
     ];
 }
 
-export type GetNodeById = (id: NodeId) => Node|null;
+export function getNextNode(readonly_node: IReadonlyNode, include_children = true): Node|null {
+    const { node } = readonly_node;
 
-export function getNextNode(node: Node, getNodeById: GetNodeById, include_children = true): Node|null {
     if (include_children && hasChildren(node) && node.get("is_open")) {
         // First child
         return getChildren(node).first();
     }
     else {
-        const parent = getParent(node, getNodeById);
+        const next_sibling = getNextSibling(readonly_node);
 
-        if (!parent) {
-            return null;
+        if (next_sibling) {
+            // Next sibling
+            return next_sibling;
         }
         else {
-            const next_sibling = getNextSibling(node, getNodeById);
+            const readonly_parent = getReadonlyParent(readonly_node);
 
-            if (next_sibling) {
-                // Next sibling
-                return next_sibling;
+            if (!readonly_parent) {
+                return null;
             }
             else {
-                // Next node of parent
-                return getNextNode(parent, getNodeById, false);
+                return getNextNode(readonly_parent, false);
             }
         }
     }
 }
 
-export function getPreviousNode(node: Node, getNodeById: GetNodeById): Node|null {
-    const parent = getParent(node, getNodeById);
+function getReadonlyParent(node: IReadonlyNode): IReadonlyNode|null {
+    const { parents } = node;
+    const parent = first(parents);
 
     if (!parent) {
         return null;
     }
     else {
-        const previous_sibling = getPreviousSibling(node, getNodeById);
-
-        if (!previous_sibling) {
-            // Parent
-            return parent;
-        }
-        else {
-            if (!hasChildren(previous_sibling) || !previous_sibling.get("is_open")) {
-                // Previous sibling
-                return previous_sibling;
-            }
-            else {
-                // Last child of previous sibling
-                return getChildren(previous_sibling).last();
-            }
-        }
+        return {
+            node: parent,
+            parents: tail(parents)
+        };
     }
 }
 
-function getParent(node: Node, getNodeById: GetNodeById): Node|null {
-    const parent_id: NodeId|null = node.get("parent_id");
+export function getPreviousNode(readonly_node: IReadonlyNode): Node|null {
+    const previous_sibling = getPreviousSibling(readonly_node);
 
-    if (!parent_id) {
-        return null;
+    if (!previous_sibling) {
+        // Parent
+        return first(readonly_node.parents);
     }
     else {
-        return getNodeById(parent_id);
+        if (!hasChildren(previous_sibling) || !previous_sibling.get("is_open")) {
+            // Previous sibling
+            return previous_sibling;
+        }
+        else {
+            // Last child of previous sibling
+            return getChildren(previous_sibling).last();
+        }
     }
 }
 
@@ -458,8 +454,9 @@ function getChildIndex(parent: Node, child: Node): number|null {
     }
 }
 
-function getNextSibling(node: Node, getNodeById: GetNodeById): Node|null {
-    const parent = getParent(node, getNodeById);
+function getNextSibling(readonly_node: IReadonlyNode): Node|null {
+    const { node, parents } = readonly_node;
+    const parent = first(parents);
 
     if (!parent) {
         return null;
@@ -476,8 +473,9 @@ function getNextSibling(node: Node, getNodeById: GetNodeById): Node|null {
     }
 }
 
-function getPreviousSibling(node: Node, getNodeById: GetNodeById): Node|null {
-    const parent = getParent(node, getNodeById);
+function getPreviousSibling(readonly_node: IReadonlyNode): Node|null {
+    const { node, parents } = readonly_node;
+    const parent = first(parents);
 
     if (!parent) {
         return null;

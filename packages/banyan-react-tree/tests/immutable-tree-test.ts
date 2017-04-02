@@ -132,4 +132,58 @@ describe("Tree", () => {
         expect(t2.doGetNodeById(5).get("name")).to.equal("N2A");
         expect(t2.toString()).to.equal("n1(n1a n1b) n2(N2A n2b)");
     });
+
+    it("get next node", () => {
+        const assertNextNode = (tree: Tree, node_name: string, next_name: string|null) => {
+            const next_node = tree.getNextNode(
+                tree.doGetNodeByName(node_name)
+            );
+
+            if (!next_name) {
+                expect(next_node).to.eql(null);
+            }
+            else {
+                expect(next_node).to.not.eql(null);
+
+                if (next_node) {
+                    expect(next_node.get("name")).to.eql(next_name);
+                }
+            }
+        };
+
+        // tree1; example data
+        const tree1 = new Tree(test_data);
+        assertNextNode(tree1, "n1", "n2");
+        assertNextNode(tree1, "n2", null);
+
+        // open all nodes
+        const tree2 = tree1.openAllFolders();
+        assertNextNode(tree2, "n1", "n1a");
+        assertNextNode(tree2, "n1a", "n1b");
+        assertNextNode(tree2, "n1b", "n2");
+    });
+
+    it("get previous node", () => {
+        const assertPreviousNode = (tree: Tree, node_name: string, previous_name: string|null) => {
+            const previous_node = tree.getPreviousNode(
+                tree.doGetNodeByName(node_name)
+            );
+
+            if (!previous_name) {
+                expect(previous_node).to.eql(null);
+            }
+            else {
+                expect(previous_node).to.not.eql(null);
+
+                if (previous_node) {
+                    expect(previous_node.get("name")).to.eql(previous_name);
+                }
+            }
+        };
+
+        // tree1; example data
+        const tree1 = new Tree(test_data);
+        assertPreviousNode(tree1, "n1", null);
+        assertPreviousNode(tree1, "n2", "n1");
+    });
 });

@@ -238,12 +238,16 @@ export class Tree {
         }
     }
 
-    private getPreviousNode(n: Node): Node|null {
-        return node.getPreviousNode(n, this.getNodeById.bind(this));
+    public getNextNode(n: Node): Node|null {
+        return node.getNextNode(
+            this.getReadonlyNode(n)
+        );
     }
 
-    private getNextNode(n: Node): Node|null {
-        return node.getNextNode(n, this.getNodeById.bind(this))
+    public getPreviousNode(n: Node): Node|null {
+        return node.getPreviousNode(
+            this.getReadonlyNode(n)
+        );
     }
 
     private addNodeToRoot(child: INodeData): Tree {
