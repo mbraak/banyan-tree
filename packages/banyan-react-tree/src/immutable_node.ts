@@ -429,7 +429,14 @@ export function getPreviousNode(readonly_node: IReadonlyNode): Node|null {
 
     if (!previous_sibling) {
         // Parent
-        return first(readonly_node.parents);
+        const parent = first(readonly_node.parents);
+
+        if (parent.get("is_root")) {
+            return null;
+        }
+        else {
+            return parent;
+        }
     }
     else {
         if (!hasChildren(previous_sibling) || !previous_sibling.get("is_open")) {
