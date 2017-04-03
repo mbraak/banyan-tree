@@ -22,7 +22,7 @@ export abstract class BaseKeyHandler<T> extends React.Component<T, void> {
     protected abstract handleKey(event: KeyboardEvent): void;
 }
 
-export type HandleKey = (key: string) => void;
+export type HandleKey = (key: string) => boolean;
 
 export interface IKeyHandlerProps {
     onHandleKey: HandleKey;
@@ -33,7 +33,11 @@ export default class KeyHandler extends BaseKeyHandler<IKeyHandlerProps> {
         const { key } = event;
 
         if (key === "ArrowUp" || key === "ArrowDown" || key === "ArrowLeft" || key === "ArrowRight") {
-            this.props.onHandleKey(key);
+            const is_handled = this.props.onHandleKey(key);
+            return !is_handled;
+        }
+        else {
+            return false;
         }
     }
 }

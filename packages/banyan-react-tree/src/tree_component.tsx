@@ -219,11 +219,17 @@ export class TreeComponent extends React.Component<ITreeComponentProps, ITreeCom
         });
     }
 
-    private handleKey(key: string) {
+    private handleKey(key: string): boolean {
         const { tree } = this.state;
 
-        this.setState({
-            tree: tree.handleKey(key)
-        });
+        const [ is_handled, new_tree ] = tree.handleKey(key);
+
+        if (!is_handled) {
+            return false;
+        }
+        else {
+            this.setState({ tree: new_tree });
+            return true;
+        }
     }
 }

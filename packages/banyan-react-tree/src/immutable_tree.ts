@@ -178,11 +178,20 @@ export class Tree {
         return this.ids.valueSeq().toArray();
     }
 
-    public handleKey(key: string): Tree {
+    /*
+        Change selected node based on key code.
+
+        Returns [ is_handled, new_tree ]
+
+        ```
+        const [ is_handled, new_tree ] = tree.handleKey("ArrowDown");
+        ```
+    */
+    public handleKey(key: string): [boolean, Tree] {
         const selected_node = this.getSelectedNode();
 
         if (!selected_node) {
-            return this;
+            return [false, this];
         }
         else {
             const selectNode = (n: Node|null) => (
@@ -191,25 +200,37 @@ export class Tree {
 
             switch (key) {
                 case "ArrowUp":
-                    return selectNode(this.getPreviousNode(selected_node));
+                    return [
+                        true,
+                        selectNode(this.getPreviousNode(selected_node))
+                    ];
 
                 case "ArrowDown":
-                    return selectNode(this.getNextNode(selected_node));
+                    return [
+                        true,
+                        selectNode(this.getNextNode(selected_node))
+                    ];
 
                 case "ArrowRight":
                     if (!node.hasChildren(selected_node)) {
-                        return this;
+                        return [false, this];
                     }
                     else {
                         const is_open = selected_node.get("is_open");
 
                         if (is_open) {
                             // Right moves to the first child of an open node
-                            return selectNode(this.getNextNode(selected_node));
+                            return [
+                                true,
+                                selectNode(this.getNextNode(selected_node))
+                            ];
                         }
                         else {
                             // Right expands a closed node
-                            return this.openNode(selected_node.get("id"));
+                            return [
+                                true,
+                                this.openNode(selected_node.get("id"))
+                            ];
                         }
                     }
 
@@ -218,22 +239,28 @@ export class Tree {
 
                     if (node.hasChildren(selected_node) && is_open) {
                         // Left on an open node closes the node
-                        return this.closeNode(selected_node.get("id"));
+                        return [
+                            true,
+                            this.closeNode(selected_node.get("id"))
+                        ];
                     }
                     else {
                         // Left on a closed or end node moves focus to the node's parent
                         const parent_id = selected_node.get("parent_id");
 
                         if (parent_id === null) {
-                            return this;
+                            return [false, this];
                         }
                         else {
-                            return this.selectNode(parent_id);
+                            return [
+                                true,
+                                this.selectNode(parent_id)
+                            ];
                         }
                     }
 
                 default:
-                    return this;
+                    return [false, this];
             }
         }
     }
