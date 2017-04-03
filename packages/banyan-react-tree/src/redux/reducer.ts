@@ -23,6 +23,11 @@ export function reduceTree(tree: Tree, action: any): Tree {
         case actions.TOGGLE_NODE:
             return tree.toggleNode(action.node_id);
 
+        case actions.HANDLE_KEY:
+            const [, new_tree] = tree.handleKey(action.key);
+
+            return new_tree;
+
         default:
             if (!tree) {
                 return new Tree();

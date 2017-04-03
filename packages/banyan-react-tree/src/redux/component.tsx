@@ -31,9 +31,23 @@ export default function ReduxTree({ tree, dispatch, renderTitle, tree_id }: ITre
         });
     };
 
+    const handleKey = (key: string) => {
+        dispatch({
+            type: actions.HANDLE_KEY,
+            key,
+            tree_id
+        });
+
+        return true;
+    };
+
     return (
         <BaseTreeComponent
-            tree={tree} onToggleNode={handleToggle} onSelectNode={handleSelect} renderTitle={renderTitle}
+            tree={tree}
+            onToggleNode={handleToggle}
+            onSelectNode={handleSelect}
+            renderTitle={renderTitle}
+            onHandleKey={handleKey}
         />
     );
 }
