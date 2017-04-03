@@ -34,10 +34,10 @@ export default class KeyHandler extends BaseKeyHandler<IKeyHandlerProps> {
 
         if (key === "ArrowUp" || key === "ArrowDown" || key === "ArrowLeft" || key === "ArrowRight") {
             const is_handled = this.props.onHandleKey(key);
-            return !is_handled;
-        }
-        else {
-            return false;
+
+            if (is_handled) {
+                event.preventDefault();
+            }
         }
     }
 }
