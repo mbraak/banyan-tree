@@ -12,9 +12,12 @@ export interface ITreeComponentProps {
     dispatch: Dispatch;
     renderTitle?: RenderNode;
     tree_id?: string;
+    keyboardSupport?: boolean;
 }
 
-export default function ReduxTree({ tree, dispatch, renderTitle, tree_id }: ITreeComponentProps) {
+const ReduxTree = (
+    { tree, dispatch, renderTitle, tree_id, keyboardSupport = true }: ITreeComponentProps
+) => {
     const handleSelect = (node: Node) => {
         dispatch({
             type: actions.SELECT_NODE,
@@ -47,7 +50,9 @@ export default function ReduxTree({ tree, dispatch, renderTitle, tree_id }: ITre
             onToggleNode={handleToggle}
             onSelectNode={handleSelect}
             renderTitle={renderTitle}
-            onHandleKey={handleKey}
+            onHandleKey={keyboardSupport ? handleKey : undefined}
         />
     );
-}
+};
+
+export default ReduxTree;

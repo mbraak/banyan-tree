@@ -171,6 +171,7 @@ export function BaseTreeComponent(
 export interface ITreeComponentProps {
     tree: Tree;
     renderTitle?: RenderNode;
+    keyboardSupport?: boolean;
 }
 
 export interface ITreeComponentState {
@@ -178,6 +179,10 @@ export interface ITreeComponentState {
 }
 
 export class TreeComponent extends React.Component<ITreeComponentProps, ITreeComponentState> {
+    public static defaultProps: Partial<ITreeComponentProps> = {
+        keyboardSupport: true
+    };
+
     constructor(props: ITreeComponentProps) {
         super(props);
 
@@ -190,7 +195,7 @@ export class TreeComponent extends React.Component<ITreeComponentProps, ITreeCom
 
     public render(): JSX.Element {
         const { tree } = this.state;
-        const { renderTitle } = this.props;
+        const { renderTitle, keyboardSupport } = this.props;
 
         return (
             <BaseTreeComponent
@@ -198,7 +203,7 @@ export class TreeComponent extends React.Component<ITreeComponentProps, ITreeCom
                 renderTitle={renderTitle}
                 onToggleNode={ this.handleToggle }
                 onSelectNode={ this.handleSelect }
-                onHandleKey={ this.handleKey }
+                onHandleKey={ keyboardSupport ? this.handleKey : undefined }
             />
         );
     }

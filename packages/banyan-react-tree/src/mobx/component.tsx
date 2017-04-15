@@ -7,10 +7,10 @@ import TreeStore from "./tree_store";
 export interface IMobxTreeProps {
     tree_store: TreeStore;
     renderTitle?: RenderNode;
+    keyboardSupport?: boolean;
 }
 
-const MobxTree = observer(
-    ({ tree_store, renderTitle }: IMobxTreeProps) => {
+const MobxTree = ({ tree_store, renderTitle, keyboardSupport = true }: IMobxTreeProps) => {
     const select = tree_store.select.bind(tree_store);
     const toggle = tree_store.toggle.bind(tree_store);
     const handleKey = tree_store.handleKey.bind(tree_store);
@@ -21,9 +21,9 @@ const MobxTree = observer(
             renderTitle={renderTitle}
             onSelectNode={select}
             onToggleNode={toggle}
-            onHandleKey={handleKey}
+            onHandleKey={keyboardSupport ? handleKey : undefined}
         />
     );
-});
+};
 
-export default MobxTree;
+export default observer(MobxTree);

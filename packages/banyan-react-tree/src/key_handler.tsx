@@ -26,7 +26,7 @@ export type HandleKey = (key: string) => boolean;
 
 export interface IKeyHandlerProps {
     onHandleKey: HandleKey;
-};
+}
 
 export default class KeyHandler extends BaseKeyHandler<IKeyHandlerProps> {
     protected handleKey(event: KeyboardEvent) {
