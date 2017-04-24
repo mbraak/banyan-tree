@@ -1,12 +1,12 @@
-const jsdom = require('jsdom').jsdom;
+const JSDOM = require('jsdom').JSDOM;
 
-global.document = jsdom('');
-global.window = document.defaultView;
+const dom = new JSDOM('');
+const { window } = dom;
 window.console = global.console;
 
-Object.keys(document.defaultView).forEach((property) => {
+Object.keys(window).forEach((property) => {
   if (typeof global[property] === 'undefined') {
-    global[property] = document.defaultView[property];
+    global[property] = window[property];
   }
 });
 
