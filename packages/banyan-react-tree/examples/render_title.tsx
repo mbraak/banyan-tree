@@ -11,7 +11,7 @@ export default function renderTitle(node: Node) {
     return (
         <span>
             { url
-                ? <a href={url} className="title" target="_blank">{name}</a>
+                ? <a href={url} className="title" target="_blank" tabIndex={-1}>{name}</a>
                 : name
             }
             <span className="rank">{rank}</span>
