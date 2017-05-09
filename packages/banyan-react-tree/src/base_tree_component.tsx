@@ -11,6 +11,8 @@ export type RenderNode = (node: Node) => JSX.Element;
 
 export type NodeCallback = (node: Node) => void;
 
+export type SetTreeElement = (element: Element) => void;
+
 interface ITreeContext {
     onToggleNode?: NodeCallback;
     onSelectNode?: NodeCallback;
@@ -70,9 +72,10 @@ class TreeNode extends React.Component<ITreeNodeProps, {}> {
 interface ITreeFolderProps {
     node: Node;
     tree_context: ITreeContext;
+    setRootElement?: SetTreeElement;
 }
 
-function TreeFolder({ node, tree_context }: ITreeFolderProps) {
+function TreeFolder({ node, tree_context, setRootElement }: ITreeFolderProps) {
     const is_root = node.get("is_root");
 
     const ul_classes = classNames({
@@ -82,8 +85,10 @@ function TreeFolder({ node, tree_context }: ITreeFolderProps) {
 
     const role = is_root ? "tree" : "node";
 
+    const setRef = is_root ? setRootElement : undefined;
+
     return (
-        <ul className={ul_classes} role={role}>
+        <ul className={ul_classes} role={role} ref={setRef}>
             {inode.getChildren(node).map(
                 (child: Node) => (
                     <TreeNode
@@ -125,12 +130,8 @@ function TreeTitle({ node, renderTitle }: ITreeTitleProps) {
         "role": "treeitem",
         "aria-selected": is_selected,
         "aria-expanded": is_open,
-        "ref": focusElement
+        "ref": is_selected ? focusElement : undefined
     };
-
-    if (!is_selected) {
-        delete props.ref;
-    }
 
     // todo: aria-level
 
@@ -189,25 +190,61 @@ export interface IBaseTreeComponentProps {
     onHandleKey?: HandleKey;
 }
 
-export function BaseTreeComponent(
-    { tree, onToggleNode, onSelectNode, renderTitle, onHandleKey }: IBaseTreeComponentProps
-) {
-    const tree_context: ITreeContext = {
-        onToggleNode,
-        onSelectNode,
-        renderTitle: renderTitle || defaultRenderTitle
-    };
+export class BaseTreeComponent extends React.Component<IBaseTreeComponentProps, void> {
+    private key_handler?: KeyHandler;
+    private root_element?: Element;
 
-    const tree_folder = <TreeFolder node={tree.root} tree_context={tree_context} />;
+    constructor(props: IBaseTreeComponentProps) {
+        super(props);
 
-    if (!onHandleKey) {
-        return tree_folder;
+        this.setRootElement = this.setRootElement.bind(this);
+        this.setKeyHandler = this.setKeyHandler.bind(this);
     }
-    else {
-        return (
-            <KeyHandler onHandleKey={onHandleKey}>
-                {tree_folder}
-            </KeyHandler>
-        );
+
+    public render() {
+        const { tree, onToggleNode, onSelectNode, renderTitle, onHandleKey } = this.props;
+
+        const tree_context: ITreeContext = {
+            onToggleNode,
+            onSelectNode,
+            renderTitle: renderTitle || defaultRenderTitle
+        };
+
+        const props = {
+            node: tree.root,
+            tree_context,
+            setRootElement: this.setRootElement
+        };
+
+        const tree_folder = <TreeFolder {...props} />;
+
+        if (!onHandleKey) {
+            return tree_folder;
+        }
+        else {
+            return (
+                <KeyHandler onHandleKey={onHandleKey} ref={this.setKeyHandler}>
+                    {tree_folder}
+                </KeyHandler>
+            );
+        }
+    }
+
+    private setRootElement(element: Element) {
+        this.root_element = element;
+
+        this.updateKeyHandlerElement();
+    }
+
+    private setKeyHandler(key_handler: KeyHandler) {
+        this.key_handler = key_handler;
+
+        this.updateKeyHandlerElement();
+    }
+
+    private updateKeyHandlerElement() {
+        if (this.key_handler && this.root_element) {
+            this.key_handler.setTreeElement(this.root_element);
+        }
     }
 }

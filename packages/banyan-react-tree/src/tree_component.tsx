@@ -33,15 +33,15 @@ export class TreeComponent extends React.Component<ITreeComponentProps, ITreeCom
         const { tree } = this.state;
         const { renderTitle, keyboardSupport } = this.props;
 
-        return (
-            <BaseTreeComponent
-                tree={tree}
-                renderTitle={ renderTitle }
-                onToggleNode={ this.handleToggle }
-                onSelectNode={ this.handleSelect }
-                onHandleKey={ keyboardSupport ? this.handleKey : undefined }
-            />
-        );
+        const props = {
+            tree,
+            renderTitle,
+            onToggleNode: this.handleToggle,
+            onSelectNode: this.handleSelect,
+            onHandleKey: keyboardSupport ? this.handleKey : undefined
+        };
+
+        return <BaseTreeComponent {...props} />;
     }
 
     private handleToggle(node: Node) {
