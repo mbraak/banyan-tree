@@ -18,11 +18,13 @@ export default class TreeStore {
         this.tree = this.tree.toggleNode(node.get("id"));
     }
 
-    public handleKey(key: string) {
+    public handleKey(key: string): any {
         const [ is_handled, tree ] = this.tree.handleKey(key);
 
         if (is_handled) {
             this.tree = tree;
+
+            return true;
         }
     }
 }
