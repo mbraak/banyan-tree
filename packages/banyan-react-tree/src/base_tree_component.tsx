@@ -113,13 +113,24 @@ function TreeTitle({ node, renderTitle }: ITreeTitleProps) {
     const tabindex = is_selected ? 0 : -1;
     const is_open = node.get("is_open");
 
+    const focusElement = (el: HTMLElement) => {
+        if (el) {
+            el.focus();
+        }
+    };
+
     const props = {
         "className": title_classes,
         "tabIndex": tabindex,
         "role": "treeitem",
         "aria-selected": is_selected,
-        "aria-expanded": is_open
+        "aria-expanded": is_open,
+        "ref": focusElement
     };
+
+    if (!is_selected) {
+        delete props.ref;
+    }
 
     // todo: aria-level
 
