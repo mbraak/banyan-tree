@@ -1,6 +1,6 @@
 import React from "react";
 
-import { BaseTreeComponent, RenderNode } from "../tree_component";
+import { BaseTreeComponent, RenderNode } from "../base_tree_component";
 import * as actions from "./actions";
 import { Tree } from "../immutable_tree";
 import { Node } from "../immutable_node";

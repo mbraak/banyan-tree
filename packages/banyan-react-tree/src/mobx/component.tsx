@@ -1,7 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react";
 
-import { BaseTreeComponent, RenderNode } from "../tree_component";
+import { BaseTreeComponent, RenderNode } from "../base_tree_component";
 import TreeStore from "./tree_store";
 
 export interface IMobxTreeProps {
