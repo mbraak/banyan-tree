@@ -49,8 +49,8 @@ class TreeNode extends React.Component<ITreeNodeProps, {}> {
         });
 
         return (
-            <li key={node.get("id")} className={li_classes}>
-                <div className="banyan-element banyan-common" onClick={handleClick}>
+            <li key={node.get("id")} className={li_classes} role="presentation">
+                <div className="banyan-element banyan-common" onClick={handleClick} role="presentation">
                     <TreeTitle node={node} renderTitle={renderTitle} />
                     {is_folder ? <TreeButton node={node} onToggleNode={tree_context.onToggleNode} /> : null}
                 </div>
@@ -73,13 +73,17 @@ interface ITreeFolderProps {
 }
 
 function TreeFolder({ node, tree_context }: ITreeFolderProps) {
+    const is_root = node.get("is_root");
+
     const ul_classes = classNames({
         "banyan-common": true,
-        "banyan-tree": node.get("is_root")
+        "banyan-tree": is_root
     });
 
+    const role = is_root ? "tree" : "node";
+
     return (
-        <ul className={ul_classes}>
+        <ul className={ul_classes} role={role}>
             {inode.getChildren(node).map(
                 (child: Node) => (
                     <TreeNode
@@ -103,9 +107,25 @@ function TreeTitle({ node, renderTitle }: ITreeTitleProps) {
         "banyan-title-folder": inode.hasChildren(node)
     });
 
+    const is_selected = node.get("is_selected");
+
+    const node_title = renderTitle(node);
+    const tabindex = is_selected ? 0 : -1;
+    const is_open = node.get("is_open");
+
+    const props = {
+        "className": title_classes,
+        "tabIndex": tabindex,
+        "role": "treeitem",
+        "aria-selected": is_selected,
+        "aria-expanded": is_open
+    };
+
+    // todo: aria-level
+
     return (
-        <span className={title_classes}>
-            {renderTitle(node)}
+        <span {...props}>
+            { node_title }
         </span>
     );
 }
@@ -133,8 +153,16 @@ function TreeButton({ node, onToggleNode }: ITreeButtonProps) {
 
     const button_char = node.get("is_open") ? "▼" : "►";
 
+    const props = {
+        "className": button_classes,
+        "onClick": handleClick,
+        "role": "presentation",
+        "aria-hidden": true,
+        "tabIndex": -1
+    };
+
     return (
-        <a href="#" className={button_classes} onClick={handleClick}>
+        <a href="#" {...props}>
             {button_char}
         </a>
     );
