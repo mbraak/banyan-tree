@@ -52,8 +52,8 @@
     "nyc": "^10.3.2",
     "postcss": "^6.0.1",
     "postcss-load-config": "^1.2.0",
-    "postcss-loader": "^2.0.2",
-    "postcss-nested": "^2.0.1",
+    "postcss-loader": "^2.0.5",
+    "postcss-nested": "^2.0.2",
     "react-redux": "^5.0.4",
     "react-test-renderer": "^15.5.4",
     "redux": "^3.6.0",
@@ -72,7 +72,6 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "core-js": "^2.4.1",
-    "eventemitter3": "^2.0.3",
     "fbjs": "^0.8.12",
     "immutable": "^3.8.1",
     "lodash": "^4.17.4",
