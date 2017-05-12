@@ -1,0 +1,38 @@
+ul.banyan-tree {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+    font-size: 16px;
+}
+
+    ul.banyan-tree li.banyan-common {
+        list-style: none;
+    }
+
+    ul.banyan-tree ul.banyan-common {
+        padding-left: 2em;
+    }
+
+    ul.banyan-tree .banyan-toggler {
+        display: inline-block;
+        text-decoration: none;
+        margin-left: 8px;
+   }
+
+    ul.banyan-tree .banyan-toggler:hover,
+        ul.banyan-tree .banyan-toggler:focus {
+            text-decoration: none;
+        }
+
+    ul.banyan-tree .banyan-element {
+       cursor: pointer;
+       margin-top: 4px;
+       margin-bottom: 4px;
+       background-color: #ddd;
+       padding: 8px;
+       position: relative;
+   }
+
+    ul.banyan-tree .banyan-selected > .banyan-element {
+       background-color: #97BDD6;
+   }
