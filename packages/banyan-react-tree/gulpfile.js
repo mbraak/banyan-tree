@@ -2,6 +2,7 @@ const gulp = require("gulp");
 const ts = require("gulp-typescript");
 const babel = require("gulp-babel");
 const sourcemaps = require("gulp-sourcemaps");
+const postcss = require("gulp-postcss");
 
 gulp.task("lib_ts", function() {
     const tsProject = ts.createProject('tsconfig.json');
@@ -17,4 +18,10 @@ gulp.task("lib_ts", function() {
     dts.pipe(gulp.dest("./lib"))
 });
 
-gulp.task("default", ["lib_ts"]);
+gulp.task("css", function () {
+    return gulp.src('./css/*.css')
+        .pipe(postcss())
+        .pipe(gulp.dest('./'));
+});
+
+gulp.task("default", ["lib_ts", "css"]);
