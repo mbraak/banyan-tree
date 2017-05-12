@@ -4,6 +4,7 @@ import { BaseTreeComponent, RenderNode } from "../base_tree_component";
 import * as actions from "./actions";
 import { Tree } from "../immutable_tree";
 import { Node } from "../immutable_node";
+import { KeyboardPlugin } from "../keyboard_plugin";
 
 export type Dispatch = (...params: any[]) => void;
 
@@ -44,15 +45,17 @@ const ReduxTree = (
         return true;
     };
 
-    return (
-        <BaseTreeComponent
-            tree={tree}
-            onToggleNode={handleToggle}
-            onSelectNode={handleSelect}
-            renderTitle={renderTitle}
-            onHandleKey={keyboardSupport ? handleKey : undefined}
-        />
-    );
+    const plugins = keyboardSupport ? [new KeyboardPlugin(handleKey)] : [];
+
+    const props = {
+        tree,
+        onToggleNode: handleToggle,
+        onSelectNode: handleSelect,
+        renderTitle,
+        plugins
+    };
+
+    return <BaseTreeComponent {...props} />;
 };
 
 export default ReduxTree;

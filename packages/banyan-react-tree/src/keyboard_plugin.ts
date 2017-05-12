@@ -1,8 +1,14 @@
-import React from "react";
+import { Plugin } from "./plugin";
 
-export abstract class BaseKeyHandler<T> extends React.Component<T, void> {
-    constructor(props: any) {
-        super(props);
+export type HandleKey = (key: string) => boolean;
+
+export class KeyboardPlugin extends Plugin {
+    private onHandleKey?: HandleKey;
+
+    constructor(onHandleKey?: HandleKey) {
+        super();
+
+        this.onHandleKey = onHandleKey;
 
         this.handleKey = this.handleKey.bind(this);
     }
@@ -15,31 +21,12 @@ export abstract class BaseKeyHandler<T> extends React.Component<T, void> {
         window.removeEventListener("keydown", this.handleKey);
     }
 
-    public render() {
-        return React.Children.only(this.props.children);
-    }
-
-    protected abstract handleKey(event: KeyboardEvent): void;
-}
-
-export type HandleKey = (key: string) => boolean;
-
-export interface IKeyHandlerProps {
-    onHandleKey: HandleKey;
-}
-
-export default class KeyHandler extends BaseKeyHandler<IKeyHandlerProps> {
-    private tree_element?: Element;
-
-    public setTreeElement(element: Element) {
-        this.tree_element = element;
-    }
-
     protected handleKey(event: KeyboardEvent) {
         const { key } = event;
+        const onHandleKey = this.onHandleKey;
 
-        if (this.canHandleKeyboard(key)) {
-            const is_handled = this.props.onHandleKey(key);
+        if (this.canHandleKeyboard(key) && onHandleKey) {
+            const is_handled = onHandleKey(key);
 
             if (is_handled) {
                 event.preventDefault();
@@ -60,11 +47,12 @@ export default class KeyHandler extends BaseKeyHandler<IKeyHandlerProps> {
 
     private isFocusOnTree(): boolean {
         const active_element = document.activeElement;
+        const tree_element = this.tree_proxy && this.tree_proxy.getElement();
 
         return (
             active_element != null &&
-            this.tree_element != null &&
-            isParentOf(this.tree_element, active_element as any)
+            tree_element != null &&
+            isParentOf(tree_element, active_element as any)
         );
     }
 }

@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { Tree } from "./immutable_tree";
 import * as inode from "./immutable_node";
 import { Node } from "./immutable_node";
-import KeyHandler, { HandleKey } from "./key_handler";
+import { Plugin, ITreeProxy } from "./plugin";
 
 export type RenderNode = (node: Node) => JSX.Element;
 
@@ -187,22 +187,24 @@ export interface IBaseTreeComponentProps {
     onToggleNode?: NodeCallback;
     onSelectNode?: NodeCallback;
     renderTitle?: RenderNode;
-    onHandleKey?: HandleKey;
+    plugins?: Plugin[];
 }
 
-export class BaseTreeComponent extends React.Component<IBaseTreeComponentProps, void> {
-    private key_handler?: KeyHandler;
+export class BaseTreeComponent extends React.Component<IBaseTreeComponentProps, void> implements ITreeProxy {
     private root_element?: Element;
+    private plugins: Plugin[];
 
     constructor(props: IBaseTreeComponentProps) {
         super(props);
 
         this.setRootElement = this.setRootElement.bind(this);
-        this.setKeyHandler = this.setKeyHandler.bind(this);
+        this.plugins = props.plugins || [];
+
+        this.connectPlugins();
     }
 
     public render() {
-        const { tree, onToggleNode, onSelectNode, renderTitle, onHandleKey } = this.props;
+        const { tree, onToggleNode, onSelectNode, renderTitle } = this.props;
 
         const tree_context: ITreeContext = {
             onToggleNode,
@@ -216,35 +218,32 @@ export class BaseTreeComponent extends React.Component<IBaseTreeComponentProps, 
             setRootElement: this.setRootElement
         };
 
-        const tree_folder = <TreeFolder {...props} />;
+        return <TreeFolder {...props} />;
+    }
 
-        if (!onHandleKey) {
-            return tree_folder;
+    public componentDidMount() {
+        for (const plugin of this.plugins) {
+            plugin.componentDidMount();
         }
-        else {
-            return (
-                <KeyHandler onHandleKey={onHandleKey} ref={this.setKeyHandler}>
-                    {tree_folder}
-                </KeyHandler>
-            );
+    }
+
+    public componentWillUnmount() {
+        for (const plugin of this.plugins) {
+            plugin.componentWillUnmount();
         }
+    }
+
+    public getElement() {
+        return this.root_element;
     }
 
     private setRootElement(element: Element) {
         this.root_element = element;
-
-        this.updateKeyHandlerElement();
     }
 
-    private setKeyHandler(key_handler: KeyHandler) {
-        this.key_handler = key_handler;
-
-        this.updateKeyHandlerElement();
-    }
-
-    private updateKeyHandlerElement() {
-        if (this.key_handler && this.root_element) {
-            this.key_handler.setTreeElement(this.root_element);
+    private connectPlugins() {
+        for (const plugin of this.plugins) {
+            plugin.setTreeProxy(this);
         }
     }
 }

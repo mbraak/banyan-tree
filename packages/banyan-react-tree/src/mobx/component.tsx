@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 
 import { BaseTreeComponent, RenderNode } from "../base_tree_component";
 import TreeStore from "./tree_store";
+import { KeyboardPlugin } from "../keyboard_plugin";
 
 export interface IMobxTreeProps {
     tree_store: TreeStore;
@@ -15,15 +16,17 @@ const MobxTree = ({ tree_store, renderTitle, keyboardSupport = true }: IMobxTree
     const toggle = tree_store.toggle.bind(tree_store);
     const handleKey = tree_store.handleKey.bind(tree_store);
 
-    return (
-        <BaseTreeComponent
-            tree={tree_store.tree}
-            renderTitle={renderTitle}
-            onSelectNode={select}
-            onToggleNode={toggle}
-            onHandleKey={keyboardSupport ? handleKey : undefined}
-        />
-    );
+    const plugins = keyboardSupport ? [new KeyboardPlugin(handleKey)] : [];
+
+    const props = {
+        tree: tree_store.tree,
+        renderTitle,
+        onSelectNode: select,
+        onToggleNode: toggle,
+        plugins
+    };
+
+    return <BaseTreeComponent {...props} />;
 };
 
 export default observer(MobxTree);

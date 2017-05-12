@@ -3,6 +3,7 @@ import React from "react";
 import { Tree } from "./immutable_tree";
 import { BaseTreeComponent, RenderNode } from "./base_tree_component";
 import { Node } from "./immutable_node";
+import { KeyboardPlugin } from "./keyboard_plugin";
 
 export interface ITreeComponentProps {
     tree: Tree;
@@ -33,12 +34,18 @@ export class TreeComponent extends React.Component<ITreeComponentProps, ITreeCom
         const { tree } = this.state;
         const { renderTitle, keyboardSupport } = this.props;
 
+        const createKeyboardPlugin = () => (
+            new KeyboardPlugin(this.handleKey)
+        );
+
+        const plugins = keyboardSupport ? [createKeyboardPlugin()] : [];
+
         const props = {
             tree,
             renderTitle,
             onToggleNode: this.handleToggle,
             onSelectNode: this.handleSelect,
-            onHandleKey: keyboardSupport ? this.handleKey : undefined
+            plugins
         };
 
         return <BaseTreeComponent {...props} />;
