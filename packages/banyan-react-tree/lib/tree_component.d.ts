@@ -1,7 +1,20 @@
 /// <reference types="react" />
+import React from "react";
 import { Tree } from "./immutable_tree";
-export declare type Dispatch = (...params: any[]) => void;
-export default function TreeComponent({tree, dispatch}: {
+import { RenderNode } from "./base_tree_component";
+export interface ITreeComponentProps {
     tree: Tree;
-    dispatch: Dispatch;
-}): JSX.Element;
+    renderTitle?: RenderNode;
+    keyboardSupport?: boolean;
+}
+export interface ITreeComponentState {
+    tree: Tree;
+}
+export declare class TreeComponent extends React.Component<ITreeComponentProps, ITreeComponentState> {
+    static defaultProps: Partial<ITreeComponentProps>;
+    constructor(props: ITreeComponentProps);
+    render(): JSX.Element;
+    private handleToggle(node);
+    private handleSelect(node);
+    private handleKey(key);
+}

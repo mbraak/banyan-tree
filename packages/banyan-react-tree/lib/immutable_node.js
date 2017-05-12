@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.Node = exports._Node = undefined;
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -13,54 +12,32 @@ exports.nodeListToString = nodeListToString;
 exports.hasChildren = hasChildren;
 exports.getChildren = getChildren;
 exports.iterateTree = iterateTree;
+exports.iterateTreeAndLevel = iterateTreeAndLevel;
 exports.getNodeByName = getNodeByName;
 exports.doGetNodeByName = doGetNodeByName;
 exports.addNode = addNode;
 exports.removeNode = removeNode;
 exports.updateNode = updateNode;
+exports.getNextNode = getNextNode;
+exports.getPreviousNode = getPreviousNode;
 
 var _immutable = require("immutable");
 
 var _lodash = require("lodash");
 
-var _marked2 = [iterateTreeWithParents, iterateTree].map(regeneratorRuntime.mark);
+var _marked2 = [iterateTreeWithParents, iterateTree, iterateTreeAndLevel].map(regeneratorRuntime.mark);
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var _Node = exports._Node = (0, _immutable.Record)({
-    id: undefined,
-    name: "",
-    is_root: false,
-    parent_id: undefined,
-    children: undefined,
-    is_open: false,
-    is_selected: false
-});
-
-var Node = exports.Node = function (_Node2) {
-    _inherits(Node, _Node2);
-
-    function Node() {
-        _classCallCheck(this, Node);
-
-        return _possibleConstructorReturn(this, (Node.__proto__ || Object.getPrototypeOf(Node)).apply(this, arguments));
-    }
-
-    return Node;
-}(_Node);
-
-function createEmptyTree() {
-    return new Node({ is_root: true });
-}
-function createNodesFromData(parent_id, children_data) {
+var createEmptyTree = function createEmptyTree() {
+    return createNode({ is_root: true });
+};
+var createNode = function createNode(data) {
+    return (0, _immutable.Map)(data);
+};
+var createNodesFromData = function createNodesFromData(parent_id, children_data) {
     return (0, _immutable.List)(children_data.map(function (node_data) {
         return createNodeFromData(parent_id, node_data);
     }));
-}
+};
 function createNodeFromData(parent_id, node_data) {
     function createChildren() {
         if (!node_data.children) {
@@ -69,7 +46,7 @@ function createNodeFromData(parent_id, node_data) {
             return createNodesFromData(node_data.id, node_data.children);
         }
     }
-    return new Node(node_data).set("parent_id", parent_id).set("children", createChildren());
+    return (0, _immutable.Map)(node_data).set("parent_id", parent_id).set("children", createChildren());
 }
 function create(children_data) {
     function createChildren() {
@@ -85,32 +62,33 @@ function nodesToString(nodes) {
     return nodes.map(toString).join(" ");
 }
 function toString(node) {
-    var children = node.children ? node.children : (0, _immutable.List)();
+    var children = getChildren(node);
     var has_children = !children.isEmpty();
-    if (node.is_root) {
+    var is_root = node.get("is_root");
+    var name = node.get("name");
+    if (is_root) {
         if (!has_children) {
             return "";
         } else {
             return nodesToString(children);
         }
     } else if (!has_children) {
-        return node.name;
+        return name;
     } else {
-        return node.name + "(" + nodesToString(children) + ")";
+        return name + "(" + nodesToString(children) + ")";
     }
 }
 function nodeListToString(nodes) {
     return nodes.map(function (n) {
-        if (n.is_root) {
+        if (n.get("is_root")) {
             return "[root]";
         } else {
-            return n.name;
+            return n.get("name");
         }
     }).join(" ");
 }
 function hasChildren(node) {
-    var children = node.children;
-
+    var children = node.get("children");
     if (!children) {
         return false;
     } else {
@@ -118,8 +96,9 @@ function hasChildren(node) {
     }
 }
 function getChildren(node) {
-    if (node.children) {
-        return node.children;
+    var children = node.get("children");
+    if (children) {
+        return children;
     } else {
         return (0, _immutable.List)();
     }
@@ -289,31 +268,35 @@ function iterateTreeWithParents(root) {
         }
     }, _marked2[0], this, [[3, 15, 19, 27], [20,, 22, 26]]);
 }
-function treeSeq(is_branch, get_children, root) {
+function treeSeq(is_branch, get_children, root, include_root) {
     var _marked3 = [walk].map(regeneratorRuntime.mark);
 
-    function walk(node) {
-        var children, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, child;
+    function walk(node, level) {
+        var _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, child;
 
         return regeneratorRuntime.wrap(function walk$(_context3) {
             while (1) {
                 switch (_context3.prev = _context3.next) {
                     case 0:
-                        _context3.next = 2;
-                        return node;
+                        if (!(node !== root || include_root)) {
+                            _context3.next = 3;
+                            break;
+                        }
 
-                    case 2:
+                        _context3.next = 3;
+                        return [node, level];
+
+                    case 3:
                         if (!is_branch(node)) {
                             _context3.next = 29;
                             break;
                         }
 
-                        children = get_children(node);
                         _iteratorNormalCompletion3 = true;
                         _didIteratorError3 = false;
                         _iteratorError3 = undefined;
                         _context3.prev = 7;
-                        _iterator3 = children[Symbol.iterator]();
+                        _iterator3 = get_children(node)[Symbol.iterator]();
 
                     case 9:
                         if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
@@ -322,7 +305,7 @@ function treeSeq(is_branch, get_children, root) {
                         }
 
                         child = _step3.value;
-                        return _context3.delegateYield(walk(child), "t0", 12);
+                        return _context3.delegateYield(walk(child, level + 1), "t0", 12);
 
                     case 12:
                         _iteratorNormalCompletion3 = true;
@@ -370,96 +353,92 @@ function treeSeq(is_branch, get_children, root) {
             }
         }, _marked3[0], this, [[7, 17, 21, 29], [22,, 24, 28]]);
     }
-    return walk(root);
+    return walk(root, 0);
 }
 function iterateTree(root) {
     var include_root = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-    var _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, _node;
+    var _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _iterator4, _step4, _step4$value, _node, _;
 
     return regeneratorRuntime.wrap(function iterateTree$(_context4) {
         while (1) {
             switch (_context4.prev = _context4.next) {
                 case 0:
-                    if (!include_root) {
-                        _context4.next = 4;
-                        break;
-                    }
-
-                    return _context4.delegateYield(treeSeq(hasChildren, getChildren, root), "t0", 2);
-
-                case 2:
-                    _context4.next = 31;
-                    break;
-
-                case 4:
                     _iteratorNormalCompletion4 = true;
                     _didIteratorError4 = false;
                     _iteratorError4 = undefined;
-                    _context4.prev = 7;
-                    _iterator4 = treeSeq(hasChildren, getChildren, root)[Symbol.iterator]();
+                    _context4.prev = 3;
+                    _iterator4 = treeSeq(hasChildren, getChildren, root, include_root)[Symbol.iterator]();
 
-                case 9:
+                case 5:
                     if (_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done) {
-                        _context4.next = 17;
+                        _context4.next = 12;
                         break;
                     }
 
-                    _node = _step4.value;
-
-                    if (!(_node !== root)) {
-                        _context4.next = 14;
-                        break;
-                    }
-
-                    _context4.next = 14;
+                    _step4$value = _slicedToArray(_step4.value, 2), _node = _step4$value[0], _ = _step4$value[1];
+                    _context4.next = 9;
                     return _node;
 
-                case 14:
+                case 9:
                     _iteratorNormalCompletion4 = true;
-                    _context4.next = 9;
+                    _context4.next = 5;
                     break;
 
-                case 17:
-                    _context4.next = 23;
+                case 12:
+                    _context4.next = 18;
                     break;
 
-                case 19:
-                    _context4.prev = 19;
-                    _context4.t1 = _context4["catch"](7);
+                case 14:
+                    _context4.prev = 14;
+                    _context4.t0 = _context4["catch"](3);
                     _didIteratorError4 = true;
-                    _iteratorError4 = _context4.t1;
+                    _iteratorError4 = _context4.t0;
 
-                case 23:
-                    _context4.prev = 23;
-                    _context4.prev = 24;
+                case 18:
+                    _context4.prev = 18;
+                    _context4.prev = 19;
 
                     if (!_iteratorNormalCompletion4 && _iterator4.return) {
                         _iterator4.return();
                     }
 
-                case 26:
-                    _context4.prev = 26;
+                case 21:
+                    _context4.prev = 21;
 
                     if (!_didIteratorError4) {
-                        _context4.next = 29;
+                        _context4.next = 24;
                         break;
                     }
 
                     throw _iteratorError4;
 
-                case 29:
-                    return _context4.finish(26);
+                case 24:
+                    return _context4.finish(21);
 
-                case 30:
-                    return _context4.finish(23);
+                case 25:
+                    return _context4.finish(18);
 
-                case 31:
+                case 26:
                 case "end":
                     return _context4.stop();
             }
         }
-    }, _marked2[1], this, [[7, 19, 23, 31], [24,, 26, 30]]);
+    }, _marked2[1], this, [[3, 14, 18, 26], [19,, 21, 25]]);
+}
+function iterateTreeAndLevel(root) {
+    return regeneratorRuntime.wrap(function iterateTreeAndLevel$(_context5) {
+        while (1) {
+            switch (_context5.prev = _context5.next) {
+                case 0:
+                    return _context5.delegateYield(treeSeq(hasChildren, getChildren, root, false), "t0", 1);
+
+                case 1:
+                case "end":
+                    return _context5.stop();
+            }
+        }
+    }, _marked2[2], this);
 }
 // Find node by name; return readonly node or nil
 function getNodeByName(root, name) {
@@ -471,7 +450,7 @@ function getNodeByName(root, name) {
         for (var _iterator5 = iterateTreeWithParents(root)[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
             var readonly_node = _step5.value;
 
-            if (readonly_node.node.name === name) {
+            if (readonly_node.node.get("name") === name) {
                 var _node2 = readonly_node.node,
                     _parents = readonly_node.parents;
 
@@ -509,15 +488,15 @@ function doGetNodeByName(root, name) {
 //  - return [new-root {new-child changed-nodes}]
 function addNode(root, readonly_parent, child_data) {
     if (child_data) {
-        return addNodeToNonRoot(readonly_parent, new Node(child_data));
+        return addNodeToNonRoot(readonly_parent, createNode(child_data));
     } else {
         var data = readonly_parent;
-        return addNodeToRoot(root, new Node(data));
+        return addNodeToRoot(root, createNode(data));
     }
 }
 function addNodeToNonRoot(readonly_parent, child) {
     var parent = readonly_parent.node;
-    var new_child = child.set("parent_id", parent.id);
+    var new_child = child.set("parent_id", parent.get("id"));
     var new_parent = addChild(parent, new_child);
 
     var _updateParents = updateParents(parent, new_parent, readonly_parent.parents),
@@ -560,8 +539,7 @@ function updateParents(initial_old_child, intitial_new_child, parents) {
     return [(0, _lodash.last)(new_parents), (0, _lodash.dropRight)(new_parents)];
 }
 function replaceChild(node, old_child, new_child) {
-    var children = node.children;
-
+    var children = getChildren(node);
     var child_index = children.indexOf(old_child);
     var new_children = children.set(child_index, new_child);
     return node.set("children", new_children);
@@ -575,7 +553,7 @@ function removeNode(readonly_child) {
     var parents = readonly_child.parents;
 
     var parent = (0, _lodash.first)(parents);
-    if (parent.is_root) {
+    if (parent.get("is_root")) {
         return removeNodeFromRoot(parent, child);
     } else {
         return removeNodeFromParent(parents, child);
@@ -624,5 +602,100 @@ function updateNode(readonly_node, attributes) {
     return [new_root, {
         changed_nodes: [new_node].concat(changed_parents)
     }];
+}
+function getNextNode(readonly_node) {
+    var include_children = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+    var node = readonly_node.node;
+
+    if (include_children && hasChildren(node) && node.get("is_open")) {
+        // First child
+        return getChildren(node).first();
+    } else {
+        var next_sibling = getNextSibling(readonly_node);
+        if (next_sibling) {
+            // Next sibling
+            return next_sibling;
+        } else {
+            var readonly_parent = getReadonlyParent(readonly_node);
+            if (!readonly_parent) {
+                return null;
+            } else {
+                return getNextNode(readonly_parent, false);
+            }
+        }
+    }
+}
+function getReadonlyParent(node) {
+    var parents = node.parents;
+
+    var parent = (0, _lodash.first)(parents);
+    if (!parent) {
+        return null;
+    } else {
+        return {
+            node: parent,
+            parents: (0, _lodash.tail)(parents)
+        };
+    }
+}
+function getPreviousNode(readonly_node) {
+    var previous_sibling = getPreviousSibling(readonly_node);
+    if (!previous_sibling) {
+        // Parent
+        var parent = (0, _lodash.first)(readonly_node.parents);
+        if (parent.get("is_root")) {
+            return null;
+        } else {
+            return parent;
+        }
+    } else {
+        if (!hasChildren(previous_sibling) || !previous_sibling.get("is_open")) {
+            // Previous sibling
+            return previous_sibling;
+        } else {
+            // Last child of previous sibling
+            return getChildren(previous_sibling).last();
+        }
+    }
+}
+function getChildIndex(parent, child) {
+    var index = getChildren(parent).indexOf(child);
+    if (index === -1) {
+        return null;
+    } else {
+        return index;
+    }
+}
+function getNextSibling(readonly_node) {
+    var node = readonly_node.node,
+        parents = readonly_node.parents;
+
+    var parent = (0, _lodash.first)(parents);
+    if (!parent) {
+        return null;
+    } else {
+        var child_index = getChildIndex(parent, node);
+        if (child_index === null) {
+            return null;
+        } else {
+            return getChildren(parent).get(child_index + 1);
+        }
+    }
+}
+function getPreviousSibling(readonly_node) {
+    var node = readonly_node.node,
+        parents = readonly_node.parents;
+
+    var parent = (0, _lodash.first)(parents);
+    if (!parent) {
+        return null;
+    } else {
+        var child_index = getChildIndex(parent, node);
+        if (child_index === null || child_index === 0) {
+            return null;
+        } else {
+            return getChildren(parent).get(child_index - 1);
+        }
+    }
 }
 //# sourceMappingURL=immutable_node.js.map

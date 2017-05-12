@@ -8,7 +8,7 @@ export declare class Tree {
     toString(): string;
     getChildren(): List<Node>;
     hasChildren(): boolean;
-    addNode(parent: Node | INodeData, child?: INodeData): Tree;
+    addNode(child: INodeData, parent?: Node): Tree;
     getNodeByName(name: string): Node | null;
     doGetNodeByName(name: string): Node;
     removeNode(n: Node): Tree;
@@ -21,7 +21,13 @@ export declare class Tree {
     toggleNode(id: NodeId): Tree;
     updateNode(n: Node, attributes: any): Tree;
     openAllFolders(): Tree;
+    openLevel(level: number): Tree;
     getSelectedNode(): Node | null;
+    getIds(): NodeId[];
+    getNodes(): Node[];
+    handleKey(key: string): [boolean, Tree];
+    getNextNode(n: Node): Node | null;
+    getPreviousNode(n: Node): Node | null;
     private addNodeToRoot(child);
     private addNodeToParent(parent, child);
     private getReadonlyNode(n);

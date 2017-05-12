@@ -45,13 +45,11 @@ var Tree = exports.Tree = function () {
         value: function hasChildren() {
             return node.hasChildren(this.root);
         }
-        // todo: reverse params
-
     }, {
         key: "addNode",
-        value: function addNode(parent, child) {
-            if (!child) {
-                return this.addNodeToRoot(parent);
+        value: function addNode(child, parent) {
+            if (!parent) {
+                return this.addNodeToRoot(child);
             } else {
                 return this.addNodeToParent(parent, child);
             }
@@ -80,7 +78,7 @@ var Tree = exports.Tree = function () {
                 affected_info = _node$removeNode2[1];
 
             return this.updateTree(new_root, affected_info.changed_nodes, affected_info.removed_nodes.map(function (removed_node) {
-                return removed_node.id;
+                return removed_node.get("id");
             }));
         }
     }, {
@@ -124,7 +122,7 @@ var Tree = exports.Tree = function () {
             if (!n) {
                 return false;
             } else {
-                return Boolean(n.is_open);
+                return Boolean(n.get("is_open"));
             }
         }
     }, {
@@ -170,7 +168,7 @@ var Tree = exports.Tree = function () {
                 for (var _iterator = node.iterateTree(this.root)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                     var n = _step.value;
 
-                    tree = tree.openNode(n.id);
+                    tree = tree.openNode(n.get("id"));
                 }
             } catch (err) {
                 _didIteratorError = true;
@@ -190,6 +188,41 @@ var Tree = exports.Tree = function () {
             return tree;
         }
     }, {
+        key: "openLevel",
+        value: function openLevel(level) {
+            var tree = this;
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
+
+            try {
+                for (var _iterator2 = node.iterateTreeAndLevel(this.root)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                    var _step2$value = _slicedToArray(_step2.value, 2),
+                        n = _step2$value[0],
+                        node_level = _step2$value[1];
+
+                    if (node_level <= level) {
+                        tree = tree.openNode(n.get("id"));
+                    }
+                }
+            } catch (err) {
+                _didIteratorError2 = true;
+                _iteratorError2 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                        _iterator2.return();
+                    }
+                } finally {
+                    if (_didIteratorError2) {
+                        throw _iteratorError2;
+                    }
+                }
+            }
+
+            return tree;
+        }
+    }, {
         key: "getSelectedNode",
         value: function getSelectedNode() {
             if (!this.selected) {
@@ -197,6 +230,83 @@ var Tree = exports.Tree = function () {
             } else {
                 return this.getNodeById(this.selected);
             }
+        }
+    }, {
+        key: "getIds",
+        value: function getIds() {
+            return this.ids.keySeq().toArray();
+        }
+    }, {
+        key: "getNodes",
+        value: function getNodes() {
+            return this.ids.valueSeq().toArray();
+        }
+        /*
+            Change selected node based on key code.
+             Returns [ is_handled, new_tree ]
+             ```
+            const [ is_handled, new_tree ] = tree.handleKey("ArrowDown");
+            ```
+        */
+
+    }, {
+        key: "handleKey",
+        value: function handleKey(key) {
+            var _this = this;
+
+            var selected_node = this.getSelectedNode();
+            if (!selected_node) {
+                return [false, this];
+            } else {
+                var selectNode = function selectNode(n) {
+                    return n ? _this.selectNode(n.get("id")) : _this;
+                };
+                switch (key) {
+                    case "ArrowUp":
+                        return [true, selectNode(this.getPreviousNode(selected_node))];
+                    case "ArrowDown":
+                        return [true, selectNode(this.getNextNode(selected_node))];
+                    case "ArrowRight":
+                        if (!node.hasChildren(selected_node)) {
+                            return [false, this];
+                        } else {
+                            var _is_open = selected_node.get("is_open");
+                            if (_is_open) {
+                                // Right moves to the first child of an open node
+                                return [true, selectNode(this.getNextNode(selected_node))];
+                            } else {
+                                // Right expands a closed node
+                                return [true, this.openNode(selected_node.get("id"))];
+                            }
+                        }
+                    case "ArrowLeft":
+                        var is_open = selected_node.get("is_open");
+                        if (node.hasChildren(selected_node) && is_open) {
+                            // Left on an open node closes the node
+                            return [true, this.closeNode(selected_node.get("id"))];
+                        } else {
+                            // Left on a closed or end node moves focus to the node's parent
+                            var parent_id = selected_node.get("parent_id");
+                            if (parent_id === null) {
+                                return [false, this];
+                            } else {
+                                return [true, this.selectNode(parent_id)];
+                            }
+                        }
+                    default:
+                        return [false, this];
+                }
+            }
+        }
+    }, {
+        key: "getNextNode",
+        value: function getNextNode(n) {
+            return node.getNextNode(this.getReadonlyNode(n));
+        }
+    }, {
+        key: "getPreviousNode",
+        value: function getPreviousNode(n) {
+            return node.getPreviousNode(this.getReadonlyNode(n));
         }
     }, {
         key: "addNodeToRoot",
@@ -231,13 +341,13 @@ var Tree = exports.Tree = function () {
     }, {
         key: "getParents",
         value: function getParents(n) {
-            if (n.is_root) {
+            if (n.get("is_root")) {
                 return [];
             } else {
                 var parents = [];
                 var current_node = n;
-                while (current_node && current_node.parent_id) {
-                    var parent = this.getNodeById(current_node.parent_id);
+                while (current_node && current_node.get("parent_id")) {
+                    var parent = this.getNodeById(current_node.get("parent_id"));
                     if (parent) {
                         parents.push(parent);
                     }
@@ -269,7 +379,7 @@ var Tree = exports.Tree = function () {
         key: "updateIds",
         value: function updateIds(updated_nodes, deleted_ids) {
             var updates_node_map = (0, _immutable.Map)(updated_nodes.map(function (n) {
-                return [n.id, n];
+                return [n.get("id"), n];
             }));
             var new_ids = this.ids.merge(updates_node_map);
             deleted_ids.forEach(function (id) {
@@ -302,30 +412,30 @@ function createIdMap(root) {
     var _marked = [iteratePairs].map(regeneratorRuntime.mark);
 
     function iteratePairs() {
-        var _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, n;
+        var _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, n;
 
         return regeneratorRuntime.wrap(function iteratePairs$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
-                        _iteratorNormalCompletion2 = true;
-                        _didIteratorError2 = false;
-                        _iteratorError2 = undefined;
+                        _iteratorNormalCompletion3 = true;
+                        _didIteratorError3 = false;
+                        _iteratorError3 = undefined;
                         _context.prev = 3;
-                        _iterator2 = node.iterateTree(root)[Symbol.iterator]();
+                        _iterator3 = node.iterateTree(root)[Symbol.iterator]();
 
                     case 5:
-                        if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
+                        if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
                             _context.next = 12;
                             break;
                         }
 
-                        n = _step2.value;
+                        n = _step3.value;
                         _context.next = 9;
-                        return [n.id, n];
+                        return [n.get("id"), n];
 
                     case 9:
-                        _iteratorNormalCompletion2 = true;
+                        _iteratorNormalCompletion3 = true;
                         _context.next = 5;
                         break;
 
@@ -336,26 +446,26 @@ function createIdMap(root) {
                     case 14:
                         _context.prev = 14;
                         _context.t0 = _context["catch"](3);
-                        _didIteratorError2 = true;
-                        _iteratorError2 = _context.t0;
+                        _didIteratorError3 = true;
+                        _iteratorError3 = _context.t0;
 
                     case 18:
                         _context.prev = 18;
                         _context.prev = 19;
 
-                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                            _iterator2.return();
+                        if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                            _iterator3.return();
                         }
 
                     case 21:
                         _context.prev = 21;
 
-                        if (!_didIteratorError2) {
+                        if (!_didIteratorError3) {
                             _context.next = 24;
                             break;
                         }
 
-                        throw _iteratorError2;
+                        throw _iteratorError3;
 
                     case 24:
                         return _context.finish(21);
