@@ -21,6 +21,8 @@ exports.updateNode = updateNode;
 exports.getNextNode = getNextNode;
 exports.getPreviousNode = getPreviousNode;
 
+require("babel-polyfill");
+
 var _immutable = require("immutable");
 
 var _lodash = require("lodash");

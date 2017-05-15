@@ -1,3 +1,4 @@
+import "babel-polyfill";
 import { List, Map } from "immutable";
 declare module "immutable" {
     interface List<T> {
