@@ -1,3 +1,5 @@
+import "babel-polyfill";
+
 import { List, Map } from "immutable";
 
 import { first, last, dropRight, tail } from "lodash";
