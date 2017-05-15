@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "Banyan-react-tree is a tree component for react",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mbraak/banyan-react-tree.git"
+  },
   "main": "lib/tree_component.js",
   "keywords": [
     "react",
