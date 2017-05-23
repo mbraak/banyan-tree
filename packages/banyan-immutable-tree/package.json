@@ -29,9 +29,9 @@
     "nyc": "^10.3.2",
     "tree-model": "^1.0.6",
     "ts-loader": "^2.1.0",
-    "tslint": "^5.2.0",
-    "typescript": "^2.3.2",
-    "webpack": "^2.5.1",
+    "tslint": "^5.3.2",
+    "typescript": "^2.3.3",
+    "webpack": "^2.6.0",
     "webpack-dev-server": "^2.4.5",
     "webpack-node-externals": "^1.6.0"
   },
