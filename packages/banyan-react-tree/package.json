@@ -66,7 +66,6 @@
     "redux-logger": "^3.0.1",
     "sinon": "^2.3.0",
     "style-loader": "^0.18.0",
-    "tree-model": "^1.0.6",
     "ts-loader": "^2.1.0",
     "tslint": "^5.2.0",
     "typescript": "^2.3.2",
@@ -77,11 +76,10 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
+    "banyan-immutable-tree": "0.0.1",
     "classnames": "^2.2.0",
     "core-js": "~2",
     "fbjs": "^0.8.0",
-    "immutable": "^3.8.0",
-    "lodash": "~4",
     "react": "~15",
     "react-dom": "~15"
   }

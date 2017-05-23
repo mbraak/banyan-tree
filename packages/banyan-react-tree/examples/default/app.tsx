@@ -1,7 +1,8 @@
 import React from "react";
 
+import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
+
 import { TreeComponent } from "../../src/tree_component";
-import { Tree } from "../../src/immutable_tree";
 import renderTitle from "../render_title";
 
 function App({ tree }: { tree: Tree }) {

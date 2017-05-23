@@ -1,5 +1,6 @@
+import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
+
 import * as actions from "./actions";
-import { Tree } from "../immutable_tree";
 
 export const createReducerForTreeId = (tree_id: string) => (tree: Tree, action: any): Tree => {
     if (tree_id !== action.tree_id) {

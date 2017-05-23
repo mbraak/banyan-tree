@@ -2,9 +2,9 @@ import React from "react";
 import { createStore, Store } from "redux";
 import { expect } from "chai";
 import { mount } from "enzyme";
+import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
 
 import ReduxComponent from "../src/redux/component";
-import { Tree } from "../src/immutable_tree";
 import { reduceTree } from "../src/redux/reducer";
 import { test_data, example_data } from "./testutil/example_data";
 import { render, treeElementToString } from "./testutil/render";
