@@ -9,11 +9,11 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
 
 exports.reduceTree = reduceTree;
 
+var _immutable_tree = require("banyan-immutable-tree/lib/immutable_tree");
+
 var _actions = require("./actions");
 
 var actions = _interopRequireWildcard(_actions);
-
-var _immutable_tree = require("../immutable_tree");
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 

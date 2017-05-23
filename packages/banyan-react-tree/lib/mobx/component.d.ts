@@ -7,5 +7,5 @@ export interface IMobxTreeProps {
     renderTitle?: RenderNode;
     keyboardSupport?: boolean;
 }
-declare var _default: React.ClassicComponentClass<IMobxTreeProps>;
+declare const _default: React.ClassicComponentClass<IMobxTreeProps>;
 export default _default;

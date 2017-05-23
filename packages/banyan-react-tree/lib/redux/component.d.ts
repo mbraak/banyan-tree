@@ -1,6 +1,6 @@
 /// <reference types="react" />
+import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
 import { RenderNode } from "../base_tree_component";
-import { Tree } from "../immutable_tree";
 export declare type Dispatch = (...params: any[]) => void;
 export interface ITreeComponentProps {
     tree: Tree;

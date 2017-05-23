@@ -15,7 +15,7 @@ var _classnames = require("classnames");
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _immutable_node = require("./immutable_node");
+var _immutable_node = require("banyan-immutable-tree/lib/immutable_node");
 
 var inode = _interopRequireWildcard(_immutable_node);
 
