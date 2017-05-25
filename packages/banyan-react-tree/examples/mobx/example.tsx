@@ -1,11 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
+import { example_data } from "dinosaur-data";
 
 import { App } from "./app";
 import TreeStore from "../../src/mobx/tree_store";
-
-import example_data from "../dinosaurs.json";
 
 import "../../css/banyan-react-tree.css";
 import "../example.css";
