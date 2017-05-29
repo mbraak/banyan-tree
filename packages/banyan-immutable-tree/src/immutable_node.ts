@@ -16,7 +16,7 @@ export type Node = Map<string, any>;
 type GetChildren = (node: Node) => List<Node>;
 type IsBranch = (node: Node) => boolean;
 
-export type NodeId = number|string;
+export type NodeId = number | string;
 
 export interface INodeData {
     id: NodeId;
@@ -48,7 +48,7 @@ const createEmptyTree = (): Node => createNode({ is_root: true });
 
 const createNode = (data: any) => Map<string, any>(data) as any as Node;
 
-const createNodesFromData = (parent_id: NodeId|null, children_data: INodeData[]): List<Node> => (
+const createNodesFromData = (parent_id: NodeId | null, children_data: INodeData[]): List<Node> => (
     List(
         children_data.map(
             node_data => createNodeFromData(parent_id, node_data)
@@ -56,7 +56,7 @@ const createNodesFromData = (parent_id: NodeId|null, children_data: INodeData[])
     )
 );
 
-function createNodeFromData(parent_id: NodeId|null, node_data: INodeData): Node {
+function createNodeFromData(parent_id: NodeId | null, node_data: INodeData): Node {
     function createChildren() {
         if (!node_data.children) {
             return null;
@@ -116,14 +116,14 @@ export function toString(node: Node): string {
 export function nodeListToString(nodes: Node[]): string {
     return nodes
         .map(
-            n => {
-                if (n.get("is_root")) {
-                    return "[root]";
-                }
-                else {
-                    return n.get("name");
-                }
+        n => {
+            if (n.get("is_root")) {
+                return "[root]";
             }
+            else {
+                return n.get("name");
+            }
+        }
         )
         .join(" ");
 }
@@ -212,7 +212,7 @@ export function* iterateTreeAndLevel(root: Node): Iterable<[Node, number]> {
 }
 
 // Find node by name; return readonly node or nil
-export function getNodeByName(root: Node, name: string): IReadonlyNode|null {
+export function getNodeByName(root: Node, name: string): IReadonlyNode | null {
     for (const readonly_node of iterateTreeWithParents(root)) {
         if (readonly_node.node.get("name") === name) {
             const { node, parents } = readonly_node;
@@ -384,7 +384,7 @@ export function updateNode(readonly_node: IReadonlyNode, attributes: any): [Node
     ];
 }
 
-export function getNextNode(readonly_node: IReadonlyNode, include_children = true): Node|null {
+export function getNextNode(readonly_node: IReadonlyNode, include_children = true): Node | null {
     const { node } = readonly_node;
 
     if (include_children && hasChildren(node) && node.get("is_open")) {
@@ -411,7 +411,7 @@ export function getNextNode(readonly_node: IReadonlyNode, include_children = tru
     }
 }
 
-function getReadonlyParent(node: IReadonlyNode): IReadonlyNode|null {
+function getReadonlyParent(node: IReadonlyNode): IReadonlyNode | null {
     const { parents } = node;
     const parent = first(parents);
 
@@ -426,7 +426,7 @@ function getReadonlyParent(node: IReadonlyNode): IReadonlyNode|null {
     }
 }
 
-export function getPreviousNode(readonly_node: IReadonlyNode): Node|null {
+export function getPreviousNode(readonly_node: IReadonlyNode): Node | null {
     const previous_sibling = getPreviousSibling(readonly_node);
 
     if (!previous_sibling) {
@@ -452,7 +452,7 @@ export function getPreviousNode(readonly_node: IReadonlyNode): Node|null {
     }
 }
 
-function getChildIndex(parent: Node, child: Node): number|null {
+function getChildIndex(parent: Node, child: Node): number | null {
     const index = getChildren(parent).indexOf(child);
 
     if (index === -1) {
@@ -463,7 +463,7 @@ function getChildIndex(parent: Node, child: Node): number|null {
     }
 }
 
-function getNextSibling(readonly_node: IReadonlyNode): Node|null {
+function getNextSibling(readonly_node: IReadonlyNode): Node | null {
     const { node, parents } = readonly_node;
     const parent = first(parents);
 
@@ -482,7 +482,7 @@ function getNextSibling(readonly_node: IReadonlyNode): Node|null {
     }
 }
 
-function getPreviousSibling(readonly_node: IReadonlyNode): Node|null {
+function getPreviousSibling(readonly_node: IReadonlyNode): Node | null {
     const { node, parents } = readonly_node;
     const parent = first(parents);
 

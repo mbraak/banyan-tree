@@ -11,7 +11,7 @@ if (isCoverage) {
         include: path.resolve('src'),
         loader: 'istanbul-instrumenter-loader',
         query: {
-          esModules: true
+            esModules: true
         }
     })
 }

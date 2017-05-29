@@ -28,7 +28,7 @@ export function pickWeightedRandom(weights: any): any {
     throw new Error("pickWeightedRandom: weights are invalid");
 }
 
-export const randomNodeId = (tree: Tree): NodeId|null => {
+export const randomNodeId = (tree: Tree): NodeId | null => {
     const ids = tree.getIds();
 
     if (!ids.length) {
@@ -40,8 +40,8 @@ export const randomNodeId = (tree: Tree): NodeId|null => {
 };
 
 // Pick a random node id or null
-export const randomNodeIdOrNull = (tree: Tree): NodeId|null => {
-    const ids: Array<NodeId|null> = tree.getIds();
+export const randomNodeIdOrNull = (tree: Tree): NodeId | null => {
+    const ids: Array<NodeId | null> = tree.getIds();
     ids.push(null);
 
     return pickRandom(ids);
