@@ -6,18 +6,12 @@ const data1 = [
     {
         name: "n1",
         id: 1,
-        children: [
-            { name: "n1a", id: 2 },
-            { name: "n1b", id: 3 }
-        ]
+        children: [{ name: "n1a", id: 2 }, { name: "n1b", id: 3 }]
     },
     {
         name: "n2",
         id: 4,
-        children: [
-            { name: "n2a", id: 5 },
-            { name: "n2b", id: 6 }
-        ]
+        children: [{ name: "n2a", id: 5 }, { name: "n2b", id: 6 }]
     }
 ];
 
@@ -59,14 +53,19 @@ describe("Node", () => {
         const [t4, changed_t4] = node.addNode(t3, n1a, { name: "n1b", id: 3 });
 
         expect(node.toString(t2)).to.equal("n1");
-        expect(Object.keys(changed_t2)).to.deep.equal(["new_child", "changed_nodes"]);
+        expect(Object.keys(changed_t2)).to.deep.equal([
+            "new_child",
+            "changed_nodes"
+        ]);
         expect(changed_t2.changed_nodes).to.deep.equal([]);
         expect(node.toString(t3)).to.equal("n1(n1a)");
         expect(t3.get("is_root")).to.equal(true);
         expect(node.nodeListToString(changed_t3.changed_nodes)).to.equal("n1");
         expect(changed_t3.new_child.get("name")).to.equal("n1a");
         expect(n1a.node.get("parent_id")).to.equal(1);
-        expect(node.nodeListToString(changed_t4.changed_nodes)).to.equal("n1a n1");
+        expect(node.nodeListToString(changed_t4.changed_nodes)).to.equal(
+            "n1a n1"
+        );
         expect(node.toString(t4)).to.equal("n1(n1a(n1b))");
     });
 
@@ -84,7 +83,9 @@ describe("Node", () => {
 
         expect(node.toString(t2)).to.equal("n2(n2a n2b)");
         expect(info_t2.changed_nodes).to.deep.equal([]);
-        expect(node.nodeListToString(info_t2.removed_nodes)).to.equal("n1 n1a n1b");
+        expect(node.nodeListToString(info_t2.removed_nodes)).to.equal(
+            "n1 n1a n1b"
+        );
         expect(node.toString(t3)).to.equal("n2(n2b)");
         expect(node.nodeListToString(info_t3.changed_nodes)).to.equal("n2");
         expect(node.nodeListToString(info_t3.removed_nodes)).to.equal("n2a");
@@ -95,12 +96,14 @@ describe("Node", () => {
 
         const [t2, update_info] = node.updateNode(
             node.doGetNodeByName(t1, "n2a"),
-            { name: "N2A" }  // todo: color: "green"
+            { name: "N2A" } // todo: color: "green"
         );
 
         expect(node.doGetNodeByName(t1, "n2a").node.get("id")).to.equal(5);
         expect(node.doGetNodeByName(t2, "N2A").node.get("id")).to.equal(5);
-        expect(node.nodeListToString(update_info.changed_nodes)).to.equal("N2A n2");
+        expect(node.nodeListToString(update_info.changed_nodes)).to.equal(
+            "N2A n2"
+        );
         expect(node.toString(t2)).to.equal("n1(n1a n1b) n2(N2A n2b)");
     });
 
@@ -113,9 +116,7 @@ describe("Node", () => {
     });
 
     it("has attributes", () => {
-        const data = [
-            { name: "node1", id: 1, color: "green" }
-        ];
+        const data = [{ name: "node1", id: 1, color: "green" }];
 
         const t1 = node.create(data);
 

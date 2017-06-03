@@ -123,10 +123,7 @@ describe("Tree", () => {
 
     it("update node", () => {
         const t1 = new Tree(test_data);
-        const t2 = t1.updateNode(
-            t1.doGetNodeByName("n2a"),
-            { name: "N2A" }
-        );
+        const t2 = t1.updateNode(t1.doGetNodeByName("n2a"), { name: "N2A" });
 
         expect(t1.doGetNodeById(5).get("name")).to.equal("n2a");
         expect(t2.doGetNodeById(5).get("name")).to.equal("N2A");
@@ -134,15 +131,16 @@ describe("Tree", () => {
     });
 
     it("get next node", () => {
-        const assertNextNode = (tree: Tree, node_name: string, next_name: string|null) => {
-            const next_node = tree.getNextNode(
-                tree.doGetNodeByName(node_name)
-            );
+        const assertNextNode = (
+            tree: Tree,
+            node_name: string,
+            next_name: string | null
+        ) => {
+            const next_node = tree.getNextNode(tree.doGetNodeByName(node_name));
 
             if (!next_name) {
                 expect(next_node).to.eql(null);
-            }
-            else {
+            } else {
                 expect(next_node).to.not.eql(null);
 
                 if (next_node) {
@@ -164,15 +162,18 @@ describe("Tree", () => {
     });
 
     it("get previous node", () => {
-        const assertPreviousNode = (tree: Tree, node_name: string, previous_name: string|null) => {
+        const assertPreviousNode = (
+            tree: Tree,
+            node_name: string,
+            previous_name: string | null
+        ) => {
             const previous_node = tree.getPreviousNode(
                 tree.doGetNodeByName(node_name)
             );
 
             if (!previous_name) {
                 expect(previous_node).to.eql(null);
-            }
-            else {
+            } else {
                 expect(previous_node).to.not.eql(null);
 
                 if (previous_node) {

@@ -4,10 +4,10 @@ declare module "tree-model" {
         public model: any;
         public children: Node[];
 
-        [key: string]: any;
+        [key: string]: any
 
         public addChild(child: Node): Node;
-        public first(is_node: (node: Node) => boolean): Node|null;
+        public first(is_node: (node: Node) => boolean): Node | null;
         public drop(): Node;
         public isRoot(): boolean;
         public hasChildren(): boolean;

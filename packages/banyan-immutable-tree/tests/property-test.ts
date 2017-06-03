@@ -4,16 +4,22 @@ import TreeModel, { Node as ModelNode } from "tree-model";
 
 import { Tree } from "../src/immutable_tree";
 import { INodeData, NodeId, Node } from "../src/immutable_node";
-import { newId, randomString, randomNodeIdOrNull, randomNodeId, pickWeightedRandom } from "./testutil/test_util";
+import {
+    newId,
+    randomString,
+    randomNodeIdOrNull,
+    randomNodeId,
+    pickWeightedRandom
+} from "./testutil/test_util";
 
 interface ITreeImplementation<T> {
     createTree: () => T;
 
-    addNode: (tree: T, parent_id: NodeId|null, node_data: INodeData) => T;
+    addNode: (tree: T, parent_id: NodeId | null, node_data: INodeData) => T;
 
-    removeNode: (tree: T, node_id: NodeId|null) => T;
+    removeNode: (tree: T, node_id: NodeId | null) => T;
 
-    updateNode: (tree: T, node_id: NodeId|null, name: string) => T;
+    updateNode: (tree: T, node_id: NodeId | null, name: string) => T;
 
     toString: (tree: T) => string;
 }
@@ -23,33 +29,34 @@ class ImmutableTreeImplementation implements ITreeImplementation<Tree> {
         return new Tree();
     }
 
-    public addNode(tree: Tree, parent_id: NodeId|null, node_data: INodeData): Tree {
+    public addNode(
+        tree: Tree,
+        parent_id: NodeId | null,
+        node_data: INodeData
+    ): Tree {
         if (!parent_id) {
             return tree.addNode(node_data);
-        }
-        else {
+        } else {
             const parent = this.getNodeById(tree, parent_id);
 
             return tree.addNode(node_data, parent);
         }
     }
 
-    public removeNode(tree: Tree, node_id: NodeId|null): Tree {
+    public removeNode(tree: Tree, node_id: NodeId | null): Tree {
         if (!node_id) {
             return tree;
-        }
-        else {
+        } else {
             const node = this.getNodeById(tree, node_id);
 
             return tree.removeNode(node);
         }
     }
 
-    public updateNode(tree: Tree, node_id: NodeId|null, name: string): Tree {
+    public updateNode(tree: Tree, node_id: NodeId | null, name: string): Tree {
         if (!node_id) {
             return tree;
-        }
-        else {
+        } else {
             const node = this.getNodeById(tree, node_id);
 
             return tree.updateNode(node, { name });
@@ -64,7 +71,9 @@ class ImmutableTreeImplementation implements ITreeImplementation<Tree> {
         const node = tree.getNodeById(node_id);
 
         if (!node) {
-            throw new Error(`ImmutableTreeImplementation: node with id '${node_id} not found`);
+            throw new Error(
+                `ImmutableTreeImplementation: node with id '${node_id} not found`
+            );
         }
 
         return node;
@@ -76,13 +85,16 @@ class TreeModelImplementation implements ITreeImplementation<ModelNode> {
         return new TreeModel().parse({});
     }
 
-    public addNode(tree: ModelNode, parent_id: NodeId|null, node_data: INodeData): ModelNode {
+    public addNode(
+        tree: ModelNode,
+        parent_id: NodeId | null,
+        node_data: INodeData
+    ): ModelNode {
         const child = new TreeModel().parse(node_data);
 
         if (!parent_id) {
             tree.addChild(child);
-        }
-        else {
+        } else {
             const parent = this.getNodeById(tree, parent_id);
 
             parent.addChild(child);
@@ -91,11 +103,10 @@ class TreeModelImplementation implements ITreeImplementation<ModelNode> {
         return tree;
     }
 
-    public removeNode(tree: ModelNode, node_id: NodeId|null): ModelNode {
+    public removeNode(tree: ModelNode, node_id: NodeId | null): ModelNode {
         if (!node_id) {
             return tree;
-        }
-        else {
+        } else {
             const node = this.getNodeById(tree, node_id);
 
             node.drop();
@@ -104,11 +115,14 @@ class TreeModelImplementation implements ITreeImplementation<ModelNode> {
         }
     }
 
-    public updateNode(tree: ModelNode, node_id: NodeId|null, name: string): ModelNode {
+    public updateNode(
+        tree: ModelNode,
+        node_id: NodeId | null,
+        name: string
+    ): ModelNode {
         if (!node_id) {
             return tree;
-        }
-        else {
+        } else {
             const node = this.getNodeById(tree, node_id);
 
             node.model.name = name;
@@ -125,7 +139,9 @@ class TreeModelImplementation implements ITreeImplementation<ModelNode> {
         const node = tree.first(n => n.model.id === node_id);
 
         if (!node) {
-            throw new Error(`TreeModelImplementation: node with id '${node_id} not found`);
+            throw new Error(
+                `TreeModelImplementation: node with id '${node_id} not found`
+            );
         }
 
         return node;
@@ -136,42 +152,32 @@ const modelNodeToString = (node: ModelNode): string => {
     if (node.isRoot()) {
         if (!node.hasChildren()) {
             return "";
-        }
-        else {
+        } else {
             return modelNodesToString(node.children);
         }
-    }
-    else if (!node.hasChildren()) {
+    } else if (!node.hasChildren()) {
         return node.model.name;
-    }
-    else {
+    } else {
         return `${node.model.name}(${modelNodesToString(node.children)})`;
     }
 };
 
-const modelNodesToString = (nodes: ModelNode[]): string => (
-    nodes
-        .map(modelNodeToString)
-        .join(" ")
-);
+const modelNodesToString = (nodes: ModelNode[]): string =>
+    nodes.map(modelNodeToString).join(" ");
 
-const getAddNodeParams = (tree: Tree): [NodeId|null, INodeData] => (
-    [
-        randomNodeIdOrNull(tree),
-        { id: newId(), name: randomString() },
-    ]
-);
+const getAddNodeParams = (tree: Tree): [NodeId | null, INodeData] => [
+    randomNodeIdOrNull(tree),
+    { id: newId(), name: randomString() }
+];
 
-const getRemoveNodeParams = (tree: Tree): [NodeId|null] => (
-    [ randomNodeId(tree) ]
-);
+const getRemoveNodeParams = (tree: Tree): [NodeId | null] => [
+    randomNodeId(tree)
+];
 
-const getUpdateNodeParams = (tree: Tree): [NodeId|null, string] => (
-    [
-        randomNodeId(tree),
-        randomString()
-    ]
-);
+const getUpdateNodeParams = (tree: Tree): [NodeId | null, string] => [
+    randomNodeId(tree),
+    randomString()
+];
 
 const implementations = [
     new ImmutableTreeImplementation(),
@@ -192,39 +198,33 @@ const operation_weights = {
 
 describe("Tree.property", () => {
     it("test properties", () => {
-        range(10).forEach(
-            () => {
-                let trees = implementations.map(
-                    implementation => implementation.createTree()
+        range(10).forEach(() => {
+            let trees = implementations.map(implementation =>
+                implementation.createTree()
+            );
+
+            range(200).forEach(() => {
+                // pick operation and params
+                const operation = pickWeightedRandom(operation_weights);
+                const createParams = param_creators[operation];
+                const params = createParams(trees[0]);
+
+                // run operation
+                trees = trees.map((tree, i) =>
+                    (implementations[i] as any)[operation](tree, ...params)
                 );
 
-                range(200).forEach(
-                    () => {
-                        // pick operation and params
-                        const operation = pickWeightedRandom(operation_weights);
-                        const createParams = param_creators[operation];
-                        const params = createParams(trees[0]);
-
-                        // run operation
-                        trees = trees.map(
-                            (tree, i) => (implementations[i] as any)[operation](tree, ...params)
-                        );
-
-                        // compare trees
-                        const tree_strings = trees.map(
-                            (tree, i) => (implementations[i] as any).toString(tree)
-                        );
-
-                        const first_string = tree_strings[0];
-
-                        tree_strings.forEach(
-                            s => {
-                                expect(s).to.eq(first_string);
-                            }
-                        );
-                    }
+                // compare trees
+                const tree_strings = trees.map((tree, i) =>
+                    (implementations[i] as any).toString(tree)
                 );
-            }
-        );
+
+                const first_string = tree_strings[0];
+
+                tree_strings.forEach(s => {
+                    expect(s).to.eq(first_string);
+                });
+            });
+        });
     });
 });

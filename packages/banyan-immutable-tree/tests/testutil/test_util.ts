@@ -33,8 +33,7 @@ export const randomNodeId = (tree: Tree): NodeId | null => {
 
     if (!ids.length) {
         return null;
-    }
-    else {
+    } else {
         return pickRandom(ids);
     }
 };
@@ -59,13 +58,7 @@ export const newId = (): number => {
 
 const char_code_a = "a".charCodeAt(0);
 
-const randomChar = (): string => (
-    String.fromCharCode(random(25) + char_code_a)
-);
+const randomChar = (): string => String.fromCharCode(random(25) + char_code_a);
 
-export const randomString = (): string => (
-    join(
-        range(random(10) + 5).map(randomChar),
-        ""
-    )
-);
+export const randomString = (): string =>
+    join(range(random(10) + 5).map(randomChar), "");
