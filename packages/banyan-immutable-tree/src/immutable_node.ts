@@ -290,6 +290,10 @@ function addChild(parent: Node, child: Node): Node {
   - returns: [new root, affected]
 */
 function updateParents(initial_old_child: Node, intitial_new_child: Node, parents: Node[]): [Node, Node[]] {
+    if (parents.length === 0) {
+        throw new Error("updateParents: parents cannot be empty");
+    }
+
     let old_child = initial_old_child;
     let new_child = intitial_new_child;
 
@@ -305,8 +309,8 @@ function updateParents(initial_old_child: Node, intitial_new_child: Node, parent
     );
 
     return [
-        last(new_parents),
-        dropRight(new_parents)
+        last(new_parents) as Node,
+        dropRight(new_parents) as Node[]
     ];
 }
 
@@ -326,6 +330,10 @@ export function removeNode(readonly_child: IReadonlyNode): [Node, IRemoveInfo] {
     const child = readonly_child.node;
     const { parents } = readonly_child;
     const parent = first(parents);
+
+    if (! parent) {
+        throw new Error("removeNode: child has no parent");
+    }
 
     if (parent.get("is_root")) {
         return removeNodeFromRoot(parent, child);
@@ -350,6 +358,11 @@ function removeNodeFromRoot(root: Node, child: Node): [Node, IRemoveInfo] {
 
 function removeNodeFromParent(parents: Node[], child: Node): [Node, IRemoveInfo] {
     const parent = first(parents);
+
+    if (!parent) {
+        throw new Error("removeNodeFromParent: parents cannot be empty");
+    }
+
     const new_parent = removeChild(parent, child);
     const [new_root, changed_parents] = updateParents(parent, new_parent, tail(parents));
     const removed_nodes = Array.from(iterateTree(child, true));
@@ -432,6 +445,10 @@ export function getPreviousNode(readonly_node: IReadonlyNode): Node | null {
     if (!previous_sibling) {
         // Parent
         const parent = first(readonly_node.parents);
+
+        if (!parent) {
+            throw new Error("Child has no parent");
+        }
 
         if (parent.get("is_root")) {
             return null;
