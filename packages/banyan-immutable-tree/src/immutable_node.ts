@@ -464,7 +464,7 @@ export function getPreviousNode(readonly_node: IReadonlyNode): Node | null {
         }
         else {
             // Last child of previous sibling
-            return getChildren(previous_sibling).last();
+            return getLastChild(previous_sibling);
         }
     }
 }
@@ -514,6 +514,22 @@ function getPreviousSibling(readonly_node: IReadonlyNode): Node | null {
         }
         else {
             return getChildren(parent).get(child_index - 1);
+        }
+    }
+}
+
+function getLastChild(node: Node): Node | null {
+    if (! hasChildren(node)) {
+        return null;
+    }
+    else {
+        const last_child = getChildren(node).last();
+
+        if (!hasChildren(last_child) || !last_child.get("is_open")) {
+            return last_child;
+        }
+        else {
+            return getLastChild(last_child);
         }
     }
 }

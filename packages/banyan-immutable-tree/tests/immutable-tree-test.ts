@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
 import { Tree } from "../src/immutable_tree";
-import { test_data } from "./testutil/example_data";
+import { test_data, example_data } from "./testutil/example_data";
 
 describe("Tree", () => {
     it("create empty tree", () => {
@@ -182,8 +182,9 @@ describe("Tree", () => {
         };
 
         // tree1; example data
-        const tree1 = new Tree(test_data);
-        assertPreviousNode(tree1, "n1", null);
-        assertPreviousNode(tree1, "n2", "n1");
+        const tree1 = new Tree(example_data).openAllFolders();
+        assertPreviousNode(tree1, "Saurischia", null);
+        assertPreviousNode(tree1, "Herrerasaurians", "Saurischia");
+        assertPreviousNode(tree1, "Sauropodomorphs", "Avialans");
     });
 });
