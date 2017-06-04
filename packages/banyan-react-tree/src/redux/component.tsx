@@ -16,9 +16,13 @@ export interface ITreeComponentProps {
     keyboardSupport?: boolean;
 }
 
-const ReduxTree = (
-    { tree, dispatch, renderTitle, tree_id, keyboardSupport = true }: ITreeComponentProps
-) => {
+const ReduxTree = ({
+    tree,
+    dispatch,
+    renderTitle,
+    tree_id,
+    keyboardSupport = true
+}: ITreeComponentProps) => {
     const handleSelect = (node: Node) => {
         dispatch({
             type: actions.SELECT_NODE,

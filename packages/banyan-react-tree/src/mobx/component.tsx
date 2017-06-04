@@ -11,7 +11,11 @@ export interface IMobxTreeProps {
     keyboardSupport?: boolean;
 }
 
-const MobxTree = ({ tree_store, renderTitle, keyboardSupport = true }: IMobxTreeProps) => {
+const MobxTree = ({
+    tree_store,
+    renderTitle,
+    keyboardSupport = true
+}: IMobxTreeProps) => {
     const select = tree_store.select.bind(tree_store);
     const toggle = tree_store.toggle.bind(tree_store);
     const handleKey = tree_store.handleKey.bind(tree_store);

@@ -1,5 +1,5 @@
 export interface ITreeProxy {
-    getElement(): Element|undefined;
+    getElement(): Element | undefined;
 }
 
 export class Plugin {

@@ -1,9 +1,8 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import cheerio from "cheerio";
 
-export const render = (element: React.ReactElement<any>): Cheerio => (
-    cheerio(renderToStaticMarkup(element))
-);
+export const render = (element: React.ReactElement<any>): Cheerio =>
+    cheerio(renderToStaticMarkup(element));
 
 export function treeElementToString(el: Cheerio): string {
     return elementsToString(el.children("li"));
@@ -25,8 +24,5 @@ function elementToString(el: Cheerio): string {
 }
 
 function elementsToString(els: Cheerio): string {
-    return els.map(
-        (_, el) => elementToString(cheerio(el))
-    )
-    .get().join(" ");
+    return els.map((_, el) => elementToString(cheerio(el))).get().join(" ");
 }

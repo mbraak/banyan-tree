@@ -1,25 +1,25 @@
-var path = require('path');
-var nodeExternals = require('webpack-node-externals');
+var path = require("path");
+var nodeExternals = require("webpack-node-externals");
 
-var isCoverage = process.env.NODE_ENV === 'coverage';
+var isCoverage = process.env.NODE_ENV === "coverage";
 
 var loaders = [];
 
 if (isCoverage) {
     loaders.push({
         test: /\.(js|tsx?)/,
-        include: path.resolve('src'),
-        loader: 'istanbul-instrumenter-loader',
+        include: path.resolve("src"),
+        loader: "istanbul-instrumenter-loader",
         query: {
-          esModules: true
+            esModules: true
         }
-    })
+    });
 }
 
 loaders.push({
     test: /\.tsx?$/,
     loader: "ts-loader",
-    exclude: /node_modules/    
+    exclude: /node_modules/
 });
 
 module.exports = {
@@ -30,10 +30,10 @@ module.exports = {
         extensions: [".ts", ".tsx", ".js"]
     },
     output: {
-        devtoolModuleFilenameTemplate: '[absolute-resource-path]',
-        devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
+        devtoolModuleFilenameTemplate: "[absolute-resource-path]",
+        devtoolFallbackModuleFilenameTemplate: "[absolute-resource-path]?[hash]"
     },
     module: {
         loaders: loaders
     }
-}
+};

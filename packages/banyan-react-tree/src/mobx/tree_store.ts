@@ -18,7 +18,7 @@ export default class TreeStore {
     }
 
     public handleKey(key: string): any {
-        const [ is_handled, tree ] = this.tree.handleKey(key);
+        const [is_handled, tree] = this.tree.handleKey(key);
 
         if (is_handled) {
             this.tree = tree;

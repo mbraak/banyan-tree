@@ -25,7 +25,7 @@ interface ITreeNodeProps {
 }
 
 class TreeNode extends React.Component<ITreeNodeProps, {}> {
-    public render(): JSX.Element|null {
+    public render(): JSX.Element | null {
         const { node, tree_context } = this.props;
         const { renderTitle } = tree_context;
 
@@ -52,14 +52,22 @@ class TreeNode extends React.Component<ITreeNodeProps, {}> {
 
         return (
             <li key={node.get("id")} className={li_classes} role="presentation">
-                <div className="banyan-element banyan-common" onClick={handleClick} role="presentation">
+                <div
+                    className="banyan-element banyan-common"
+                    onClick={handleClick}
+                    role="presentation"
+                >
                     <TreeTitle node={node} renderTitle={renderTitle} />
-                    {is_folder ? <TreeButton node={node} onToggleNode={tree_context.onToggleNode} /> : null}
+                    {is_folder
+                        ? <TreeButton
+                              node={node}
+                              onToggleNode={tree_context.onToggleNode}
+                          />
+                        : null}
                 </div>
                 {is_open_folder
                     ? <TreeFolder node={node} tree_context={tree_context} />
-                    : null
-                }
+                    : null}
             </li>
         );
     }
@@ -89,13 +97,15 @@ function TreeFolder({ node, tree_context, setRootElement }: ITreeFolderProps) {
 
     return (
         <ul className={ul_classes} role={role} ref={setRef}>
-            {inode.getChildren(node).map(
-                (child: Node) => (
+            {inode
+                .getChildren(node)
+                .map((child: Node) =>
                     <TreeNode
-                        key={child.get("id")} node={child} tree_context={tree_context}
+                        key={child.get("id")}
+                        node={child}
+                        tree_context={tree_context}
                     />
-                )
-            )}
+                )}
         </ul>
     );
 }
@@ -125,19 +135,19 @@ function TreeTitle({ node, renderTitle }: ITreeTitleProps) {
     };
 
     const props = {
-        "className": title_classes,
-        "tabIndex": tabindex,
-        "role": "treeitem",
+        className: title_classes,
+        tabIndex: tabindex,
+        role: "treeitem",
         "aria-selected": is_selected,
         "aria-expanded": is_open,
-        "ref": is_selected ? focusElement : undefined
+        ref: is_selected ? focusElement : undefined
     };
 
     // todo: aria-level
 
     return (
         <span {...props}>
-            { node_title }
+            {node_title}
         </span>
     );
 }
@@ -166,11 +176,11 @@ function TreeButton({ node, onToggleNode }: ITreeButtonProps) {
     const button_char = node.get("is_open") ? "▼" : "►";
 
     const props = {
-        "className": button_classes,
-        "onClick": handleClick,
-        "role": "presentation",
+        className: button_classes,
+        onClick: handleClick,
+        role: "presentation",
         "aria-hidden": true,
-        "tabIndex": -1
+        tabIndex: -1
     };
 
     return (
@@ -190,7 +200,10 @@ export interface IBaseTreeComponentProps {
     plugins?: Plugin[];
 }
 
-export class BaseTreeComponent extends React.Component<IBaseTreeComponentProps, void> implements ITreeProxy {
+export class BaseTreeComponent extends React.Component<
+    IBaseTreeComponentProps,
+    void
+> implements ITreeProxy {
     private root_element?: Element;
     private plugins: Plugin[];
 

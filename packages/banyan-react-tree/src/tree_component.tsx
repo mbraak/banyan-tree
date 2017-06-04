@@ -15,7 +15,10 @@ export interface ITreeComponentState {
     tree: Tree;
 }
 
-export class TreeComponent extends React.Component<ITreeComponentProps, ITreeComponentState> {
+export class TreeComponent extends React.Component<
+    ITreeComponentProps,
+    ITreeComponentState
+> {
     public static defaultProps: Partial<ITreeComponentProps> = {
         keyboardSupport: true
     };
@@ -34,9 +37,7 @@ export class TreeComponent extends React.Component<ITreeComponentProps, ITreeCom
         const { tree } = this.state;
         const { renderTitle, keyboardSupport } = this.props;
 
-        const createKeyboardPlugin = () => (
-            new KeyboardPlugin(this.handleKey)
-        );
+        const createKeyboardPlugin = () => new KeyboardPlugin(this.handleKey);
 
         const plugins = keyboardSupport ? [createKeyboardPlugin()] : [];
 
@@ -70,12 +71,11 @@ export class TreeComponent extends React.Component<ITreeComponentProps, ITreeCom
     private handleKey(key: string): boolean {
         const { tree } = this.state;
 
-        const [ is_handled, new_tree ] = tree.handleKey(key);
+        const [is_handled, new_tree] = tree.handleKey(key);
 
         if (!is_handled) {
             return false;
-        }
-        else {
+        } else {
             this.setState({ tree: new_tree });
             return true;
         }

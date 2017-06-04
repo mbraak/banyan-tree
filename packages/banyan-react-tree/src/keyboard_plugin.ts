@@ -35,14 +35,16 @@ export class KeyboardPlugin extends Plugin {
     }
 
     private canHandleKeyboard(key: string): boolean {
-        return (
-            this.isArrowKey(key),
-            this.isFocusOnTree()
-        );
+        return this.isArrowKey(key), this.isFocusOnTree();
     }
 
     private isArrowKey(key: string): boolean {
-        return key === "ArrowUp" || key === "ArrowDown" || key === "ArrowLeft" || key === "ArrowRight";
+        return (
+            key === "ArrowUp" ||
+            key === "ArrowDown" ||
+            key === "ArrowLeft" ||
+            key === "ArrowRight"
+        );
     }
 
     private isFocusOnTree(): boolean {

@@ -14,7 +14,9 @@ describe("TreeComponent", () => {
         const tree = new Tree(test_data).openAllFolders();
         const store = createStore(reduceTree, tree);
 
-        const el = render(<ReduxComponent tree={tree} dispatch={store.dispatch} />);
+        const el = render(
+            <ReduxComponent tree={tree} dispatch={store.dispatch} />
+        );
         expect(el.hasClass("banyan-tree")).to.eq(true);
 
         expect(treeElementToString(el)).to.equal("n1(n1a n1b) n2(n2a n2b)");
@@ -31,9 +33,15 @@ describe("TreeComponent", () => {
         expect(wrapper1.find(".banyan-selected").length).to.eq(0);
 
         // click on node
-        const div = wrapper1.findWhere(
-            el => el.name() === "TreeNode" && el.prop("node").get("name") === "Theropods"
-        ).first().children("div").first();
+        const div = wrapper1
+            .findWhere(
+                el =>
+                    el.name() === "TreeNode" &&
+                    el.prop("node").get("name") === "Theropods"
+            )
+            .first()
+            .children("div")
+            .first();
 
         div.simulate("click");
 
@@ -47,18 +55,11 @@ describe("TreeComponent", () => {
         // check tree
         const wrapper2 = renderTree(store);
         expect(wrapper2.find(".banyan-selected").length).to.eq(1);
-   });
+    });
 });
 
-const initialStore = () => (
-    createStore(
-        reduceTree,
-        new Tree(example_data).openAllFolders()
-    )
-);
+const initialStore = () =>
+    createStore(reduceTree, new Tree(example_data).openAllFolders());
 
-const renderTree = (store: Store<Tree>) => (
-    mount(
-        <ReduxComponent tree={store.getState()} dispatch={store.dispatch} />
-    )
-);
+const renderTree = (store: Store<Tree>) =>
+    mount(<ReduxComponent tree={store.getState()} dispatch={store.dispatch} />);

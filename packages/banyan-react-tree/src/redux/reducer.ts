@@ -2,16 +2,17 @@ import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
 
 import * as actions from "./actions";
 
-export const createReducerForTreeId = (tree_id: string) => (tree: Tree, action: any): Tree => {
+export const createReducerForTreeId = (tree_id: string) => (
+    tree: Tree,
+    action: any
+): Tree => {
     if (tree_id !== action.tree_id) {
         if (!tree) {
             return new Tree();
-        }
-        else {
+        } else {
             return tree;
         }
-    }
-    else {
+    } else {
         return reduceTree(tree, action);
     }
 };
@@ -32,8 +33,7 @@ export function reduceTree(tree: Tree, action: any): Tree {
         default:
             if (!tree) {
                 return new Tree();
-            }
-            else {
+            } else {
                 return tree;
             }
     }
