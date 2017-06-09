@@ -1,4 +1,3 @@
-import { expect } from "chai";
 import { range } from "lodash";
 import TreeModel, { Node as ModelNode } from "tree-model";
 
@@ -196,34 +195,32 @@ const operation_weights = {
     updateNode: 20
 };
 
-describe("Tree.property", () => {
-    it("test properties", () => {
-        range(10).forEach(() => {
-            let trees = implementations.map(implementation =>
-                implementation.createTree()
+it("test properties", () => {
+    range(10).forEach(() => {
+        let trees = implementations.map(implementation =>
+            implementation.createTree()
+        );
+
+        range(200).forEach(() => {
+            // pick operation and params
+            const operation = pickWeightedRandom(operation_weights);
+            const createParams = param_creators[operation];
+            const params = createParams(trees[0]);
+
+            // run operation
+            trees = trees.map((tree, i) =>
+                (implementations[i] as any)[operation](tree, ...params)
             );
 
-            range(200).forEach(() => {
-                // pick operation and params
-                const operation = pickWeightedRandom(operation_weights);
-                const createParams = param_creators[operation];
-                const params = createParams(trees[0]);
+            // compare trees
+            const tree_strings = trees.map((tree, i) =>
+                (implementations[i] as any).toString(tree)
+            );
 
-                // run operation
-                trees = trees.map((tree, i) =>
-                    (implementations[i] as any)[operation](tree, ...params)
-                );
+            const first_string = tree_strings[0];
 
-                // compare trees
-                const tree_strings = trees.map((tree, i) =>
-                    (implementations[i] as any).toString(tree)
-                );
-
-                const first_string = tree_strings[0];
-
-                tree_strings.forEach(s => {
-                    expect(s).to.eq(first_string);
-                });
+            tree_strings.forEach(s => {
+                expect(s).toBe(first_string);
             });
         });
     });
