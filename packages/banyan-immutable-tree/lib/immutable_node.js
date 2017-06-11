@@ -530,6 +530,9 @@ function addChild(parent, child) {
   - returns: [new root, affected]
 */
 function updateParents(initial_old_child, intitial_new_child, parents) {
+    if (parents.length === 0) {
+        throw new Error("updateParents: parents cannot be empty");
+    }
     var old_child = initial_old_child;
     var new_child = intitial_new_child;
     var new_parents = parents.map(function (parent) {
@@ -555,6 +558,9 @@ function removeNode(readonly_child) {
     var parents = readonly_child.parents;
 
     var parent = (0, _lodash.first)(parents);
+    if (!parent) {
+        throw new Error("removeNode: child has no parent");
+    }
     if (parent.get("is_root")) {
         return removeNodeFromRoot(parent, child);
     } else {
@@ -571,6 +577,9 @@ function removeNodeFromRoot(root, child) {
 }
 function removeNodeFromParent(parents, child) {
     var parent = (0, _lodash.first)(parents);
+    if (!parent) {
+        throw new Error("removeNodeFromParent: parents cannot be empty");
+    }
     var new_parent = removeChild(parent, child);
 
     var _updateParents3 = updateParents(parent, new_parent, (0, _lodash.tail)(parents)),
@@ -645,6 +654,9 @@ function getPreviousNode(readonly_node) {
     if (!previous_sibling) {
         // Parent
         var parent = (0, _lodash.first)(readonly_node.parents);
+        if (!parent) {
+            throw new Error("Child has no parent");
+        }
         if (parent.get("is_root")) {
             return null;
         } else {
@@ -656,7 +668,7 @@ function getPreviousNode(readonly_node) {
             return previous_sibling;
         } else {
             // Last child of previous sibling
-            return getChildren(previous_sibling).last();
+            return getLastChild(previous_sibling);
         }
     }
 }
@@ -697,6 +709,18 @@ function getPreviousSibling(readonly_node) {
             return null;
         } else {
             return getChildren(parent).get(child_index - 1);
+        }
+    }
+}
+function getLastChild(node) {
+    if (!hasChildren(node)) {
+        return null;
+    } else {
+        var last_child = getChildren(node).last();
+        if (!hasChildren(last_child) || !last_child.get("is_open")) {
+            return last_child;
+        } else {
+            return getLastChild(last_child);
         }
     }
 }
