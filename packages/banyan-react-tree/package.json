@@ -73,7 +73,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.23.0",
-    "banyan-immutable-tree": "0.0.1",
+    "banyan-immutable-tree": "0.0.2",
     "classnames": "^2.2.0",
     "core-js": "~2",
     "fbjs": "^0.8.0",
