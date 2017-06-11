@@ -110,12 +110,12 @@ function TreeTitle(_ref2) {
         }
     };
     var props = {
-        "className": title_classes,
-        "tabIndex": tabindex,
-        "role": "treeitem",
+        className: title_classes,
+        tabIndex: tabindex,
+        role: "treeitem",
         "aria-selected": is_selected,
         "aria-expanded": is_open,
-        "ref": is_selected ? focusElement : undefined
+        ref: is_selected ? focusElement : undefined
     };
     // todo: aria-level
     return _react2.default.createElement("span", Object.assign({}, props), node_title);
@@ -138,11 +138,11 @@ function TreeButton(_ref3) {
     });
     var button_char = node.get("is_open") ? "▼" : "►";
     var props = {
-        "className": button_classes,
-        "onClick": handleClick,
-        "role": "presentation",
+        className: button_classes,
+        onClick: handleClick,
+        role: "presentation",
         "aria-hidden": true,
-        "tabIndex": -1
+        tabIndex: -1
     };
     return _react2.default.createElement("a", Object.assign({ href: "#" }, props), button_char);
 }
