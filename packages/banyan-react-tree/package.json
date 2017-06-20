@@ -75,11 +75,12 @@
     "banyan-immutable-tree": "0.0.3",
     "classnames": "^2.2.0",
     "core-js": "~2",
-    "fbjs": "^0.8.0",
+    "fbjs": "^0.8.0"
+  },
+  "peerDependencies": {
     "react": "~15",
     "react-dom": "~15"
   },
-  "peerDependencies": {},
   "jest": {
     "transform": {
       "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
