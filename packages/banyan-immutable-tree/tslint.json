@@ -3,6 +3,8 @@
     "rules": {
         "arrow-parens": false,
         "max-classes-per-file": false,
+        "no-shadowed-variable": false,
+        "no-this-assignment": false,
         "object-literal-sort-keys": false,
         "one-line": false,
         "ordered-imports": false,
