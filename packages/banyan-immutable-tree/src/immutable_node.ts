@@ -4,6 +4,13 @@ import { List, Map } from "immutable";
 
 import { first, last, dropRight, tail } from "lodash";
 
+declare module "immutable" {
+    // tslint:disable-next-line: interface-name
+    interface List<T> {
+        [Symbol.iterator](): IterableIterator<T>;
+    }
+}
+
 export type Node = Map<string, any>;
 
 type GetChildren = (node: Node) => List<Node>;
