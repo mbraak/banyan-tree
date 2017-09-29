@@ -11,7 +11,7 @@ export type RenderNode = (node: Node) => JSX.Element;
 
 export type NodeCallback = (node: Node) => void;
 
-export type SetTreeElement = (element: Element) => void;
+export type SetTreeElement = (instance: HTMLUListElement) => any;
 
 interface ITreeContext {
     onToggleNode?: NodeCallback;
@@ -24,7 +24,7 @@ interface ITreeNodeProps {
     tree_context: ITreeContext;
 }
 
-class TreeNode extends React.Component<ITreeNodeProps, {}> {
+class TreeNode extends React.Component<ITreeNodeProps> {
     public render(): JSX.Element | null {
         const { node, tree_context } = this.props;
         const { renderTitle } = tree_context;
@@ -58,16 +58,16 @@ class TreeNode extends React.Component<ITreeNodeProps, {}> {
                     role="presentation"
                 >
                     <TreeTitle node={node} renderTitle={renderTitle} />
-                    {is_folder
-                        ? <TreeButton
-                              node={node}
-                              onToggleNode={tree_context.onToggleNode}
-                          />
-                        : null}
+                    {is_folder ? (
+                        <TreeButton
+                            node={node}
+                            onToggleNode={tree_context.onToggleNode}
+                        />
+                    ) : null}
                 </div>
-                {is_open_folder
-                    ? <TreeFolder node={node} tree_context={tree_context} />
-                    : null}
+                {is_open_folder ? (
+                    <TreeFolder node={node} tree_context={tree_context} />
+                ) : null}
             </li>
         );
     }
@@ -99,13 +99,13 @@ function TreeFolder({ node, tree_context, setRootElement }: ITreeFolderProps) {
         <ul className={ul_classes} role={role} ref={setRef}>
             {inode
                 .getChildren(node)
-                .map((child: Node) =>
+                .map((child: Node) => (
                     <TreeNode
                         key={child.get("id")}
                         node={child}
                         tree_context={tree_context}
                     />
-                )}
+                ))}
         </ul>
     );
 }
@@ -145,11 +145,7 @@ function TreeTitle({ node, renderTitle }: ITreeTitleProps) {
 
     // todo: aria-level
 
-    return (
-        <span {...props}>
-            {node_title}
-        </span>
-    );
+    return <span {...props}>{node_title}</span>;
 }
 
 interface ITreeButtonProps {
@@ -200,10 +196,8 @@ export interface IBaseTreeComponentProps {
     plugins?: Plugin[];
 }
 
-export class BaseTreeComponent extends React.Component<
-    IBaseTreeComponentProps,
-    void
-> implements ITreeProxy {
+export class BaseTreeComponent extends React.Component<IBaseTreeComponentProps>
+    implements ITreeProxy {
     private root_element?: Element;
     private plugins: Plugin[];
 

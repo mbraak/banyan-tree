@@ -4,9 +4,14 @@ import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
 import ReduxComponent from "../../src/redux/component";
 import renderTitle from "../render_title";
 
-function App({ tree, dispatch }: { tree: Tree, dispatch: any }) {
+function App({ tree, dispatch }: { tree: Tree; dispatch: any }) {
     return (
-        <ReduxComponent tree={tree} dispatch={dispatch} renderTitle={renderTitle} tree_id="example" />
+        <ReduxComponent
+            tree={tree}
+            dispatch={dispatch}
+            renderTitle={renderTitle}
+            tree_id="example"
+        />
     );
 }
 

@@ -12,24 +12,19 @@ import { createReducerForTreeId } from "../../src/redux/reducer";
 import "../../css/banyan-react-tree.css";
 import "../example.css";
 
-const tree = new Tree([example_data])
-    .openLevel(1);
+const tree = new Tree([example_data]).openLevel(1);
 
 const initial = { tree };
-const root_reducer = combineReducers({ tree: createReducerForTreeId("example") });
-const store = createStore(
-    root_reducer,
-    initial,
-    applyMiddleware(logger)
-);
+const root_reducer = combineReducers({
+    tree: createReducerForTreeId("example")
+});
+const store = createStore(root_reducer, initial, applyMiddleware(logger));
 
-const ConnectedApp = connect(state => state)(App);
+const ConnectedApp: any = connect(state => state)(App);
 
 ReactDOM.render(
-    (
-        <Provider store={store}>
-            <ConnectedApp />
-        </Provider>
-    ),
+    <Provider store={store}>
+        <ConnectedApp />
+    </Provider>,
     document.getElementById("tree1")
 );

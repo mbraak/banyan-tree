@@ -3,6 +3,9 @@
     "rules": {
         "arrow-parens": false,
         "max-classes-per-file": false,
+        "no-duplicate-imports": false,
+        "no-submodule-imports": false,
+        "object-literal-key-quotes": false,
         "object-literal-sort-keys": false,
         "one-line": false,
         "ordered-imports": false,

@@ -1,12 +1,15 @@
 import React from "react";
 import { createStore, Store } from "redux";
-import { mount } from "enzyme";
+import { mount, configure } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
 
 import ReduxComponent from "../src/redux/component";
 import { reduceTree } from "../src/redux/reducer";
 import { test_data, example_data } from "./testutil/example_data";
 import { render, treeElementToString } from "./testutil/render";
+
+configure({ adapter: new Adapter() });
 
 test("render", () => {
     const tree = new Tree(test_data).openAllFolders();
@@ -36,7 +39,7 @@ test("select", () => {
                 el.prop("node").get("name") === "Theropods"
         )
         .first()
-        .children("div")
+        .find("li div")
         .first();
 
     div.simulate("click");
