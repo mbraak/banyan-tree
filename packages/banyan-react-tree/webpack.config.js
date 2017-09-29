@@ -1,5 +1,4 @@
 var path = require("path");
-var DashboardPlugin = require("webpack-dashboard/plugin");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
@@ -33,6 +32,6 @@ module.exports = {
             }
         ]
     },
-    plugins: [new DashboardPlugin(), new ExtractTextPlugin("[name].css")],
+    plugins: [new ExtractTextPlugin("[name].css")],
     devtool: "source-map"
 };
