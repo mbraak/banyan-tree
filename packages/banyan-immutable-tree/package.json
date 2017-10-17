@@ -1,10 +1,8 @@
 {
     "name": "banyan-immutable-tree",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "license": "Apache-2.0",
-    "keywords": [
-        "tree"
-    ],
+    "keywords": ["tree"],
     "scripts": {
         "test": "jest && tslint src/**/*.ts*",
         "test-once": "jest",
@@ -40,11 +38,6 @@
             "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
         },
         "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-        "moduleFileExtensions": [
-            "ts",
-            "tsx",
-            "js",
-            "json"
-        ]
+        "moduleFileExtensions": ["ts", "tsx", "js", "json"]
     }
 }
