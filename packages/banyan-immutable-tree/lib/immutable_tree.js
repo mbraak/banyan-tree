@@ -409,7 +409,7 @@ var Tree = exports.Tree = function () {
 }();
 
 function createIdMap(root) {
-    var _marked = [iteratePairs].map(regeneratorRuntime.mark);
+    var _marked = /*#__PURE__*/regeneratorRuntime.mark(iteratePairs);
 
     function iteratePairs() {
         var _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, n;
@@ -478,7 +478,7 @@ function createIdMap(root) {
                         return _context.stop();
                 }
             }
-        }, _marked[0], this, [[3, 14, 18, 26], [19,, 21, 25]]);
+        }, _marked, this, [[3, 14, 18, 26], [19,, 21, 25]]);
     }
     return (0, _immutable.Map)(iteratePairs());
 }

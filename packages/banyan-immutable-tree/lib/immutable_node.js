@@ -27,7 +27,9 @@ var _immutable = require("immutable");
 
 var _lodash = require("lodash");
 
-var _marked2 = [iterateTreeWithParents, iterateTree, iterateTreeAndLevel].map(regeneratorRuntime.mark);
+var _marked2 = /*#__PURE__*/regeneratorRuntime.mark(iterateTreeWithParents),
+    _marked4 = /*#__PURE__*/regeneratorRuntime.mark(iterateTree),
+    _marked5 = /*#__PURE__*/regeneratorRuntime.mark(iterateTreeAndLevel);
 
 var createEmptyTree = function createEmptyTree() {
     return createNode({ is_root: true });
@@ -110,7 +112,7 @@ function getChildren(node) {
   - walks depth-first
 */
 function treeSeqPath(is_branch, get_children, root) {
-    var _marked = [walk].map(regeneratorRuntime.mark);
+    var _marked = /*#__PURE__*/regeneratorRuntime.mark(walk);
 
     function walk(path, node) {
         var children, new_path, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, child;
@@ -189,7 +191,7 @@ function treeSeqPath(is_branch, get_children, root) {
                         return _context.stop();
                 }
             }
-        }, _marked[0], this, [[8, 18, 22, 30], [23,, 25, 29]]);
+        }, _marked, this, [[8, 18, 22, 30], [23,, 25, 29]]);
     }
     return walk((0, _immutable.List)(), root);
 }
@@ -268,10 +270,10 @@ function iterateTreeWithParents(root) {
                     return _context2.stop();
             }
         }
-    }, _marked2[0], this, [[3, 15, 19, 27], [20,, 22, 26]]);
+    }, _marked2, this, [[3, 15, 19, 27], [20,, 22, 26]]);
 }
 function treeSeq(is_branch, get_children, root, include_root) {
-    var _marked3 = [walk].map(regeneratorRuntime.mark);
+    var _marked3 = /*#__PURE__*/regeneratorRuntime.mark(walk);
 
     function walk(node, level) {
         var _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, child;
@@ -353,7 +355,7 @@ function treeSeq(is_branch, get_children, root, include_root) {
                         return _context3.stop();
                 }
             }
-        }, _marked3[0], this, [[7, 17, 21, 29], [22,, 24, 28]]);
+        }, _marked3, this, [[7, 17, 21, 29], [22,, 24, 28]]);
     }
     return walk(root, 0);
 }
@@ -426,7 +428,7 @@ function iterateTree(root) {
                     return _context4.stop();
             }
         }
-    }, _marked2[1], this, [[3, 14, 18, 26], [19,, 21, 25]]);
+    }, _marked4, this, [[3, 14, 18, 26], [19,, 21, 25]]);
 }
 function iterateTreeAndLevel(root) {
     return regeneratorRuntime.wrap(function iterateTreeAndLevel$(_context5) {
@@ -440,7 +442,7 @@ function iterateTreeAndLevel(root) {
                     return _context5.stop();
             }
         }
-    }, _marked2[2], this);
+    }, _marked5, this);
 }
 // Find node by name; return readonly node or nil
 function getNodeByName(root, name) {
