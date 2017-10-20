@@ -5,7 +5,7 @@ import { Node } from "banyan-immutable-tree/lib/immutable_node";
 import { Plugin, ITreeProxy } from "./plugin";
 export declare type RenderNode = (node: Node) => JSX.Element;
 export declare type NodeCallback = (node: Node) => void;
-export declare type SetTreeElement = (element: Element) => void;
+export declare type SetTreeElement = (instance: HTMLUListElement) => any;
 export interface IBaseTreeComponentProps {
     tree: Tree;
     onToggleNode?: NodeCallback;
@@ -13,7 +13,7 @@ export interface IBaseTreeComponentProps {
     renderTitle?: RenderNode;
     plugins?: Plugin[];
 }
-export declare class BaseTreeComponent extends React.Component<IBaseTreeComponentProps, void> implements ITreeProxy {
+export declare class BaseTreeComponent extends React.Component<IBaseTreeComponentProps> implements ITreeProxy {
     private root_element?;
     private plugins;
     constructor(props: IBaseTreeComponentProps);
