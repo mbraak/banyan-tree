@@ -12,7 +12,7 @@ gulp.task("lib_ts", function() {
         .pipe(tsProject());
 
     js
-        .pipe(babel({ presets: "es2015" }))
+        .pipe(babel({ presets: "env" }))
         .pipe(sourcemaps.write("./"))
         .pipe(gulp.dest("./lib"));
 
