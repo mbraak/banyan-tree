@@ -12,18 +12,18 @@
         "production": "rm -rf lib; gulp"
     },
     "devDependencies": {
-        "@types/jest": "^21.1.3",
-        "@types/lodash": "^4.14.77",
-        "babel-preset-es2015": "^6.24.1",
+        "@types/jest": "^21.1.4",
+        "@types/lodash": "^4.14.78",
+        "babel-preset-env": "^1.6.1",
         "gulp": "^3.9.1",
         "gulp-babel": "^7.0.0",
         "gulp-sourcemaps": "^2.6.0",
         "gulp-typescript": "^3.2.0",
         "jest": "^21.2.1",
         "tree-model": "^1.0.6",
-        "ts-jest": "^21.1.2",
-        "ts-loader": "^3.0.2",
-        "tslint": "^5.5.0",
+        "ts-jest": "^21.1.3",
+        "ts-loader": "^3.0.5",
+        "tslint": "^5.8.0",
         "typescript": "^2.5.3"
     },
     "dependencies": {
