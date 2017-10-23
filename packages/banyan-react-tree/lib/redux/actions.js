@@ -1,9 +1,5 @@
-"use strict";
+export const SELECT_NODE = "TREE/SELECT_NODE";
+export const TOGGLE_NODE = "TREE/TOGGLE_NODE";
+export const HANDLE_KEY = "TREE/HANDLE_KEY";
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var SELECT_NODE = exports.SELECT_NODE = "TREE/SELECT_NODE";
-var TOGGLE_NODE = exports.TOGGLE_NODE = "TREE/TOGGLE_NODE";
-var HANDLE_KEY = exports.HANDLE_KEY = "TREE/HANDLE_KEY";
 //# sourceMappingURL=actions.js.map
