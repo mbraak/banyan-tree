@@ -35,7 +35,7 @@ export class KeyboardPlugin extends Plugin {
     }
 
     private canHandleKeyboard(key: string): boolean {
-        return this.isArrowKey(key), this.isFocusOnTree();
+        return this.isArrowKey(key) && this.isFocusOnTree();
     }
 
     private isArrowKey(key: string): boolean {
