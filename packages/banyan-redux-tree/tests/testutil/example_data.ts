@@ -1,0 +1,89 @@
+export const test_data = [
+    {
+        name: "n1",
+        id: 1,
+        children: [{ name: "n1a", id: 2 }, { name: "n1b", id: 3 }]
+    },
+    {
+        name: "n2",
+        id: 4,
+        children: [{ name: "n2a", id: 5 }, { name: "n2b", id: 6 }]
+    }
+];
+
+export const example_data = [
+    {
+        name: "Saurischia",
+        id: 1,
+        children: [
+            { name: "Herrerasaurians", id: 2 },
+            {
+                name: "Theropods",
+                id: 3,
+                children: [
+                    { name: "Coelophysoids", id: 4 },
+                    { name: "Ceratosaurians", id: 5 },
+                    { name: "Spinosauroids", id: 6 },
+                    { name: "Carnosaurians", id: 7 },
+                    {
+                        name: "Coelurosaurians",
+                        id: 8,
+                        children: [
+                            { name: "Tyrannosauroids", id: 9 },
+                            { name: "Ornithomimosaurians", id: 10 },
+                            { name: "Therizinosauroids", id: 11 },
+                            { name: "Oviraptorosaurians", id: 12 },
+                            { name: "Dromaeosaurids", id: 13 },
+                            { name: "Troodontids", id: 14 },
+                            { name: "Avialans", id: 15 }
+                        ]
+                    }
+                ]
+            },
+            {
+                name: "Sauropodomorphs",
+                id: 16,
+                children: [
+                    { name: "Prosauropods", id: 17 },
+                    {
+                        name: "Sauropods",
+                        id: 18,
+                        children: [
+                            { name: "Diplodocoids", id: 19 },
+                            {
+                                name: "Macronarians",
+                                id: 20,
+                                children: [
+                                    { name: "Brachiosaurids", id: 21 },
+                                    { name: "Titanosaurians", id: 22 }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        name: "Ornithischians",
+        id: 23,
+        children: [
+            { name: "Heterodontosaurids", id: 24 },
+            {
+                name: "Thyreophorans",
+                id: 25,
+                children: [
+                    { name: "Ankylosaurians", id: 26 },
+                    { name: "Stegosaurians", id: 27 }
+                ]
+            },
+            {
+                name: "Ornithopods",
+                id: 28,
+                children: [{ name: "Hadrosaurids", id: 29 }]
+            },
+            { name: "Pachycephalosaurians", id: 30 },
+            { name: "Ceratopsians", id: 31 }
+        ]
+    }
+];

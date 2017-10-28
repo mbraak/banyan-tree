@@ -6,9 +6,12 @@
     "license": "MIT",
     "scripts": {
         "build": "webpack",
+        "cover": "jest --coverage",
         "devserver": "webpack-dev-server",
         "lint": "tslint src/*.ts* example/*.ts*",
-        "production": "rm -rf lib; gulp"
+        "production": "rm -rf lib; gulp",
+        "test": "jest && tslint src/**/*.ts*",
+        "test-watch": "jest --watch"
     },
     "dependencies": {
         "banyan-immutable-tree": "^0.0.4",
@@ -17,6 +20,8 @@
         "react-redux": "^5.0.6"
     },
     "devDependencies": {
+        "@types/enzyme": "^3.1.1",
+        "@types/jest": "^21.1.5",
         "@types/react": "^16.0.18",
         "@types/react-dom": "^16.0.2",
         "@types/react-redux": "^5.0.12",
@@ -24,13 +29,17 @@
         "@types/redux-logger": "^3.0.5",
         "css-loader": "^0.28.7",
         "dinosaur-data": "^1.0.0",
+        "enzyme": "^3.1.0",
+        "enzyme-adapter-react-16": "^1.0.2",
         "gulp": "^3.9.1",
         "gulp-sourcemaps": "^2.6.1",
         "gulp-typescript": "^3.2.3",
+        "jest": "^21.2.1",
         "react": "^16.0.0",
         "react-dom": "^16.0.0",
         "redux-logger": "^3.0.6",
         "style-loader": "^0.19.0",
+        "ts-jest": "^21.1.4",
         "ts-loader": "^3.1.0",
         "tslint": "^5.8.0",
         "typescript": "^2.5.3",
@@ -40,5 +49,12 @@
     "peerDependencies": {
         "react": "~16",
         "react-dom": "~16"
+    },
+    "jest": {
+        "transform": {
+            "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+        },
+        "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+        "moduleFileExtensions": ["ts", "tsx", "js", "json"]
     }
 }
