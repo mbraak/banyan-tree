@@ -89,7 +89,11 @@ function nodesToString(nodes: List<Node>): string {
     return nodes.map(toString).join(" ");
 }
 
-export function toString(node: Node): string {
+export function toString(node?: Node): string {
+    if (!node) {
+        return "";
+    }
+
     const children = getChildren(node);
     const has_children = !children.isEmpty();
     const is_root = node.get("is_root");
