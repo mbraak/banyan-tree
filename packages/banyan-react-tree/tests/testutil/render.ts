@@ -1,3 +1,4 @@
+import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import cheerio from "cheerio";
 
@@ -14,7 +15,10 @@ function elementToString(el: Cheerio): string {
     const children = ul.children("li");
     const has_children = children.length !== 0;
 
-    const title = el.children("div").children(".banyan-title").text();
+    const title = el
+        .children("div")
+        .children(".banyan-title")
+        .text();
 
     if (!has_children) {
         return title;
@@ -24,5 +28,8 @@ function elementToString(el: Cheerio): string {
 }
 
 function elementsToString(els: Cheerio): string {
-    return els.map((_, el) => elementToString(cheerio(el))).get().join(" ");
+    return els
+        .map((_, el) => elementToString(cheerio(el)))
+        .get()
+        .join(" ");
 }
