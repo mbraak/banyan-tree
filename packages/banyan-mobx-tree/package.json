@@ -15,23 +15,23 @@
         "banyan-react-tree": "^0.0.6",
         "fbjs": "^0.8.16",
         "mobx": "^3.3.1",
-        "mobx-react": "^4.3.3",
-        "ts-loader": "^3.0.5",
-        "tslint": "^5.8.0",
-        "typescript": "^2.5.3",
-        "webpack": "^3.8.1"
+        "mobx-react": "^4.3.3"
     },
     "devDependencies": {
-        "@types/react": "^16.0.18",
+        "@types/react": "^16.0.19",
         "@types/react-dom": "^16.0.2",
         "css-loader": "^0.28.7",
         "dinosaur-data": "^1.0.0",
         "gulp": "^3.9.1",
         "gulp-sourcemaps": "^2.6.1",
-        "gulp-typescript": "^3.2.2",
+        "gulp-typescript": "^3.2.3",
         "react": "^16.0.0",
         "react-dom": "^16.0.0",
         "style-loader": "^0.19.0",
+        "ts-loader": "^3.1.1",
+        "tslint": "^5.8.0",
+        "typescript": "^2.6.1",
+        "webpack": "^3.8.1",
         "webpack-dev-server": "^2.9.3"
     },
     "peerDependencies": {
