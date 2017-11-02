@@ -114,8 +114,9 @@ export class Tree {
         if (!n) {
             return t;
         } else {
-            t.selected = id;
-            return t.updateNode(n, { is_selected: true });
+            const new_tree = t.updateNode(n, { is_selected: true });
+            new_tree.selected = id;
+            return new_tree;
         }
     }
 

@@ -112,9 +112,9 @@ test("select node", () => {
     const t2 = t1.selectNode(5);
     const t3 = t1.selectNode(6);
 
-    expect(t1.doGetNodeById(5).get("is_selected")).not.toBe(true);
+    expect(t1.doGetNodeById(5).get("is_selected")).toBeFalsy();
     expect(t2.doGetNodeById(5).get("is_selected")).toBe(true);
-    expect(t3.doGetNodeById(5).get("is_selected")).toBe(false);
+    expect(t3.doGetNodeById(5).get("is_selected")).toBeFalsy();
     expect(t3.doGetNodeById(6).get("is_selected")).toBe(true);
 });
 
