@@ -14,9 +14,8 @@
         "moduleResolution": "node",
         "strictNullChecks": true,
         "experimentalDecorators": true,
-        "outDir": "lib"
+        "outDir": "lib",
+        "strict": true
     },
-    "exclude": [
-        "node_modules"
-    ]
+    "exclude": ["node_modules"]
 }

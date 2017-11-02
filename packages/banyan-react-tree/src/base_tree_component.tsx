@@ -99,13 +99,16 @@ function TreeFolder({ node, tree_context, setRootElement }: ITreeFolderProps) {
         <ul className={ul_classes} role={role} ref={setRef}>
             {inode
                 .getChildren(node)
-                .map((child: Node) => (
-                    <TreeNode
-                        key={child.get("id")}
-                        node={child}
-                        tree_context={tree_context}
-                    />
-                ))}
+                .map(
+                    (child?: Node) =>
+                        child && (
+                            <TreeNode
+                                key={child.get("id")}
+                                node={child}
+                                tree_context={tree_context}
+                            />
+                        )
+                )}
         </ul>
     );
 }
