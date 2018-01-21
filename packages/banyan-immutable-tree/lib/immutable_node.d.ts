@@ -29,7 +29,7 @@ export interface IAddInfo {
     changed_nodes: Node[];
 }
 export declare function create(children_data?: INodeData[]): Node;
-export declare function toString(node: Node): string;
+export declare function toString(node?: Node): string;
 export declare function nodeListToString(nodes: Node[]): string;
 export declare function hasChildren(node: Node): boolean;
 export declare function getChildren(node: Node): List<Node>;

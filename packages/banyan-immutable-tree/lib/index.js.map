@@ -1,1 +1,1 @@
-{"version":3,"sources":["../src/index.ts"],"names":["Tree"],"mappings":";;;;;;;;;;;2BAASA,I","file":"index.js","sourcesContent":["export { Tree } from \"./immutable_tree\";\nexport { Node, INodeData } from \"./immutable_node\";\n"]}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../src/index.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,IAAI,EAAE,MAAM,kBAAkB,CAAC"}
