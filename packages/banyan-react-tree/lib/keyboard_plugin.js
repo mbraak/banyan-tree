@@ -22,7 +22,7 @@ export class KeyboardPlugin extends Plugin {
         }
     }
     canHandleKeyboard(key) {
-        return this.isArrowKey(key), this.isFocusOnTree();
+        return this.isArrowKey(key) && this.isFocusOnTree();
     }
     isArrowKey(key) {
         return (key === "ArrowUp" ||
@@ -48,5 +48,4 @@ function isParentOf(parent, child) {
     }
     return false;
 }
-
 //# sourceMappingURL=keyboard_plugin.js.map

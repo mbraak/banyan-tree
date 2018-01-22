@@ -9,5 +9,4 @@ export class Plugin {
         //
     }
 }
-
 //# sourceMappingURL=plugin.js.map

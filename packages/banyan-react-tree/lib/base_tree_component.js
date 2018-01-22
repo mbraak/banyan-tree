@@ -42,7 +42,7 @@ function TreeFolder({ node, tree_context, setRootElement }) {
     const setRef = is_root ? setRootElement : undefined;
     return (React.createElement("ul", { className: ul_classes, role: role, ref: setRef }, inode
         .getChildren(node)
-        .map((child) => (React.createElement(TreeNode, { key: child.get("id"), node: child, tree_context: tree_context })))));
+        .map((child) => child && (React.createElement(TreeNode, { key: child.get("id"), node: child, tree_context: tree_context })))));
 }
 function TreeTitle({ node, renderTitle }) {
     const title_classes = classNames({
@@ -137,5 +137,4 @@ export class BaseTreeComponent extends React.Component {
         }
     }
 }
-
 //# sourceMappingURL=base_tree_component.js.map

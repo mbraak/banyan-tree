@@ -50,5 +50,4 @@ export class TreeComponent extends React.Component {
 TreeComponent.defaultProps = {
     keyboardSupport: true
 };
-
 //# sourceMappingURL=tree_component.js.map
