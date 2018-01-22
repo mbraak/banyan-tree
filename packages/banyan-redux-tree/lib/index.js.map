@@ -1,1 +1,1 @@
-{"version":3,"sources":["../src/index.ts"],"names":[],"mappings":"AAAA,OAAO,SAAS,MAAM,aAAa,CAAC;AAEpC,eAAe,SAAS,CAAC","file":"index.js","sourcesContent":["import ReduxTree from \"./component\";\n\nexport default ReduxTree;\n"]}
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../src/index.ts"],"names":[],"mappings":"AAAA,OAAO,SAAS,MAAM,aAAa,CAAC;AAEpC,eAAe,SAAS,CAAC"}

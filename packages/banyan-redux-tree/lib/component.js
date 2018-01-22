@@ -36,5 +36,4 @@ const ReduxTree = ({ tree, dispatch, renderTitle, tree_id, keyboardSupport = tru
     return React.createElement(BaseTreeComponent, Object.assign({}, props));
 };
 export default ReduxTree;
-
 //# sourceMappingURL=component.js.map

@@ -31,5 +31,4 @@ export function reduceTree(tree, action) {
             }
     }
 }
-
 //# sourceMappingURL=reducer.js.map
