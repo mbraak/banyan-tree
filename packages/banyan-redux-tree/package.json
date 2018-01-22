@@ -9,7 +9,7 @@
         "cover": "jest --coverage",
         "devserver": "webpack-dev-server",
         "lint": "tslint src/*.ts* example/*.ts*",
-        "production": "rm -rf lib; gulp",
+        "production": "rm -rf lib; tsc -p tsconfig.json",
         "test": "jest",
         "test-watch": "jest --watch"
     },
@@ -31,9 +31,6 @@
         "dinosaur-data": "^1.0.0",
         "enzyme": "^3.3.0",
         "enzyme-adapter-react-16": "^1.1.1",
-        "gulp": "^3.9.1",
-        "gulp-sourcemaps": "^2.6.3",
-        "gulp-typescript": "^3.2.3",
         "jest": "^22.1.4",
         "react": "^16.2.0",
         "react-dom": "^16.2.0",
