@@ -1,5 +1,4 @@
 /// <reference types="react" />
-import React from "react";
 import { RenderNode } from "banyan-react-tree/lib/base_tree_component";
 import TreeStore from "./tree_store";
 export interface IMobxTreeProps {
@@ -7,5 +6,5 @@ export interface IMobxTreeProps {
     renderTitle?: RenderNode;
     keyboardSupport?: boolean;
 }
-declare const _default: React.ClassicComponentClass<IMobxTreeProps>;
+declare const _default: ({tree_store, renderTitle, keyboardSupport}: IMobxTreeProps) => JSX.Element;
 export default _default;

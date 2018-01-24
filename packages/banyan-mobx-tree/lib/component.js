@@ -17,5 +17,4 @@ const MobxTree = ({ tree_store, renderTitle, keyboardSupport = true }) => {
     return React.createElement(BaseTreeComponent, Object.assign({}, props));
 };
 export default observer(MobxTree);
-
 //# sourceMappingURL=component.js.map

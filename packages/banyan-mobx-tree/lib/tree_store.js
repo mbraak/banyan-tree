@@ -26,5 +26,4 @@ export default class TreeStore {
 __decorate([
     observable
 ], TreeStore.prototype, "tree", void 0);
-
 //# sourceMappingURL=tree_store.js.map
