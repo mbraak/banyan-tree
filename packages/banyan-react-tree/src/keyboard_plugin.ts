@@ -59,7 +59,7 @@ export class KeyboardPlugin extends Plugin {
     }
 }
 
-function isParentOf(parent: Element, child: HTMLElement): boolean {
+const isParentOf = (parent: Element, child: HTMLElement): boolean => {
     let current_parent = child.parentElement;
 
     while (current_parent) {
@@ -71,4 +71,4 @@ function isParentOf(parent: Element, child: HTMLElement): boolean {
     }
 
     return false;
-}
+};

@@ -29,15 +29,15 @@ class TreeNode extends React.Component<ITreeNodeProps> {
         const { node, tree_context } = this.props;
         const { renderTitle } = tree_context;
 
-        function handleClick(e: React.MouseEvent<HTMLDivElement>) {
-            if ((e.target as any).tagName !== "A") {
+        const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+            if ((e.target as Element).tagName !== "A") {
                 e.preventDefault();
 
                 if (tree_context.onSelectNode) {
                     tree_context.onSelectNode(node);
                 }
             }
-        }
+        };
 
         const is_folder = inode.hasChildren(node);
         const is_open_folder = is_folder && node.get("is_open");
@@ -83,7 +83,11 @@ interface ITreeFolderProps {
     setRootElement?: SetTreeElement;
 }
 
-function TreeFolder({ node, tree_context, setRootElement }: ITreeFolderProps) {
+const TreeFolder = ({
+    node,
+    tree_context,
+    setRootElement
+}: ITreeFolderProps) => {
     const is_root = node.get("is_root");
 
     const ul_classes = classNames({
@@ -111,14 +115,14 @@ function TreeFolder({ node, tree_context, setRootElement }: ITreeFolderProps) {
                 )}
         </ul>
     );
-}
+};
 
 interface ITreeTitleProps {
     node: Node;
     renderTitle: RenderNode;
 }
 
-function TreeTitle({ node, renderTitle }: ITreeTitleProps) {
+const TreeTitle = ({ node, renderTitle }: ITreeTitleProps) => {
     const title_classes = classNames({
         "banyan-common": true,
         "banyan-title": true,
@@ -149,22 +153,22 @@ function TreeTitle({ node, renderTitle }: ITreeTitleProps) {
     // todo: aria-level
 
     return <span {...props}>{node_title}</span>;
-}
+};
 
 interface ITreeButtonProps {
     node: Node;
     onToggleNode?: NodeCallback;
 }
 
-function TreeButton({ node, onToggleNode }: ITreeButtonProps) {
-    function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
+const TreeButton = ({ node, onToggleNode }: ITreeButtonProps) => {
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         e.stopPropagation();
 
         if (onToggleNode) {
             onToggleNode(node);
         }
-    }
+    };
 
     const button_classes = classNames({
         "banyan-common": true,
@@ -187,7 +191,7 @@ function TreeButton({ node, onToggleNode }: ITreeButtonProps) {
             {button_char}
         </a>
     );
-}
+};
 
 const defaultRenderTitle = (node: Node) => node.get("name");
 
