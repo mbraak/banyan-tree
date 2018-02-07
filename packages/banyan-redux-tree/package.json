@@ -20,9 +20,9 @@
         "react-redux": "~5"
     },
     "devDependencies": {
-        "@types/enzyme": "^3.1.7",
-        "@types/jest": "^22.0.1",
-        "@types/react": "^16.0.34",
+        "@types/enzyme": "^3.1.8",
+        "@types/jest": "^22.1.1",
+        "@types/react": "^16.0.36",
         "@types/react-dom": "^16.0.3",
         "@types/react-redux": "^5.0.14",
         "@types/redux": "^3.6.0",
@@ -35,11 +35,11 @@
         "react": "^16.2.0",
         "react-dom": "^16.2.0",
         "redux-logger": "^3.0.6",
-        "style-loader": "^0.19.1",
-        "ts-jest": "^22.0.1",
-        "ts-loader": "^3.3.0",
+        "style-loader": "^0.20.1",
+        "ts-jest": "^22.0.2",
+        "ts-loader": "^3.4.0",
         "tslint": "^5.9.1",
-        "typescript": "^2.6.2",
+        "typescript": "^2.7.1",
         "webpack": "^3.10.0",
         "webpack-dev-server": "^2.11.1"
     },
