@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 
 import renderTitle from "./render_title";
 import MobxTree from "../src/component";
