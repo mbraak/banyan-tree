@@ -1,7 +1,9 @@
-import React from "react";
-import { BaseTreeComponent } from "./base_tree_component";
-import { KeyboardPlugin } from "./keyboard_plugin";
-export class TreeComponent extends React.Component {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = require("react");
+const base_tree_component_1 = require("./base_tree_component");
+const keyboard_plugin_1 = require("./keyboard_plugin");
+class TreeComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = { tree: props.tree };
@@ -12,7 +14,7 @@ export class TreeComponent extends React.Component {
     render() {
         const { tree } = this.state;
         const { renderTitle, keyboardSupport } = this.props;
-        const createKeyboardPlugin = () => new KeyboardPlugin(this.handleKey);
+        const createKeyboardPlugin = () => new keyboard_plugin_1.KeyboardPlugin(this.handleKey);
         const plugins = keyboardSupport ? [createKeyboardPlugin()] : [];
         const props = {
             tree,
@@ -21,7 +23,7 @@ export class TreeComponent extends React.Component {
             onSelectNode: this.handleSelect,
             plugins
         };
-        return React.createElement(BaseTreeComponent, Object.assign({}, props));
+        return React.createElement(base_tree_component_1.BaseTreeComponent, Object.assign({}, props));
     }
     handleToggle(node) {
         const { tree } = this.state;
@@ -50,4 +52,5 @@ export class TreeComponent extends React.Component {
 TreeComponent.defaultProps = {
     keyboardSupport: true
 };
+exports.TreeComponent = TreeComponent;
 //# sourceMappingURL=tree_component.js.map

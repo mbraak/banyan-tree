@@ -1,18 +1,20 @@
-import React from "react";
-import classNames from "classnames";
-import * as inode from "banyan-immutable-tree/lib/immutable_node";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const React = require("react");
+const classNames = require("classnames");
+const inode = require("banyan-immutable-tree/lib/immutable_node");
 class TreeNode extends React.Component {
     render() {
         const { node, tree_context } = this.props;
         const { renderTitle } = tree_context;
-        function handleClick(e) {
+        const handleClick = (e) => {
             if (e.target.tagName !== "A") {
                 e.preventDefault();
                 if (tree_context.onSelectNode) {
                     tree_context.onSelectNode(node);
                 }
             }
-        }
+        };
         const is_folder = inode.hasChildren(node);
         const is_open_folder = is_folder && node.get("is_open");
         const is_selected = node.get("is_selected");
@@ -32,7 +34,7 @@ class TreeNode extends React.Component {
         return nextProps.node !== this.props.node;
     }
 }
-function TreeFolder({ node, tree_context, setRootElement }) {
+const TreeFolder = ({ node, tree_context, setRootElement }) => {
     const is_root = node.get("is_root");
     const ul_classes = classNames({
         "banyan-common": true,
@@ -43,8 +45,8 @@ function TreeFolder({ node, tree_context, setRootElement }) {
     return (React.createElement("ul", { className: ul_classes, role: role, ref: setRef }, inode
         .getChildren(node)
         .map((child) => child && (React.createElement(TreeNode, { key: child.get("id"), node: child, tree_context: tree_context })))));
-}
-function TreeTitle({ node, renderTitle }) {
+};
+const TreeTitle = ({ node, renderTitle }) => {
     const title_classes = classNames({
         "banyan-common": true,
         "banyan-title": true,
@@ -69,15 +71,15 @@ function TreeTitle({ node, renderTitle }) {
     };
     // todo: aria-level
     return React.createElement("span", Object.assign({}, props), node_title);
-}
-function TreeButton({ node, onToggleNode }) {
-    function handleClick(e) {
+};
+const TreeButton = ({ node, onToggleNode }) => {
+    const handleClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
         if (onToggleNode) {
             onToggleNode(node);
         }
-    }
+    };
     const button_classes = classNames({
         "banyan-common": true,
         "banyan-toggler": true,
@@ -92,9 +94,9 @@ function TreeButton({ node, onToggleNode }) {
         tabIndex: -1
     };
     return (React.createElement("a", Object.assign({ href: "#" }, props), button_char));
-}
+};
 const defaultRenderTitle = (node) => node.get("name");
-export class BaseTreeComponent extends React.Component {
+class BaseTreeComponent extends React.Component {
     constructor(props) {
         super(props);
         this.setRootElement = this.setRootElement.bind(this);
@@ -137,4 +139,5 @@ export class BaseTreeComponent extends React.Component {
         }
     }
 }
+exports.BaseTreeComponent = BaseTreeComponent;
 //# sourceMappingURL=base_tree_component.js.map

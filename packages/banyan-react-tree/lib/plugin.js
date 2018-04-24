@@ -1,4 +1,6 @@
-export class Plugin {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+class Plugin {
     setTreeProxy(tree_proxy) {
         this.tree_proxy = tree_proxy;
     }
@@ -9,4 +11,5 @@ export class Plugin {
         //
     }
 }
+exports.Plugin = Plugin;
 //# sourceMappingURL=plugin.js.map

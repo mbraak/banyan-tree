@@ -1,5 +1,5 @@
 /// <reference types="react" />
-import React from "react";
+import * as React from "react";
 import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
 import { Node } from "banyan-immutable-tree/lib/immutable_node";
 import { Plugin, ITreeProxy } from "./plugin";

@@ -1,5 +1,7 @@
-import { Plugin } from "./plugin";
-export class KeyboardPlugin extends Plugin {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const plugin_1 = require("./plugin");
+class KeyboardPlugin extends plugin_1.Plugin {
     constructor(onHandleKey) {
         super();
         this.onHandleKey = onHandleKey;
@@ -38,7 +40,8 @@ export class KeyboardPlugin extends Plugin {
             isParentOf(tree_element, active_element));
     }
 }
-function isParentOf(parent, child) {
+exports.KeyboardPlugin = KeyboardPlugin;
+const isParentOf = (parent, child) => {
     let current_parent = child.parentElement;
     while (current_parent) {
         if (current_parent === parent) {
@@ -47,5 +50,5 @@ function isParentOf(parent, child) {
         current_parent = current_parent.parentElement;
     }
     return false;
-}
+};
 //# sourceMappingURL=keyboard_plugin.js.map
