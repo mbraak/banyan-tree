@@ -1,6 +1,6 @@
-import React from "react";
+import * as React from "react";
 
-import classNames from "classnames";
+import * as classNames from "classnames";
 import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
 import * as inode from "banyan-immutable-tree/lib/immutable_node";
 import { Node } from "banyan-immutable-tree/lib/immutable_node";

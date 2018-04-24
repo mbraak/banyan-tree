@@ -1,6 +1,6 @@
-import React from "react";
+import * as React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 
 export const render = (element: React.ReactElement<any>): Cheerio =>
     cheerio(renderToStaticMarkup(element));
