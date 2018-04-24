@@ -6,5 +6,5 @@ export interface IMobxTreeProps {
     renderTitle?: RenderNode;
     keyboardSupport?: boolean;
 }
-declare const _default: ({tree_store, renderTitle, keyboardSupport}: IMobxTreeProps) => JSX.Element;
+declare const _default: ({ tree_store, renderTitle, keyboardSupport }: IMobxTreeProps) => JSX.Element;
 export default _default;
