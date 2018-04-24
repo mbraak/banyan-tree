@@ -1,6 +1,8 @@
-import { Map } from "immutable";
-import * as node from "./immutable_node";
-export class Tree {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const immutable_1 = require("immutable");
+const node = require("./immutable_node");
+class Tree {
     constructor(data = []) {
         this.root = node.create(data);
         this.ids = createIdMap(this.root);
@@ -250,7 +252,7 @@ export class Tree {
         return new_tree;
     }
     updateIds(updated_nodes, deleted_ids) {
-        const updates_node_map = Map(updated_nodes.map((n) => [n.get("id"), n]));
+        const updates_node_map = immutable_1.Map(updated_nodes.map((n) => [n.get("id"), n]));
         let new_ids = this.ids.merge(updates_node_map);
         deleted_ids.forEach(id => {
             new_ids = new_ids.delete(id);
@@ -274,12 +276,13 @@ export class Tree {
         }
     }
 }
+exports.Tree = Tree;
 function createIdMap(root) {
     function* iteratePairs() {
         for (const n of node.iterateTree(root)) {
             yield [n.get("id"), n];
         }
     }
-    return Map(iteratePairs());
+    return immutable_1.Map(iteratePairs());
 }
 //# sourceMappingURL=immutable_tree.js.map
