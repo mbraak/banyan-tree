@@ -15,7 +15,8 @@
         "experimentalDecorators": true,
         "outDir": "lib",
         "sourceMap": true,
-        "strict": true
+        "strict": true,
+        "module": "CommonJS"
     },
     "exclude": ["node_modules"],
     "include": ["src/**/*"]
