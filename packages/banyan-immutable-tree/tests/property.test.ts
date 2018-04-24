@@ -1,5 +1,6 @@
 import { range } from "lodash";
-import TreeModel, { Node as ModelNode } from "tree-model";
+import * as TreeModel from "tree-model";
+const { Node: ModelNode } = TreeModel;
 
 import { Tree } from "../src/immutable_tree";
 import { INodeData, NodeId, Node } from "../src/immutable_node";

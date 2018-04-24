@@ -3,7 +3,6 @@
     "compilerOptions": {
         "declaration": true,
         "target": "es6",
-        "allowSyntheticDefaultImports": true,
         "noFallthroughCasesInSwitch": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
@@ -16,7 +15,7 @@
         "outDir": "lib",
         "sourceMap": true,
         "strict": true,
-        "module": "CommonJS"
+        "module": "commonjs"
     },
     "exclude": ["node_modules"],
     "include": ["src/**/*"]
