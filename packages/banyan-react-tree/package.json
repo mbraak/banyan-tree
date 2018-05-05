@@ -8,21 +8,25 @@
         "url": "https://github.com/mbraak/banyan-react-tree.git"
     },
     "main": "lib/tree_component.js",
-    "keywords": ["react", "react-component", "tree"],
+    "keywords": [
+        "react",
+        "react-component",
+        "tree"
+    ],
     "scripts": {
         "test": "jest",
         "lint": "tslint src/**/*.ts*",
         "test-watch": "jest --watch",
         "cover": "jest --coverage",
         "build": "webpack --mode development",
-        "production":
-            "rm -rf lib; tsc -p tsconfig.json; postcss -o banyan-react-tree.css css/*.css",
+        "production": "rm -rf lib; tsc -p tsconfig.json; postcss -o banyan-react-tree.css css/*.css",
         "devserver": "webpack-dev-server --mode development"
     },
     "devDependencies": {
         "@types/cheerio": "^0.22.7",
         "@types/classnames": "^2.2.3",
         "@types/enzyme": "^3.1.10",
+        "@types/enzyme-adapter-react-16": "^1.0.2",
         "@types/jest": "^22.2.3",
         "@types/jsdom": "^11.0.4",
         "@types/lodash": "^4.14.108",
@@ -71,6 +75,11 @@
             "^.+\\.tsx?$": "ts-jest"
         },
         "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-        "moduleFileExtensions": ["ts", "tsx", "js", "json"]
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js",
+            "json"
+        ]
     }
 }
