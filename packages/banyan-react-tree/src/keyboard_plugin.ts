@@ -9,8 +9,6 @@ export class KeyboardPlugin extends Plugin {
         super();
 
         this.onHandleKey = onHandleKey;
-
-        this.handleKey = this.handleKey.bind(this);
     }
 
     public componentDidMount() {
@@ -21,7 +19,7 @@ export class KeyboardPlugin extends Plugin {
         window.removeEventListener("keydown", this.handleKey);
     }
 
-    protected handleKey(event: KeyboardEvent) {
+    protected handleKey = (event: KeyboardEvent): void => {
         const { key } = event;
         const onHandleKey = this.onHandleKey;
 
@@ -32,7 +30,7 @@ export class KeyboardPlugin extends Plugin {
                 event.preventDefault();
             }
         }
-    }
+    };
 
     private canHandleKeyboard(key: string): boolean {
         return this.isArrowKey(key) && this.isFocusOnTree();

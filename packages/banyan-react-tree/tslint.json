@@ -11,6 +11,7 @@
         "object-literal-sort-keys": false,
         "one-line": false,
         "ordered-imports": false,
+        "semicolon": [true, "always", "ignore-bound-class-methods"],
         "trailing-comma": false,
         "variable-name": false
     }

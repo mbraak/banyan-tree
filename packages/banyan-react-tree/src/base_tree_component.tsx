@@ -211,7 +211,6 @@ export class BaseTreeComponent extends React.Component<IBaseTreeComponentProps>
     constructor(props: IBaseTreeComponentProps) {
         super(props);
 
-        this.setRootElement = this.setRootElement.bind(this);
         this.plugins = props.plugins || [];
 
         this.connectPlugins();
@@ -251,9 +250,9 @@ export class BaseTreeComponent extends React.Component<IBaseTreeComponentProps>
         return this.root_element;
     }
 
-    private setRootElement(element: Element) {
+    private setRootElement = (element: Element): void => {
         this.root_element = element;
-    }
+    };
 
     private connectPlugins() {
         for (const plugin of this.plugins) {

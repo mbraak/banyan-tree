@@ -27,10 +27,6 @@ export class TreeComponent extends React.Component<
         super(props);
 
         this.state = { tree: props.tree };
-
-        this.handleToggle = this.handleToggle.bind(this);
-        this.handleSelect = this.handleSelect.bind(this);
-        this.handleKey = this.handleKey.bind(this);
     }
 
     public render(): JSX.Element {
@@ -52,23 +48,23 @@ export class TreeComponent extends React.Component<
         return <BaseTreeComponent {...props} />;
     }
 
-    private handleToggle(node: Node) {
+    private handleToggle = (node: Node): void => {
         const { tree } = this.state;
 
         this.setState({
             tree: tree.toggleNode(node.get("id"))
         });
-    }
+    };
 
-    private handleSelect(node: Node) {
+    private handleSelect = (node: Node): void => {
         const { tree } = this.state;
 
         this.setState({
             tree: tree.selectNode(node.get("id"))
         });
-    }
+    };
 
-    private handleKey(key: string): boolean {
+    private handleKey = (key: string): boolean => {
         const { tree } = this.state;
 
         const [is_handled, new_tree] = tree.handleKey(key);
@@ -79,5 +75,5 @@ export class TreeComponent extends React.Component<
             this.setState({ tree: new_tree });
             return true;
         }
-    }
+    };
 }
