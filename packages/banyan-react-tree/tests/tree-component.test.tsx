@@ -22,10 +22,10 @@ test("render", () => {
 
 test("select", () => {
     // setup
-    const original_tree = new Tree(example_data).openAllFolders();
+    const originalTree = new Tree(example_data).openAllFolders();
 
     // find titles
-    const wrapper1 = mount(<TreeComponent tree={original_tree} />);
+    const wrapper1 = mount(<TreeComponent tree={originalTree} />);
 
     const currentTree = () => wrapper1.state("tree") as Tree;
 
@@ -47,18 +47,18 @@ test("select", () => {
 
     div.simulate("click");
 
-    const selected_node = currentTree().getSelectedNode();
-    expect(selected_node).not.toBe(null);
+    const selectedNode = currentTree().getSelectedNode();
+    expect(selectedNode).not.toBe(null);
 
-    if (selected_node) {
-        expect(selected_node.get("name")).toBe("Theropods");
-        expect(selected_node.get("is_selected")).toBe(true);
+    if (selectedNode) {
+        expect(selectedNode.get("name")).toBe("Theropods");
+        expect(selectedNode.get("is_selected")).toBe(true);
     }
 
     // check original tree
-    // expect(original_tree.getSelectedNode()).toBeNull();  // todo: fix in immutable-tree
+    expect(originalTree.getSelectedNode()).toBeNull();
     expect(
-        original_tree.getNodeByName("Theropods")!.get("is_selected")
+        originalTree.getNodeByName("Theropods")!.get("is_selected")
     ).toBeFalsy();
 
     // create new component from tree

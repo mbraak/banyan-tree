@@ -13,14 +13,14 @@ function elementToString(el: Cheerio): string {
     const ul = el.children();
 
     const children = ul.children("li");
-    const has_children = children.length !== 0;
+    const hasChildren = children.length !== 0;
 
     const title = el
         .children("div")
         .children(".banyan-title")
         .text();
 
-    if (!has_children) {
+    if (!hasChildren) {
         return title;
     } else {
         return `${title}(${elementsToString(children)})`;

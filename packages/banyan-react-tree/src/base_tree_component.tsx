@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Component, MouseEvent } from "react";
 
 import * as classNames from "classnames";
 import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
@@ -24,12 +25,12 @@ interface ITreeNodeProps {
     tree_context: ITreeContext;
 }
 
-class TreeNode extends React.Component<ITreeNodeProps> {
+class TreeNode extends Component<ITreeNodeProps> {
     public render(): JSX.Element | null {
         const { node, tree_context } = this.props;
         const { renderTitle } = tree_context;
 
-        const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        const handleClick = (e: MouseEvent<HTMLDivElement>) => {
             if ((e.target as Element).tagName !== "A") {
                 e.preventDefault();
 
@@ -39,33 +40,33 @@ class TreeNode extends React.Component<ITreeNodeProps> {
             }
         };
 
-        const is_folder = inode.hasChildren(node);
-        const is_open_folder = is_folder && node.get("is_open");
-        const is_selected = node.get("is_selected");
+        const isFolder = inode.hasChildren(node);
+        const isOpenFolder = isFolder && node.get("is_open");
+        const isSelected = node.get("is_selected");
 
-        const li_classes = classNames({
+        const liClasses = classNames({
             "banyan-common": true,
-            "banyan-closed": is_folder && !node.get("is_open"),
-            "banyan-folder": is_folder,
-            "banyan-selected": is_selected
+            "banyan-closed": isFolder && !node.get("is_open"),
+            "banyan-folder": isFolder,
+            "banyan-selected": isSelected
         });
 
         return (
-            <li key={node.get("id")} className={li_classes} role="presentation">
+            <li key={node.get("id")} className={liClasses} role="presentation">
                 <div
                     className="banyan-element banyan-common"
                     onClick={handleClick}
                     role="presentation"
                 >
                     <TreeTitle node={node} renderTitle={renderTitle} />
-                    {is_folder ? (
+                    {isFolder ? (
                         <TreeButton
                             node={node}
                             onToggleNode={tree_context.onToggleNode}
                         />
                     ) : null}
                 </div>
-                {is_open_folder ? (
+                {isOpenFolder ? (
                     <TreeFolder node={node} tree_context={tree_context} />
                 ) : null}
             </li>
@@ -88,19 +89,19 @@ const TreeFolder = ({
     tree_context,
     setRootElement
 }: ITreeFolderProps) => {
-    const is_root = node.get("is_root");
+    const isRoot = node.get("is_root");
 
-    const ul_classes = classNames({
+    const ulClasses = classNames({
         "banyan-common": true,
-        "banyan-tree": is_root
+        "banyan-tree": isRoot
     });
 
-    const role = is_root ? "tree" : "node";
+    const role = isRoot ? "tree" : "node";
 
-    const setRef = is_root ? setRootElement : undefined;
+    const setRef = isRoot ? setRootElement : undefined;
 
     return (
-        <ul className={ul_classes} role={role} ref={setRef}>
+        <ul className={ulClasses} role={role} ref={setRef}>
             {inode
                 .getChildren(node)
                 .map(
@@ -123,17 +124,17 @@ interface ITreeTitleProps {
 }
 
 const TreeTitle = ({ node, renderTitle }: ITreeTitleProps) => {
-    const title_classes = classNames({
+    const titleClasses = classNames({
         "banyan-common": true,
         "banyan-title": true,
         "banyan-title-folder": inode.hasChildren(node)
     });
 
-    const is_selected = node.get("is_selected");
+    const isSelected = node.get("is_selected");
 
-    const node_title = renderTitle(node);
-    const tabindex = is_selected ? 0 : -1;
-    const is_open = node.get("is_open");
+    const nodeTitle = renderTitle(node);
+    const tabindex = isSelected ? 0 : -1;
+    const isOpen = node.get("is_open");
 
     const focusElement = (el: HTMLElement) => {
         if (el) {
@@ -142,17 +143,17 @@ const TreeTitle = ({ node, renderTitle }: ITreeTitleProps) => {
     };
 
     const props = {
-        className: title_classes,
+        className: titleClasses,
         tabIndex: tabindex,
         role: "treeitem",
-        "aria-selected": is_selected,
-        "aria-expanded": is_open,
-        ref: is_selected ? focusElement : undefined
+        "aria-selected": isSelected,
+        "aria-expanded": isOpen,
+        ref: isSelected ? focusElement : undefined
     };
 
     // todo: aria-level
 
-    return <span {...props}>{node_title}</span>;
+    return <span {...props}>{nodeTitle}</span>;
 };
 
 interface ITreeButtonProps {
@@ -161,7 +162,7 @@ interface ITreeButtonProps {
 }
 
 const TreeButton = ({ node, onToggleNode }: ITreeButtonProps) => {
-    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -203,9 +204,9 @@ export interface IBaseTreeComponentProps {
     plugins?: Plugin[];
 }
 
-export class BaseTreeComponent extends React.Component<IBaseTreeComponentProps>
+export class BaseTreeComponent extends Component<IBaseTreeComponentProps>
     implements ITreeProxy {
-    private root_element?: Element;
+    private rootElement?: Element;
     private plugins: Plugin[];
 
     constructor(props: IBaseTreeComponentProps) {
@@ -247,11 +248,11 @@ export class BaseTreeComponent extends React.Component<IBaseTreeComponentProps>
     }
 
     public getElement() {
-        return this.root_element;
+        return this.rootElement;
     }
 
     private setRootElement = (element: Element): void => {
-        this.root_element = element;
+        this.rootElement = element;
     };
 
     private connectPlugins() {

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Component } from "react";
 import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
 import { Node } from "banyan-immutable-tree/lib/immutable_node";
 
@@ -15,7 +16,7 @@ export interface ITreeComponentState {
     tree: Tree;
 }
 
-export class TreeComponent extends React.Component<
+export class TreeComponent extends Component<
     ITreeComponentProps,
     ITreeComponentState
 > {
@@ -67,12 +68,12 @@ export class TreeComponent extends React.Component<
     private handleKey = (key: string): boolean => {
         const { tree } = this.state;
 
-        const [is_handled, new_tree] = tree.handleKey(key);
+        const [isHandled, newTree] = tree.handleKey(key);
 
-        if (!is_handled) {
+        if (!isHandled) {
             return false;
         } else {
-            this.setState({ tree: new_tree });
+            this.setState({ tree: newTree });
             return true;
         }
     };

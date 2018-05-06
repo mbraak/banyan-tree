@@ -24,9 +24,9 @@ export class KeyboardPlugin extends Plugin {
         const onHandleKey = this.onHandleKey;
 
         if (this.canHandleKeyboard(key) && onHandleKey) {
-            const is_handled = onHandleKey(key);
+            const isHandled = onHandleKey(key);
 
-            if (is_handled) {
+            if (isHandled) {
                 event.preventDefault();
             }
         }
@@ -46,26 +46,26 @@ export class KeyboardPlugin extends Plugin {
     }
 
     private isFocusOnTree(): boolean {
-        const active_element = document.activeElement;
-        const tree_element = this.tree_proxy && this.tree_proxy.getElement();
+        const activeElement = document.activeElement;
+        const treeElement = this.tree_proxy && this.tree_proxy.getElement();
 
         return (
-            active_element != null &&
-            tree_element != null &&
-            isParentOf(tree_element, active_element as any)
+            activeElement != null &&
+            treeElement != null &&
+            isParentOf(treeElement, activeElement as any)
         );
     }
 }
 
 const isParentOf = (parent: Element, child: HTMLElement): boolean => {
-    let current_parent = child.parentElement;
+    let currentParent = child.parentElement;
 
-    while (current_parent) {
-        if (current_parent === parent) {
+    while (currentParent) {
+        if (currentParent === parent) {
             return true;
         }
 
-        current_parent = current_parent.parentElement;
+        currentParent = currentParent.parentElement;
     }
 
     return false;
