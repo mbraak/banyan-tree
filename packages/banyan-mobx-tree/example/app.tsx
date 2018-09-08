@@ -1,4 +1,5 @@
 import * as React from "react";
+import DevTools from "mobx-react-devtools";
 
 import renderTitle from "./render_title";
 import MobxTree from "../src/component";
@@ -9,5 +10,8 @@ export interface IAppProps {
 }
 
 export const App = ({ tree_store }: IAppProps) => (
-    <MobxTree tree_store={tree_store} renderTitle={renderTitle} />
+    <div>
+        <MobxTree tree_store={tree_store} renderTitle={renderTitle} />
+        <DevTools />
+    </div>
 );
