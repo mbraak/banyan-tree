@@ -1,6 +1,5 @@
 import { range } from "lodash";
-import * as TreeModel from "tree-model";
-const { Node: ModelNode } = TreeModel;
+import TreeModel from "tree-model";
 
 import { Tree } from "../src/immutable_tree";
 import { INodeData, NodeId, Node } from "../src/immutable_node";
@@ -11,6 +10,8 @@ import {
     randomNodeId,
     pickWeightedRandom
 } from "./testutil/test_util";
+
+type TreeModelNode = TreeModel.Node<number>;
 
 interface ITreeImplementation<T> {
     createTree: () => T;
@@ -80,16 +81,16 @@ class ImmutableTreeImplementation implements ITreeImplementation<Tree> {
     }
 }
 
-class TreeModelImplementation implements ITreeImplementation<ModelNode> {
-    public createTree(): ModelNode {
+class TreeModelImplementation implements ITreeImplementation<TreeModelNode> {
+    public createTree(): TreeModelNode {
         return new TreeModel().parse({});
     }
 
     public addNode(
-        tree: ModelNode,
+        tree: TreeModelNode,
         parent_id: NodeId | null,
         node_data: INodeData
-    ): ModelNode {
+    ): TreeModelNode {
         const child = new TreeModel().parse(node_data);
 
         if (!parent_id) {
@@ -103,7 +104,10 @@ class TreeModelImplementation implements ITreeImplementation<ModelNode> {
         return tree;
     }
 
-    public removeNode(tree: ModelNode, node_id: NodeId | null): ModelNode {
+    public removeNode(
+        tree: TreeModelNode,
+        node_id: NodeId | null
+    ): TreeModelNode {
         if (!node_id) {
             return tree;
         } else {
@@ -116,10 +120,10 @@ class TreeModelImplementation implements ITreeImplementation<ModelNode> {
     }
 
     public updateNode(
-        tree: ModelNode,
+        tree: TreeModelNode,
         node_id: NodeId | null,
         name: string
-    ): ModelNode {
+    ): TreeModelNode {
         if (!node_id) {
             return tree;
         } else {
@@ -131,12 +135,12 @@ class TreeModelImplementation implements ITreeImplementation<ModelNode> {
         }
     }
 
-    public toString(tree: ModelNode) {
+    public toString(tree: TreeModelNode) {
         return modelNodeToString(tree);
     }
 
-    private getNodeById(tree: ModelNode, node_id: NodeId) {
-        const node = tree.first(n => n.model.id === node_id);
+    private getNodeById(tree: TreeModelNode, node_id: NodeId) {
+        const node = tree.first((n: TreeModelNode) => n.model.id === node_id);
 
         if (!node) {
             throw new Error(
@@ -148,7 +152,7 @@ class TreeModelImplementation implements ITreeImplementation<ModelNode> {
     }
 }
 
-const modelNodeToString = (node: ModelNode): string => {
+const modelNodeToString = (node: TreeModelNode): string => {
     if (node.isRoot()) {
         if (!node.hasChildren()) {
             return "";
@@ -162,7 +166,7 @@ const modelNodeToString = (node: ModelNode): string => {
     }
 };
 
-const modelNodesToString = (nodes: ModelNode[]): string =>
+const modelNodesToString = (nodes: TreeModelNode[]): string =>
     nodes.map(modelNodeToString).join(" ");
 
 const getAddNodeParams = (tree: Tree): [NodeId | null, INodeData] => [

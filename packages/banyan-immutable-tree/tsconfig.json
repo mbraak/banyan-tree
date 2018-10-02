@@ -11,7 +11,7 @@
         "noUnusedParameters": true,
         "moduleResolution": "node",
         "strictNullChecks": true,
-        "experimentalDecorators": true,
+        "esModuleInterop": true,
         "outDir": "lib",
         "sourceMap": true,
         "strict": true,

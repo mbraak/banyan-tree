@@ -202,7 +202,7 @@ export function* iterateTree(
     root: Node,
     include_root: boolean = false
 ): Iterable<Node> {
-    for (const [node, _] of treeSeq(
+    for (const [node] of treeSeq(
         hasChildren,
         getChildren,
         root,

@@ -4,6 +4,7 @@
         "arrow-parens": false,
         "max-classes-per-file": false,
         "no-duplicate-imports": false,
+        "no-implicit-dependencies": false,
         "no-shadowed-variable": false,
         "no-this-assignment": false,
         "object-literal-sort-keys": false,
