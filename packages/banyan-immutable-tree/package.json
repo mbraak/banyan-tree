@@ -13,16 +13,16 @@
         "build": "rm -rf lib; tsc -p tsconfig.json"
     },
     "devDependencies": {
-        "@types/jest": "^23.3.2",
-        "@types/lodash": "^4.14.116",
+        "@types/jest": "^23.3.9",
+        "@types/lodash": "^4.14.117",
         "jest": "^23.6.0",
         "tree-model": "^1.0.7",
-        "ts-jest": "^23.10.2",
+        "ts-jest": "^23.10.4",
         "tslint": "^5.11.0",
-        "typescript": "^3.1.1"
+        "typescript": "^3.1.6"
     },
     "dependencies": {
-        "immutable": "~3",
+        "immutable": "4.0.0-rc.12",
         "lodash": "~4"
     },
     "jest": {

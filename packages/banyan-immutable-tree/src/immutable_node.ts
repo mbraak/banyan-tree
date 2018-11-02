@@ -66,7 +66,7 @@ function createNodeFromData(
         }
     }
 
-    return (Map<string, any>(node_data)
+    return (Map<any>(node_data)
         .set("parent_id", parent_id)
         .set("children", createChildren()) as any) as Node;
 }
@@ -423,7 +423,7 @@ export function updateNode(
 export function getNextNode(
     readonly_node: IReadonlyNode,
     include_children = true
-): Node | null {
+): Node | undefined {
     const { node } = readonly_node;
 
     if (include_children && hasChildren(node) && node.get("is_open")) {
@@ -439,7 +439,7 @@ export function getNextNode(
             const readonly_parent = getReadonlyParent(readonly_node);
 
             if (!readonly_parent) {
-                return null;
+                return undefined;
             } else {
                 return getNextNode(readonly_parent, false);
             }
@@ -461,7 +461,9 @@ function getReadonlyParent(node: IReadonlyNode): IReadonlyNode | null {
     }
 }
 
-export function getPreviousNode(readonly_node: IReadonlyNode): Node | null {
+export function getPreviousNode(
+    readonly_node: IReadonlyNode
+): Node | undefined {
     const previous_sibling = getPreviousSibling(readonly_node);
 
     if (!previous_sibling) {
@@ -473,7 +475,7 @@ export function getPreviousNode(readonly_node: IReadonlyNode): Node | null {
         }
 
         if (parent.get("is_root")) {
-            return null;
+            return undefined;
         } else {
             return parent;
         }
@@ -501,45 +503,49 @@ function getChildIndex(parent: Node, child: Node): number | null {
     }
 }
 
-function getNextSibling(readonly_node: IReadonlyNode): Node | null {
+function getNextSibling(readonly_node: IReadonlyNode): Node | undefined {
     const { node, parents } = readonly_node;
     const parent = first(parents);
 
     if (!parent) {
-        return null;
+        return undefined;
     } else {
         const child_index = getChildIndex(parent, node);
 
         if (child_index === null) {
-            return null;
+            return undefined;
         } else {
             return getChildren(parent).get(child_index + 1);
         }
     }
 }
 
-function getPreviousSibling(readonly_node: IReadonlyNode): Node | null {
+function getPreviousSibling(readonly_node: IReadonlyNode): Node | undefined {
     const { node, parents } = readonly_node;
     const parent = first(parents);
 
     if (!parent) {
-        return null;
+        return undefined;
     } else {
         const child_index = getChildIndex(parent, node);
 
         if (child_index === null || child_index === 0) {
-            return null;
+            return undefined;
         } else {
             return getChildren(parent).get(child_index - 1);
         }
     }
 }
 
-function getLastChild(node: Node): Node | null {
+function getLastChild(node: Node): Node | undefined {
     if (!hasChildren(node)) {
-        return null;
+        return undefined;
     } else {
-        const last_child = getChildren(node).last();
+        const last_child = getChildren(node).last(undefined);
+
+        if (!last_child) {
+            return undefined;
+        }
 
         if (!hasChildren(last_child) || !last_child.get("is_open")) {
             return last_child;

@@ -136,9 +136,9 @@ test("get next node", () => {
         const next_node = tree.getNextNode(tree.doGetNodeByName(node_name));
 
         if (!next_name) {
-            expect(next_node).toBe(null);
+            expect(next_node).toBeUndefined();
         } else {
-            expect(next_node).not.toBe(null);
+            expect(next_node).not.toBeUndefined();
 
             if (next_node) {
                 expect(next_node.get("name")).toBe(next_name);
@@ -169,9 +169,9 @@ test("get previous node", () => {
         );
 
         if (!previous_name) {
-            expect(previous_node).toBe(null);
+            expect(previous_node).toBeUndefined();
         } else {
-            expect(previous_node).not.toBe(null);
+            expect(previous_node).not.toBeUndefined();
 
             if (previous_node) {
                 expect(previous_node.get("name")).toBe(previous_name);

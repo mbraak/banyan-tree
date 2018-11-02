@@ -63,7 +63,7 @@ export class Tree {
         );
     }
 
-    public getNodeById(id: NodeId): Node | null {
+    public getNodeById(id: NodeId): Node | undefined {
         return this.ids.get(id);
     }
 
@@ -159,9 +159,9 @@ export class Tree {
         return tree;
     }
 
-    public getSelectedNode(): Node | null {
+    public getSelectedNode(): Node | undefined {
         if (!this.selected) {
-            return null;
+            return undefined;
         } else {
             return this.getNodeById(this.selected);
         }
@@ -190,7 +190,7 @@ export class Tree {
         if (!selected_node) {
             return [false, this];
         } else {
-            const selectNode = (n: Node | null) =>
+            const selectNode = (n: Node | undefined) =>
                 n ? this.selectNode(n.get("id")) : this;
 
             switch (key) {
@@ -247,11 +247,11 @@ export class Tree {
         }
     }
 
-    public getNextNode(n: Node): Node | null {
+    public getNextNode(n: Node): Node | undefined {
         return node.getNextNode(this.getReadonlyNode(n));
     }
 
-    public getPreviousNode(n: Node): Node | null {
+    public getPreviousNode(n: Node): Node | undefined {
         return node.getPreviousNode(this.getReadonlyNode(n));
     }
 
@@ -288,10 +288,10 @@ export class Tree {
             return [];
         } else {
             const parents: Node[] = [];
-            let current_node: Node | null = n;
+            let current_node: Node | undefined = n;
 
             while (current_node && current_node.get("parent_id")) {
-                const parent: Node | null = this.getNodeById(
+                const parent: Node | undefined = this.getNodeById(
                     current_node.get("parent_id")
                 );
 
@@ -337,11 +337,13 @@ export class Tree {
         updated_nodes: Node[],
         deleted_ids: NodeId[]
     ): Map<NodeId, Node> {
-        const updates_node_map = Map<NodeId, Node>(
-            updated_nodes.map((n: Node) => [n.get("id"), n])
+        const tuples = updated_nodes.map(
+            (n: Node) => [n.get("id") as NodeId, n] as [number, Node]
         );
 
-        let new_ids = this.ids.merge(updates_node_map);
+        const updated_node_map = Map<NodeId, Node>(tuples);
+
+        let new_ids = this.ids.merge(updated_node_map);
 
         deleted_ids.forEach(id => {
             new_ids = new_ids.delete(id);
@@ -371,7 +373,7 @@ export class Tree {
 function createIdMap(root: Node): Map<NodeId, Node> {
     function* iteratePairs() {
         for (const n of node.iterateTree(root)) {
-            yield [n.get("id"), n];
+            yield [n.get("id"), n] as [NodeId, Node];
         }
     }
 
