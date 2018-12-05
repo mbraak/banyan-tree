@@ -1,5 +1,4 @@
-/// <reference types="react" />
-import * as React from "react";
+import { Component } from "react";
 import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
 import { Node } from "banyan-immutable-tree/lib/immutable_node";
 import { Plugin, ITreeProxy } from "./plugin";
@@ -13,14 +12,14 @@ export interface IBaseTreeComponentProps {
     renderTitle?: RenderNode;
     plugins?: Plugin[];
 }
-export declare class BaseTreeComponent extends React.Component<IBaseTreeComponentProps> implements ITreeProxy {
-    private root_element?;
+export declare class BaseTreeComponent extends Component<IBaseTreeComponentProps> implements ITreeProxy {
+    private rootElement?;
     private plugins;
     constructor(props: IBaseTreeComponentProps);
     render(): JSX.Element;
     componentDidMount(): void;
     componentWillUnmount(): void;
     getElement(): Element | undefined;
-    private setRootElement(element);
-    private connectPlugins();
+    private setRootElement;
+    private connectPlugins;
 }

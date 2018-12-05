@@ -5,8 +5,8 @@ export declare class KeyboardPlugin extends Plugin {
     constructor(onHandleKey?: HandleKey);
     componentDidMount(): void;
     componentWillUnmount(): void;
-    protected handleKey(event: KeyboardEvent): void;
-    private canHandleKeyboard(key);
-    private isArrowKey(key);
-    private isFocusOnTree();
+    protected handleKey: (event: KeyboardEvent) => void;
+    private canHandleKeyboard;
+    private isArrowKey;
+    private isFocusOnTree;
 }

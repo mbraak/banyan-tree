@@ -4,24 +4,23 @@ const plugin_1 = require("./plugin");
 class KeyboardPlugin extends plugin_1.Plugin {
     constructor(onHandleKey) {
         super();
+        this.handleKey = (event) => {
+            const { key } = event;
+            const onHandleKey = this.onHandleKey;
+            if (this.canHandleKeyboard(key) && onHandleKey) {
+                const isHandled = onHandleKey(key);
+                if (isHandled) {
+                    event.preventDefault();
+                }
+            }
+        };
         this.onHandleKey = onHandleKey;
-        this.handleKey = this.handleKey.bind(this);
     }
     componentDidMount() {
         window.addEventListener("keydown", this.handleKey);
     }
     componentWillUnmount() {
         window.removeEventListener("keydown", this.handleKey);
-    }
-    handleKey(event) {
-        const { key } = event;
-        const onHandleKey = this.onHandleKey;
-        if (this.canHandleKeyboard(key) && onHandleKey) {
-            const is_handled = onHandleKey(key);
-            if (is_handled) {
-                event.preventDefault();
-            }
-        }
     }
     canHandleKeyboard(key) {
         return this.isArrowKey(key) && this.isFocusOnTree();
@@ -33,21 +32,21 @@ class KeyboardPlugin extends plugin_1.Plugin {
             key === "ArrowRight");
     }
     isFocusOnTree() {
-        const active_element = document.activeElement;
-        const tree_element = this.tree_proxy && this.tree_proxy.getElement();
-        return (active_element != null &&
-            tree_element != null &&
-            isParentOf(tree_element, active_element));
+        const activeElement = document.activeElement;
+        const treeElement = this.tree_proxy && this.tree_proxy.getElement();
+        return (activeElement != null &&
+            treeElement != null &&
+            isParentOf(treeElement, activeElement));
     }
 }
 exports.KeyboardPlugin = KeyboardPlugin;
 const isParentOf = (parent, child) => {
-    let current_parent = child.parentElement;
-    while (current_parent) {
-        if (current_parent === parent) {
+    let currentParent = child.parentElement;
+    while (currentParent) {
+        if (currentParent === parent) {
             return true;
         }
-        current_parent = current_parent.parentElement;
+        currentParent = currentParent.parentElement;
     }
     return false;
 };

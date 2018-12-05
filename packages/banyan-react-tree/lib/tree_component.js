@@ -1,15 +1,43 @@
 "use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = require("react");
+const React = __importStar(require("react"));
+const react_1 = require("react");
 const base_tree_component_1 = require("./base_tree_component");
 const keyboard_plugin_1 = require("./keyboard_plugin");
-class TreeComponent extends React.Component {
+class TreeComponent extends react_1.Component {
     constructor(props) {
         super(props);
+        this.handleToggle = (node) => {
+            const { tree } = this.state;
+            this.setState({
+                tree: tree.toggleNode(node.get("id"))
+            });
+        };
+        this.handleSelect = (node) => {
+            const { tree } = this.state;
+            this.setState({
+                tree: tree.selectNode(node.get("id"))
+            });
+        };
+        this.handleKey = (key) => {
+            const { tree } = this.state;
+            const [isHandled, newTree] = tree.handleKey(key);
+            if (!isHandled) {
+                return false;
+            }
+            else {
+                this.setState({ tree: newTree });
+                return true;
+            }
+        };
         this.state = { tree: props.tree };
-        this.handleToggle = this.handleToggle.bind(this);
-        this.handleSelect = this.handleSelect.bind(this);
-        this.handleKey = this.handleKey.bind(this);
     }
     render() {
         const { tree } = this.state;
@@ -24,29 +52,6 @@ class TreeComponent extends React.Component {
             plugins
         };
         return React.createElement(base_tree_component_1.BaseTreeComponent, Object.assign({}, props));
-    }
-    handleToggle(node) {
-        const { tree } = this.state;
-        this.setState({
-            tree: tree.toggleNode(node.get("id"))
-        });
-    }
-    handleSelect(node) {
-        const { tree } = this.state;
-        this.setState({
-            tree: tree.selectNode(node.get("id"))
-        });
-    }
-    handleKey(key) {
-        const { tree } = this.state;
-        const [is_handled, new_tree] = tree.handleKey(key);
-        if (!is_handled) {
-            return false;
-        }
-        else {
-            this.setState({ tree: new_tree });
-            return true;
-        }
     }
 }
 TreeComponent.defaultProps = {
