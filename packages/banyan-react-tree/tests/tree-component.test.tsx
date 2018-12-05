@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from "react";
 import { mount, configure } from "enzyme";
-import * as Adapter from "enzyme-adapter-react-16";
+import Adapter from "enzyme-adapter-react-16";
 
 import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
 
