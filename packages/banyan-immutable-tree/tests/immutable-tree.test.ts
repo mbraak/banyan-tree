@@ -112,10 +112,10 @@ test("select node", () => {
     const t2 = t1.selectNode(5);
     const t3 = t1.selectNode(6);
 
-    expect(t1.doGetNodeById(5).get("is_selected")).toBeFalsy();
-    expect(t2.doGetNodeById(5).get("is_selected")).toBe(true);
-    expect(t3.doGetNodeById(5).get("is_selected")).toBeFalsy();
-    expect(t3.doGetNodeById(6).get("is_selected")).toBe(true);
+    expect(t1.doGetNodeById(5).get("isSelected")).toBeFalsy();
+    expect(t2.doGetNodeById(5).get("isSelected")).toBe(true);
+    expect(t3.doGetNodeById(5).get("isSelected")).toBeFalsy();
+    expect(t3.doGetNodeById(6).get("isSelected")).toBe(true);
 });
 
 test("update node", () => {
@@ -161,20 +161,20 @@ test("get next node", () => {
 test("get previous node", () => {
     const assertPreviousNode = (
         tree: Tree,
-        node_name: string,
-        previous_name: string | null
+        nodeName: string,
+        previousName: string | null
     ) => {
-        const previous_node = tree.getPreviousNode(
-            tree.doGetNodeByName(node_name)
+        const previousNode = tree.getPreviousNode(
+            tree.doGetNodeByName(nodeName)
         );
 
-        if (!previous_name) {
-            expect(previous_node).toBeUndefined();
+        if (!previousName) {
+            expect(previousNode).toBeUndefined();
         } else {
-            expect(previous_node).not.toBeUndefined();
+            expect(previousNode).not.toBeUndefined();
 
-            if (previous_node) {
-                expect(previous_node.get("name")).toBe(previous_name);
+            if (previousNode) {
+                expect(previousNode.get("name")).toBe(previousName);
             }
         }
     };

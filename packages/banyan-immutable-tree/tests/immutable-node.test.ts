@@ -39,25 +39,25 @@ test("add node", () => {
     const t1 = node.create();
 
     // t2: add 'n1'
-    const [t2, changed_t2] = node.addNode(t1, { name: "n1", id: 1 });
+    const [t2, changedT2] = node.addNode(t1, { name: "n1", id: 1 });
 
     // t3: add 'n1/n1a'
     const n1 = node.getNodeByName(t2, "n1");
-    const [t3, changed_t3] = node.addNode(t2, n1, { name: "n1a", id: 2 });
+    const [t3, changedT3] = node.addNode(t2, n1, { name: "n1a", id: 2 });
 
     // t4: add 'n1/n1a/n1b'
     const n1a = node.doGetNodeByName(t3, "n1a");
-    const [t4, changed_t4] = node.addNode(t3, n1a, { name: "n1b", id: 3 });
+    const [t4, changedT4] = node.addNode(t3, n1a, { name: "n1b", id: 3 });
 
     expect(node.toString(t2)).toBe("n1");
-    expect(Object.keys(changed_t2)).toEqual(["new_child", "changed_nodes"]);
-    expect(changed_t2.changed_nodes).toEqual([]);
+    expect(Object.keys(changedT2)).toEqual(["newChild", "changedNodes"]);
+    expect(changedT2.changedNodes).toEqual([]);
     expect(node.toString(t3)).toBe("n1(n1a)");
-    expect(t3.get("is_root")).toBe(true);
-    expect(node.nodeListToString(changed_t3.changed_nodes)).toEqual("n1");
-    expect(changed_t3.new_child.get("name")).toBe("n1a");
-    expect(n1a.node.get("parent_id")).toBe(1);
-    expect(node.nodeListToString(changed_t4.changed_nodes)).toBe("n1a n1");
+    expect(t3.get("isRoot")).toBe(true);
+    expect(node.nodeListToString(changedT3.changedNodes)).toEqual("n1");
+    expect(changedT3.newChild.get("name")).toBe("n1a");
+    expect(n1a.node.get("parentId")).toBe(1);
+    expect(node.nodeListToString(changedT4.changedNodes)).toBe("n1a n1");
     expect(node.toString(t4)).toBe("n1(n1a(n1b))");
 });
 
@@ -67,31 +67,31 @@ test("remove node", () => {
 
     // t2: remove n1
     const n1 = node.doGetNodeByName(t1, "n1");
-    const [t2, info_t2] = node.removeNode(n1);
+    const [t2, infoT2] = node.removeNode(n1);
 
     // t3: remove n2a
     const n2a = node.doGetNodeByName(t2, "n2a");
-    const [t3, info_t3] = node.removeNode(n2a);
+    const [t3, infoT3] = node.removeNode(n2a);
 
     expect(node.toString(t2)).toEqual("n2(n2a n2b)");
-    expect(info_t2.changed_nodes).toEqual([]);
-    expect(node.nodeListToString(info_t2.removed_nodes)).toBe("n1 n1a n1b");
+    expect(infoT2.changedNodes).toEqual([]);
+    expect(node.nodeListToString(infoT2.removedNodes)).toBe("n1 n1a n1b");
     expect(node.toString(t3)).toBe("n2(n2b)");
-    expect(node.nodeListToString(info_t3.changed_nodes)).toBe("n2");
-    expect(node.nodeListToString(info_t3.removed_nodes)).toBe("n2a");
+    expect(node.nodeListToString(infoT3.changedNodes)).toBe("n2");
+    expect(node.nodeListToString(infoT3.removedNodes)).toBe("n2a");
 });
 
 test("update node", () => {
     const t1 = node.create(data1);
 
-    const [t2, update_info] = node.updateNode(
+    const [t2, updateInfo] = node.updateNode(
         node.doGetNodeByName(t1, "n2a"),
         { name: "N2A" } // todo: color: "green"
     );
 
     expect(node.doGetNodeByName(t1, "n2a").node.get("id")).toBe(5);
     expect(node.doGetNodeByName(t2, "N2A").node.get("id")).toBe(5);
-    expect(node.nodeListToString(update_info.changed_nodes)).toBe("N2A n2");
+    expect(node.nodeListToString(updateInfo.changedNodes)).toBe("N2A n2");
     expect(node.toString(t2)).toBe("n1(n1a n1b) n2(N2A n2b)");
 });
 

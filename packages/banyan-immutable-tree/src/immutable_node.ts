@@ -2,13 +2,6 @@ import { List, Map } from "immutable";
 
 import { first, last, dropRight, tail } from "lodash";
 
-declare module "immutable" {
-    // tslint:disable-next-line: interface-name
-    interface List<T> {
-        [Symbol.iterator](): IterableIterator<T>;
-    }
-}
-
 export type Node = Map<string, any>;
 
 type GetChildren = (node: Node) => List<Node>;
@@ -29,52 +22,50 @@ export interface IReadonlyNode {
 }
 
 export interface IRemoveInfo {
-    changed_nodes: Node[];
-    removed_nodes: Node[];
+    changedNodes: Node[];
+    removedNodes: Node[];
 }
 
 export interface IUpdateInfo {
-    changed_nodes: Node[];
+    changedNodes: Node[];
 }
 
 export interface IAddInfo {
-    new_child: Node;
-    changed_nodes: Node[];
+    newChild: Node;
+    changedNodes: Node[];
 }
 
-const createEmptyTree = (): Node => createNode({ is_root: true });
+const createEmptyTree = (): Node => createNode({ isRoot: true });
 
 const createNode = (data: any) => (Map<string, any>(data) as any) as Node;
 
 const createNodesFromData = (
-    parent_id: NodeId | null,
-    children_data: INodeData[]
+    parentId: NodeId | null,
+    childrenData: INodeData[]
 ): List<Node> =>
-    List(
-        children_data.map(node_data => createNodeFromData(parent_id, node_data))
-    );
+    List(childrenData.map(nodeData => createNodeFromData(parentId, nodeData)));
 
 function createNodeFromData(
-    parent_id: NodeId | null,
-    node_data: INodeData
+    parentId: NodeId | null,
+    nodeData: INodeData
 ): Node {
     function createChildren() {
-        if (!node_data.children) {
+        if (!nodeData.children) {
             return null;
         } else {
-            return createNodesFromData(node_data.id, node_data.children);
+            return createNodesFromData(nodeData.id, nodeData.children);
         }
     }
 
-    return (Map<any>(node_data)
-        .set("parent_id", parent_id)
+    return (Map<any>(nodeData)
+        .set("parentId", parentId)
         .set("children", createChildren()) as any) as Node;
 }
 
-export function create(children_data?: INodeData[]): Node {
+export function create(childrenData?: INodeData[]): Node {
     function createChildren(): List<Node> {
-        if (children_data) {
-            return createNodesFromData(null, children_data);
+        if (childrenData) {
+            return createNodesFromData(null, childrenData);
         } else {
             return List<Node>();
         }
@@ -93,17 +84,17 @@ export function toString(node?: Node): string {
     }
 
     const children = getChildren(node);
-    const has_children = !children.isEmpty();
-    const is_root = node.get("is_root");
+    const hasChildren = !children.isEmpty();
+    const isRoot = node.get("isRoot");
     const name = node.get("name");
 
-    if (is_root) {
-        if (!has_children) {
+    if (isRoot) {
+        if (!hasChildren) {
             return "";
         } else {
             return nodesToString(children);
         }
-    } else if (!has_children) {
+    } else if (!hasChildren) {
         return name;
     } else {
         return `${name}(${nodesToString(children)})`;
@@ -113,7 +104,7 @@ export function toString(node?: Node): string {
 export function nodeListToString(nodes: Node[]): string {
     return nodes
         .map(n => {
-            if (n.get("is_root")) {
+            if (n.get("isRoot")) {
                 return "[root]";
             } else {
                 return n.get("name");
@@ -147,19 +138,19 @@ export function getChildren(node: Node): List<Node> {
   - walks depth-first
 */
 function treeSeqPath(
-    is_branch: IsBranch,
-    get_children: GetChildren,
+    isBranch: IsBranch,
+    getChildren: GetChildren,
     root: Node
 ): Iterable<[Node, Node[]]> {
     function* walk(path: List<Node>, node: Node): Iterable<[Node, Node[]]> {
         yield [node, path.toArray()];
 
-        if (is_branch(node)) {
-            const children = get_children(node);
-            const new_path = path.push(node);
+        if (isBranch(node)) {
+            const children = getChildren(node);
+            const newPath = path.push(node);
 
             for (const child of children) {
-                yield* walk(new_path, child);
+                yield* walk(newPath, child);
             }
         }
     }
@@ -178,18 +169,18 @@ function* iterateTreeWithParents(root: Node): Iterable<IReadonlyNode> {
 }
 
 function treeSeq(
-    is_branch: IsBranch,
-    get_children: GetChildren,
+    isBranch: IsBranch,
+    getChildren: GetChildren,
     root: Node,
-    include_root: boolean
+    includeRoot: boolean
 ): Iterable<[Node, number]> {
     function* walk(node: Node, level: number): Iterable<[Node, number]> {
-        if (node !== root || include_root) {
+        if (node !== root || includeRoot) {
             yield [node, level];
         }
 
-        if (is_branch(node)) {
-            for (const child of get_children(node)) {
+        if (isBranch(node)) {
+            for (const child of getChildren(node)) {
                 yield* walk(child, level + 1);
             }
         }
@@ -200,14 +191,9 @@ function treeSeq(
 
 export function* iterateTree(
     root: Node,
-    include_root: boolean = false
+    includeRoot: boolean = false
 ): Iterable<Node> {
-    for (const [node] of treeSeq(
-        hasChildren,
-        getChildren,
-        root,
-        include_root
-    )) {
+    for (const [node] of treeSeq(hasChildren, getChildren, root, includeRoot)) {
         yield node;
     }
 }
@@ -218,9 +204,9 @@ export function* iterateTreeAndLevel(root: Node): Iterable<[Node, number]> {
 
 // Find node by name; return readonly node or nil
 export function getNodeByName(root: Node, name: string): IReadonlyNode | null {
-    for (const readonly_node of iterateTreeWithParents(root)) {
-        if (readonly_node.node.get("name") === name) {
-            const { node, parents } = readonly_node;
+    for (const readonlyNode of iterateTreeWithParents(root)) {
+        if (readonlyNode.node.get("name") === name) {
+            const { node, parents } = readonlyNode;
 
             return {
                 node,
@@ -246,47 +232,47 @@ export function doGetNodeByName(root: Node, name: string): IReadonlyNode {
 //  - return [new-root {new-child changed-nodes}]
 export function addNode(
     root: Node,
-    readonly_parent: any,
-    child_data?: any
+    readonlyParent: any,
+    childData?: any
 ): [Node, IAddInfo] {
-    if (child_data) {
-        return addNodeToNonRoot(readonly_parent, createNode(child_data));
+    if (childData) {
+        return addNodeToNonRoot(readonlyParent, createNode(childData));
     } else {
-        const data = readonly_parent;
+        const data = readonlyParent;
         return addNodeToRoot(root, createNode(data));
     }
 }
 
 function addNodeToNonRoot(
-    readonly_parent: IReadonlyNode,
+    readonlyParent: IReadonlyNode,
     child: Node
 ): [Node, IAddInfo] {
-    const parent = readonly_parent.node;
-    const new_child = child.set("parent_id", parent.get("id")) as Node;
-    const new_parent = addChild(parent, new_child);
-    const [new_root, changed_nodes] = updateParents(
+    const parent = readonlyParent.node;
+    const newChild = child.set("parentId", parent.get("id")) as Node;
+    const newParent = addChild(parent, newChild);
+    const [new_root, changedNodes] = updateParents(
         parent,
-        new_parent,
-        readonly_parent.parents
+        newParent,
+        readonlyParent.parents
     );
 
     return [
         new_root,
         {
-            new_child,
-            changed_nodes: [new_parent].concat(changed_nodes)
+            newChild,
+            changedNodes: [newParent].concat(changedNodes)
         }
     ];
 }
 
 function addNodeToRoot(root: Node, child: Node): [Node, IAddInfo] {
-    const new_root = addChild(root, child);
+    const newRoot = addChild(root, child);
 
     return [
-        new_root,
+        newRoot,
         {
-            new_child: child,
-            changed_nodes: []
+            newChild: child,
+            changedNodes: []
         }
     ];
 }
@@ -305,51 +291,51 @@ function addChild(parent: Node, child: Node): Node {
   - returns: [new root, affected]
 */
 function updateParents(
-    initial_old_child: Node,
-    intitial_new_child: Node,
+    initialOldChild: Node,
+    intitialNewChild: Node,
     parents: Node[]
 ): [Node, Node[]] {
     if (parents.length === 0) {
         throw new Error("updateParents: parents cannot be empty");
     }
 
-    let old_child = initial_old_child;
-    let new_child = intitial_new_child;
+    let oldChild = initialOldChild;
+    let newChild = intitialNewChild;
 
-    const new_parents = parents.map(parent => {
-        const new_parent = replaceChild(parent, old_child, new_child);
+    const newParents = parents.map(parent => {
+        const newParent = replaceChild(parent, oldChild, newChild);
 
-        old_child = parent;
-        new_child = new_parent;
+        oldChild = parent;
+        newChild = newParent;
 
-        return new_parent;
+        return newParent;
     });
 
-    return [last(new_parents) as Node, dropRight(new_parents) as Node[]];
+    return [last(newParents) as Node, dropRight(newParents) as Node[]];
 }
 
-function replaceChild(node: Node, old_child: Node, new_child: Node): Node {
+function replaceChild(node: Node, oldChild: Node, newChild: Node): Node {
     const children = getChildren(node);
-    const child_index = children.indexOf(old_child);
-    const new_children = children.set(child_index, new_child);
+    const childIndex = children.indexOf(oldChild);
+    const newChildren = children.set(childIndex, newChild);
 
-    return node.set("children", new_children) as Node;
+    return node.set("children", newChildren) as Node;
 }
 
 /*
   Remove node
   - return {new_root changed_nodes removed_nodes}
 */
-export function removeNode(readonly_child: IReadonlyNode): [Node, IRemoveInfo] {
-    const child = readonly_child.node;
-    const { parents } = readonly_child;
+export function removeNode(readonlyChild: IReadonlyNode): [Node, IRemoveInfo] {
+    const child = readonlyChild.node;
+    const { parents } = readonlyChild;
     const parent = first(parents);
 
     if (!parent) {
         throw new Error("removeNode: child has no parent");
     }
 
-    if (parent.get("is_root")) {
+    if (parent.get("isRoot")) {
         return removeNodeFromRoot(parent, child);
     } else {
         return removeNodeFromParent(parents, child);
@@ -357,14 +343,14 @@ export function removeNode(readonly_child: IReadonlyNode): [Node, IRemoveInfo] {
 }
 
 function removeNodeFromRoot(root: Node, child: Node): [Node, IRemoveInfo] {
-    const new_root = removeChild(root, child);
-    const removed_nodes = Array.from(iterateTree(child, true));
+    const newRoot = removeChild(root, child);
+    const removedNodes = Array.from(iterateTree(child, true));
 
     return [
-        new_root,
+        newRoot,
         {
-            changed_nodes: [],
-            removed_nodes
+            changedNodes: [],
+            removedNodes
         }
     ];
 }
@@ -379,69 +365,69 @@ function removeNodeFromParent(
         throw new Error("removeNodeFromParent: parents cannot be empty");
     }
 
-    const new_parent = removeChild(parent, child);
-    const [new_root, changed_parents] = updateParents(
+    const newParent = removeChild(parent, child);
+    const [newRoot, changedParents] = updateParents(
         parent,
-        new_parent,
+        newParent,
         tail(parents)
     );
-    const removed_nodes = Array.from(iterateTree(child, true));
+    const removedNodes = Array.from(iterateTree(child, true));
 
     return [
-        new_root,
+        newRoot,
         {
-            changed_nodes: [new_parent].concat(changed_parents),
-            removed_nodes
+            changedNodes: [newParent].concat(changedParents),
+            removedNodes
         }
     ];
 }
 
 function removeChild(node: Node, child: Node): Node {
     const children = getChildren(node);
-    const child_index = children.indexOf(child);
-    const new_children = children.delete(child_index);
+    const childIndex = children.indexOf(child);
+    const newChildren = children.delete(childIndex);
 
-    return node.set("children", new_children) as Node;
+    return node.set("children", newChildren) as Node;
 }
 
 export function updateNode(
-    readonly_node: IReadonlyNode,
+    readonlyNode: IReadonlyNode,
     attributes: any
 ): [Node, IUpdateInfo] {
-    const { node, parents } = readonly_node;
-    const new_node = node.merge(attributes) as Node;
-    const [new_root, changed_parents] = updateParents(node, new_node, parents);
+    const { node, parents } = readonlyNode;
+    const newNode = node.merge(attributes) as Node;
+    const [newRoot, changedParents] = updateParents(node, newNode, parents);
 
     return [
-        new_root,
+        newRoot,
         {
-            changed_nodes: [new_node].concat(changed_parents)
+            changedNodes: [newNode].concat(changedParents)
         }
     ];
 }
 
 export function getNextNode(
-    readonly_node: IReadonlyNode,
-    include_children = true
+    readonlyNode: IReadonlyNode,
+    includeChildren = true
 ): Node | undefined {
-    const { node } = readonly_node;
+    const { node } = readonlyNode;
 
-    if (include_children && hasChildren(node) && node.get("is_open")) {
+    if (includeChildren && hasChildren(node) && node.get("isOpen")) {
         // First child
         return getChildren(node).first();
     } else {
-        const next_sibling = getNextSibling(readonly_node);
+        const nextSibling = getNextSibling(readonlyNode);
 
-        if (next_sibling) {
+        if (nextSibling) {
             // Next sibling
-            return next_sibling;
+            return nextSibling;
         } else {
-            const readonly_parent = getReadonlyParent(readonly_node);
+            const readonlyParent = getReadonlyParent(readonlyNode);
 
-            if (!readonly_parent) {
+            if (!readonlyParent) {
                 return undefined;
             } else {
-                return getNextNode(readonly_parent, false);
+                return getNextNode(readonlyParent, false);
             }
         }
     }
@@ -461,34 +447,29 @@ function getReadonlyParent(node: IReadonlyNode): IReadonlyNode | null {
     }
 }
 
-export function getPreviousNode(
-    readonly_node: IReadonlyNode
-): Node | undefined {
-    const previous_sibling = getPreviousSibling(readonly_node);
+export function getPreviousNode(readonlyNode: IReadonlyNode): Node | undefined {
+    const previousSibling = getPreviousSibling(readonlyNode);
 
-    if (!previous_sibling) {
+    if (!previousSibling) {
         // Parent
-        const parent = first(readonly_node.parents);
+        const parent = first(readonlyNode.parents);
 
         if (!parent) {
             throw new Error("Child has no parent");
         }
 
-        if (parent.get("is_root")) {
+        if (parent.get("isRoot")) {
             return undefined;
         } else {
             return parent;
         }
     } else {
-        if (
-            !hasChildren(previous_sibling) ||
-            !previous_sibling.get("is_open")
-        ) {
+        if (!hasChildren(previousSibling) || !previousSibling.get("isOpen")) {
             // Previous sibling
-            return previous_sibling;
+            return previousSibling;
         } else {
             // Last child of previous sibling
-            return getLastChild(previous_sibling);
+            return getLastChild(previousSibling);
         }
     }
 }
@@ -503,36 +484,36 @@ function getChildIndex(parent: Node, child: Node): number | null {
     }
 }
 
-function getNextSibling(readonly_node: IReadonlyNode): Node | undefined {
-    const { node, parents } = readonly_node;
+function getNextSibling(readonlyNode: IReadonlyNode): Node | undefined {
+    const { node, parents } = readonlyNode;
     const parent = first(parents);
 
     if (!parent) {
         return undefined;
     } else {
-        const child_index = getChildIndex(parent, node);
+        const childIndex = getChildIndex(parent, node);
 
-        if (child_index === null) {
+        if (childIndex === null) {
             return undefined;
         } else {
-            return getChildren(parent).get(child_index + 1);
+            return getChildren(parent).get(childIndex + 1);
         }
     }
 }
 
-function getPreviousSibling(readonly_node: IReadonlyNode): Node | undefined {
-    const { node, parents } = readonly_node;
+function getPreviousSibling(readonlyNode: IReadonlyNode): Node | undefined {
+    const { node, parents } = readonlyNode;
     const parent = first(parents);
 
     if (!parent) {
         return undefined;
     } else {
-        const child_index = getChildIndex(parent, node);
+        const childIndex = getChildIndex(parent, node);
 
-        if (child_index === null || child_index === 0) {
+        if (childIndex === null || childIndex === 0) {
             return undefined;
         } else {
-            return getChildren(parent).get(child_index - 1);
+            return getChildren(parent).get(childIndex - 1);
         }
     }
 }
@@ -541,16 +522,16 @@ function getLastChild(node: Node): Node | undefined {
     if (!hasChildren(node)) {
         return undefined;
     } else {
-        const last_child = getChildren(node).last(undefined);
+        const lastChild = getChildren(node).last(undefined);
 
-        if (!last_child) {
+        if (!lastChild) {
             return undefined;
         }
 
-        if (!hasChildren(last_child) || !last_child.get("is_open")) {
-            return last_child;
+        if (!hasChildren(lastChild) || !lastChild.get("isOpen")) {
+            return lastChild;
         } else {
-            return getLastChild(last_child);
+            return getLastChild(lastChild);
         }
     }
 }
