@@ -12,7 +12,7 @@ export declare class Tree {
     getNodeByName(name: string): Node | null;
     doGetNodeByName(name: string): Node;
     removeNode(n: Node): Tree;
-    getNodeById(id: NodeId): Node | null;
+    getNodeById(id: NodeId): Node | undefined;
     doGetNodeById(id: NodeId): Node;
     openNode(id: NodeId): Tree;
     closeNode(id: NodeId): Tree;
@@ -22,18 +22,18 @@ export declare class Tree {
     updateNode(n: Node, attributes: any): Tree;
     openAllFolders(): Tree;
     openLevel(level: number): Tree;
-    getSelectedNode(): Node | null;
+    getSelectedNode(): Node | undefined;
     getIds(): NodeId[];
     getNodes(): Node[];
     handleKey(key: string): [boolean, Tree];
-    getNextNode(n: Node): Node | null;
-    getPreviousNode(n: Node): Node | null;
-    private addNodeToRoot(child);
-    private addNodeToParent(parent, child);
-    private getReadonlyNode(n);
-    private getParents(n);
-    private updateTree(new_root, updated_nodes, deleted_ids);
-    private createCopy();
-    private updateIds(updated_nodes, deleted_ids);
-    private deselect();
+    getNextNode(n: Node): Node | undefined;
+    getPreviousNode(n: Node): Node | undefined;
+    private addNodeToRoot;
+    private addNodeToParent;
+    private getReadonlyNode;
+    private getParents;
+    private updateTree;
+    private createCopy;
+    private updateIds;
+    private deselect;
 }

@@ -1,7 +1,14 @@
 "use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const immutable_1 = require("immutable");
-const node = require("./immutable_node");
+const node = __importStar(require("./immutable_node"));
 class Tree {
     constructor(data = []) {
         this.root = node.create(data);
@@ -26,20 +33,20 @@ class Tree {
         }
     }
     getNodeByName(name) {
-        const found_node = node.getNodeByName(this.root, name);
-        if (!found_node) {
+        const foundNode = node.getNodeByName(this.root, name);
+        if (!foundNode) {
             return null;
         }
         else {
-            return found_node.node;
+            return foundNode.node;
         }
     }
     doGetNodeByName(name) {
         return node.doGetNodeByName(this.root, name).node;
     }
     removeNode(n) {
-        const [new_root, affected_info] = node.removeNode(this.getReadonlyNode(n));
-        return this.updateTree(new_root, affected_info.changed_nodes, affected_info.removed_nodes.map(removed_node => removed_node.get("id")));
+        const [newRoot, affectedInfo] = node.removeNode(this.getReadonlyNode(n));
+        return this.updateTree(newRoot, affectedInfo.changedNodes, affectedInfo.removedNodes.map(removedNode => removedNode.get("id")));
     }
     getNodeById(id) {
         return this.ids.get(id);
@@ -57,7 +64,7 @@ class Tree {
             return this;
         }
         else {
-            return this.updateNode(n, { is_open: true });
+            return this.updateNode(n, { isOpen: true });
         }
     }
     closeNode(id) {
@@ -66,7 +73,7 @@ class Tree {
             return this;
         }
         else {
-            return this.updateNode(n, { is_open: false });
+            return this.updateNode(n, { isOpen: false });
         }
     }
     isNodeOpen(id) {
@@ -75,7 +82,7 @@ class Tree {
             return false;
         }
         else {
-            return Boolean(n.get("is_open"));
+            return Boolean(n.get("isOpen"));
         }
     }
     selectNode(id) {
@@ -85,9 +92,9 @@ class Tree {
             return t;
         }
         else {
-            const new_tree = t.updateNode(n, { is_selected: true });
-            new_tree.selected = id;
-            return new_tree;
+            const newTree = t.updateNode(n, { isSelected: true });
+            newTree.selected = id;
+            return newTree;
         }
     }
     toggleNode(id) {
@@ -99,8 +106,8 @@ class Tree {
         }
     }
     updateNode(n, attributes) {
-        const [new_root, update_info] = node.updateNode(this.getReadonlyNode(n), attributes);
-        return this.updateTree(new_root, update_info.changed_nodes, []);
+        const [newRoot, updateInfo] = node.updateNode(this.getReadonlyNode(n), attributes);
+        return this.updateTree(newRoot, updateInfo.changedNodes, []);
     }
     openAllFolders() {
         let tree = this;
@@ -111,8 +118,8 @@ class Tree {
     }
     openLevel(level) {
         let tree = this;
-        for (const [n, node_level] of node.iterateTreeAndLevel(this.root)) {
-            if (node_level <= level) {
+        for (const [n, nodeLevel] of node.iterateTreeAndLevel(this.root)) {
+            if (nodeLevel <= level) {
                 tree = tree.openNode(n.get("id"));
             }
         }
@@ -120,7 +127,7 @@ class Tree {
     }
     getSelectedNode() {
         if (!this.selected) {
-            return null;
+            return undefined;
         }
         else {
             return this.getNodeById(this.selected);
@@ -135,15 +142,15 @@ class Tree {
     /*
         Change selected node based on key code.
 
-        Returns [ is_handled, new_tree ]
+        Returns [ isHandled, newTree ]
 
         ```
-        const [ is_handled, new_tree ] = tree.handleKey("ArrowDown");
+        const [ isHandled, newTree ] = tree.handleKey("ArrowDown");
         ```
     */
     handleKey(key) {
-        const selected_node = this.getSelectedNode();
-        if (!selected_node) {
+        const selectedNode = this.getSelectedNode();
+        if (!selectedNode) {
             return [false, this];
         }
         else {
@@ -152,45 +159,45 @@ class Tree {
                 case "ArrowUp":
                     return [
                         true,
-                        selectNode(this.getPreviousNode(selected_node))
+                        selectNode(this.getPreviousNode(selectedNode))
                     ];
                 case "ArrowDown":
-                    return [true, selectNode(this.getNextNode(selected_node))];
+                    return [true, selectNode(this.getNextNode(selectedNode))];
                 case "ArrowRight":
-                    if (!node.hasChildren(selected_node)) {
+                    if (!node.hasChildren(selectedNode)) {
                         return [false, this];
                     }
                     else {
-                        const is_open = selected_node.get("is_open");
-                        if (is_open) {
+                        const isOpen = selectedNode.get("isOpen");
+                        if (isOpen) {
                             // Right moves to the first child of an open node
                             return [
                                 true,
-                                selectNode(this.getNextNode(selected_node))
+                                selectNode(this.getNextNode(selectedNode))
                             ];
                         }
                         else {
                             // Right expands a closed node
                             return [
                                 true,
-                                this.openNode(selected_node.get("id"))
+                                this.openNode(selectedNode.get("id"))
                             ];
                         }
                     }
                 case "ArrowLeft":
-                    const is_open = selected_node.get("is_open");
-                    if (node.hasChildren(selected_node) && is_open) {
+                    const isOpen = selectedNode.get("isOpen");
+                    if (node.hasChildren(selectedNode) && isOpen) {
                         // Left on an open node closes the node
-                        return [true, this.closeNode(selected_node.get("id"))];
+                        return [true, this.closeNode(selectedNode.get("id"))];
                     }
                     else {
                         // Left on a closed or end node moves focus to the node's parent
-                        const parent_id = selected_node.get("parent_id");
-                        if (parent_id === null) {
+                        const parentId = selectedNode.get("parentId");
+                        if (parentId === null) {
                             return [false, this];
                         }
                         else {
-                            return [true, this.selectNode(parent_id)];
+                            return [true, this.selectNode(parentId)];
                         }
                     }
                 default:
@@ -205,13 +212,13 @@ class Tree {
         return node.getPreviousNode(this.getReadonlyNode(n));
     }
     addNodeToRoot(child) {
-        const [new_root, update_info] = node.addNode(this.root, child);
-        return this.updateTree(new_root, [update_info.new_child], []);
+        const [newRoot, updateInfo] = node.addNode(this.root, child);
+        return this.updateTree(newRoot, [updateInfo.newChild], []);
     }
     addNodeToParent(parent, child) {
-        const readonly_parent = this.getReadonlyNode(parent);
-        const [new_root, update_info] = node.addNode(this.root, readonly_parent, child);
-        return this.updateTree(new_root, update_info.changed_nodes.concat([update_info.new_child]), []);
+        const readonlyParent = this.getReadonlyNode(parent);
+        const [newRoot, updateInfo] = node.addNode(this.root, readonlyParent, child);
+        return this.updateTree(newRoot, updateInfo.changedNodes.concat([updateInfo.newChild]), []);
     }
     getReadonlyNode(n) {
         return {
@@ -225,39 +232,40 @@ class Tree {
         }
         else {
             const parents = [];
-            let current_node = n;
-            while (current_node && current_node.get("parent_id")) {
-                const parent = this.getNodeById(current_node.get("parent_id"));
+            let currentNode = n;
+            while (currentNode && currentNode.get("parentId")) {
+                const parent = this.getNodeById(currentNode.get("parentId"));
                 if (parent) {
                     parents.push(parent);
                 }
-                current_node = parent;
+                currentNode = parent;
             }
             parents.push(this.root);
             return parents;
         }
     }
-    updateTree(new_root, updated_nodes, deleted_ids) {
-        const new_ids = this.updateIds(updated_nodes, deleted_ids);
-        const new_tree = this.createCopy();
-        new_tree.ids = new_ids;
-        new_tree.root = new_root;
-        return new_tree;
+    updateTree(newRoot, updatedNodes, deletedIds) {
+        const newIds = this.updateIds(updatedNodes, deletedIds);
+        const newTree = this.createCopy();
+        newTree.ids = newIds;
+        newTree.root = newRoot;
+        return newTree;
     }
     createCopy() {
-        const new_tree = new Tree();
-        new_tree.ids = this.ids;
-        new_tree.root = this.root;
-        new_tree.selected = this.selected;
-        return new_tree;
+        const newTree = new Tree();
+        newTree.ids = this.ids;
+        newTree.root = this.root;
+        newTree.selected = this.selected;
+        return newTree;
     }
-    updateIds(updated_nodes, deleted_ids) {
-        const updates_node_map = immutable_1.Map(updated_nodes.map((n) => [n.get("id"), n]));
-        let new_ids = this.ids.merge(updates_node_map);
-        deleted_ids.forEach(id => {
-            new_ids = new_ids.delete(id);
+    updateIds(updatedNodes, deletedIds) {
+        const tuples = updatedNodes.map((n) => [n.get("id"), n]);
+        const updatedNodeMap = immutable_1.Map(tuples);
+        let newIds = this.ids.merge(updatedNodeMap);
+        deletedIds.forEach(id => {
+            newIds = newIds.delete(id);
         });
-        return new_ids;
+        return newIds;
     }
     deselect() {
         if (!this.selected) {
@@ -269,9 +277,9 @@ class Tree {
                 return this;
             }
             else {
-                const new_tree = this.updateNode(n, { is_selected: false });
-                new_tree.selected = null;
-                return new_tree;
+                const newTree = this.updateNode(n, { is_selected: false });
+                newTree.selected = null;
+                return newTree;
             }
         }
     }
