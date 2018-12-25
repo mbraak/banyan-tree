@@ -3,6 +3,7 @@
     "private": true,
     "npmClient": "yarn",
     "scripts": {
+        "bootstrap": "lerna bootstrap",
         "build": "lerna exec tsc && lerna run build_css",
         "lint": "tslint packages/**/src/*.ts* packages/**/tests/*.ts*",
         "test": "jest"
