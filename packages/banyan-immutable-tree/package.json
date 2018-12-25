@@ -6,40 +6,15 @@
         "tree"
     ],
     "scripts": {
-        "test": "jest",
-        "lint": "tslint src/**/*.ts*",
-        "test-watch": "jest --watch",
         "cover": "jest --coverage",
         "build": "rm -rf lib; tsc -p tsconfig.json"
     },
     "devDependencies": {
-        "@types/jest": "^23.3.10",
         "@types/lodash": "^4.14.118",
-        "jest": "^23.6.0",
-        "tree-model": "^1.0.7",
-        "ts-jest": "^23.10.5",
-        "tslint": "^5.11.0",
-        "typescript": "^3.1.6"
+        "tree-model": "^1.0.7"
     },
     "dependencies": {
         "immutable": "4.0.0-rc.12",
         "lodash": "~4"
-    },
-    "jest": {
-        "transform": {
-            "^.+\\.tsx?$": "ts-jest"
-        },
-        "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-        "moduleFileExtensions": [
-            "ts",
-            "tsx",
-            "js",
-            "json"
-        ],
-        "globals": {
-            "ts-jest": {
-                "diagnostics": false
-            }
-        }
     }
 }

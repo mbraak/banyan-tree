@@ -1,7 +1,36 @@
 {
-  "name": "root",
-  "private": true,
-  "devDependencies": {
-    "lerna": "^3.5.1"
-  }
+    "name": "root",
+    "private": true,
+    "npmClient": "yarn",
+    "scripts": {
+        "build": "lerna exec tsc && lerna run build_css",
+        "lint": "tslint packages/**/src/*.ts* packages/**/tests/*.ts*",
+        "test": "jest"
+    },
+    "devDependencies": {
+        "@types/jest": "^23.3.10",
+        "jest": "^23.6.0",
+        "lerna": "^3.7.1",
+        "ts-jest": "^23.10.5",
+        "tslint": "^5.12.0",
+        "tslint-react": "^3.6.0",
+        "typescript": "^3.1.6"
+    },
+    "jest": {
+        "transform": {
+            "^.+\\.tsx?$": "ts-jest"
+        },
+        "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js",
+            "json"
+        ],
+        "globals": {
+            "ts-jest": {
+                "diagnostics": false
+            }
+        }
+    }
 }

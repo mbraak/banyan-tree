@@ -6,7 +6,6 @@ import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
 
 import { test_data, example_data } from "./testutil/example_data";
 import { render, treeElementToString } from "./testutil/render";
-
 import { TreeComponent } from "../src/tree_component";
 
 configure({ adapter: new Adapter() });
@@ -32,7 +31,7 @@ test("select", () => {
     expect(wrapper1.find(".banyan-title").length).toBe(31);
     expect(wrapper1.find(".banyan-selected").length).toBe(0);
 
-    expect(currentTree().getSelectedNode()).toBe(null);
+    expect(currentTree().getSelectedNode()).toBe(undefined);
 
     // click on node
     const div = wrapper1
@@ -52,13 +51,13 @@ test("select", () => {
 
     if (selectedNode) {
         expect(selectedNode.get("name")).toBe("Theropods");
-        expect(selectedNode.get("is_selected")).toBe(true);
+        expect(selectedNode.get("isSelected")).toBe(true);
     }
 
     // check original tree
-    expect(originalTree.getSelectedNode()).toBeNull();
+    expect(originalTree.getSelectedNode()).toBeUndefined();
     expect(
-        originalTree.getNodeByName("Theropods")!.get("is_selected")
+        originalTree.getNodeByName("Theropods")!.get("isSelected")
     ).toBeFalsy();
 
     // create new component from tree

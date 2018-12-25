@@ -14,12 +14,7 @@
         "tree"
     ],
     "scripts": {
-        "test": "jest",
-        "lint": "tslint src/**/*.ts*",
-        "test-watch": "jest --watch",
-        "cover": "jest --coverage",
-        "build": "webpack --mode development",
-        "production": "rm -rf lib; tsc -p tsconfig.json; postcss -o banyan-react-tree.css css/*.css",
+        "build_css": "postcss -o banyan-react-tree.css css/*.css",
         "devserver": "webpack-dev-server --mode development"
     },
     "devDependencies": {
@@ -27,7 +22,6 @@
         "@types/classnames": "^2.2.6",
         "@types/enzyme": "^3.1.15",
         "@types/enzyme-adapter-react-16": "^1.0.3",
-        "@types/jest": "^23.3.10",
         "@types/jsdom": "^12.2.0",
         "@types/lodash": "^4.14.118",
         "@types/react": "^16.7.8",
@@ -37,7 +31,6 @@
         "dinosaur-data": "^1.0.0",
         "enzyme": "^3.7.0",
         "enzyme-adapter-react-16": "^1.7.0",
-        "jest": "^23.6.0",
         "jsdom": "^13.0.0",
         "postcss": "^7.0.6",
         "postcss-cli": "^6.0.1",
@@ -48,11 +41,7 @@
         "react-dom": "^16.6.3",
         "react-test-renderer": "^16.6.3",
         "style-loader": "^0.23.1",
-        "ts-jest": "^23.10.5",
         "ts-loader": "^5.3.1",
-        "tslint": "^5.11.0",
-        "tslint-react": "^3.6.0",
-        "typescript": "^3.1.6",
         "webpack": "^4.26.1",
         "webpack-cli": "^3.1.2",
         "webpack-dev-server": "^3.1.10",
@@ -67,17 +56,5 @@
     "peerDependencies": {
         "react": "~16",
         "react-dom": "~16"
-    },
-    "jest": {
-        "transform": {
-            "^.+\\.tsx?$": "ts-jest"
-        },
-        "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-        "moduleFileExtensions": [
-            "ts",
-            "tsx",
-            "js",
-            "json"
-        ]
     }
 }

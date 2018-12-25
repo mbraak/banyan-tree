@@ -282,7 +282,7 @@ export class Tree {
     }
 
     private getParents(n: Node): Node[] {
-        if (n.get("is_root")) {
+        if (n.get("isRoot")) {
             return [];
         } else {
             const parents: Node[] = [];
@@ -359,7 +359,7 @@ export class Tree {
             if (!n) {
                 return this;
             } else {
-                const newTree = this.updateNode(n, { is_selected: false });
+                const newTree = this.updateNode(n, { isSelected: false });
                 newTree.selected = null;
 
                 return newTree;

@@ -41,12 +41,12 @@ class TreeNode extends Component<ITreeNodeProps> {
         };
 
         const isFolder = inode.hasChildren(node);
-        const isOpenFolder = isFolder && node.get("is_open");
-        const isSelected = node.get("is_selected");
+        const isOpenFolder = isFolder && node.get("isOpen");
+        const isSelected = node.get("isSelected");
 
         const liClasses = classNames({
             "banyan-common": true,
-            "banyan-closed": isFolder && !node.get("is_open"),
+            "banyan-closed": isFolder && !node.get("isOpen"),
             "banyan-folder": isFolder,
             "banyan-selected": isSelected
         });
@@ -89,7 +89,7 @@ const TreeFolder = ({
     tree_context,
     setRootElement
 }: ITreeFolderProps) => {
-    const isRoot = node.get("is_root");
+    const isRoot = node.get("isRoot");
 
     const ulClasses = classNames({
         "banyan-common": true,
@@ -130,11 +130,11 @@ const TreeTitle = ({ node, renderTitle }: ITreeTitleProps) => {
         "banyan-title-folder": inode.hasChildren(node)
     });
 
-    const isSelected = node.get("is_selected");
+    const isSelected = node.get("isSelected");
 
     const nodeTitle = renderTitle(node);
     const tabindex = isSelected ? 0 : -1;
-    const isOpen = node.get("is_open");
+    const isOpen = node.get("isOpen");
 
     const focusElement = (el: HTMLElement) => {
         if (el) {
@@ -174,10 +174,10 @@ const TreeButton = ({ node, onToggleNode }: ITreeButtonProps) => {
     const button_classes = classNames({
         "banyan-common": true,
         "banyan-toggler": true,
-        "banyan-closed": !node.get("is_open")
+        "banyan-closed": !node.get("isOpen")
     });
 
-    const button_char = node.get("is_open") ? "▼" : "►";
+    const button_char = node.get("isOpen") ? "▼" : "►";
 
     const props = {
         className: button_classes,

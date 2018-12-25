@@ -27,11 +27,11 @@ class TreeNode extends react_2.Component {
             }
         };
         const isFolder = inode.hasChildren(node);
-        const isOpenFolder = isFolder && node.get("is_open");
-        const isSelected = node.get("is_selected");
+        const isOpenFolder = isFolder && node.get("isOpen");
+        const isSelected = node.get("isSelected");
         const liClasses = classnames_1.default({
             "banyan-common": true,
-            "banyan-closed": isFolder && !node.get("is_open"),
+            "banyan-closed": isFolder && !node.get("isOpen"),
             "banyan-folder": isFolder,
             "banyan-selected": isSelected
         });
@@ -46,7 +46,7 @@ class TreeNode extends react_2.Component {
     }
 }
 const TreeFolder = ({ node, tree_context, setRootElement }) => {
-    const isRoot = node.get("is_root");
+    const isRoot = node.get("isRoot");
     const ulClasses = classnames_1.default({
         "banyan-common": true,
         "banyan-tree": isRoot
@@ -63,10 +63,10 @@ const TreeTitle = ({ node, renderTitle }) => {
         "banyan-title": true,
         "banyan-title-folder": inode.hasChildren(node)
     });
-    const isSelected = node.get("is_selected");
+    const isSelected = node.get("isSelected");
     const nodeTitle = renderTitle(node);
     const tabindex = isSelected ? 0 : -1;
-    const isOpen = node.get("is_open");
+    const isOpen = node.get("isOpen");
     const focusElement = (el) => {
         if (el) {
             el.focus();
@@ -94,9 +94,9 @@ const TreeButton = ({ node, onToggleNode }) => {
     const button_classes = classnames_1.default({
         "banyan-common": true,
         "banyan-toggler": true,
-        "banyan-closed": !node.get("is_open")
+        "banyan-closed": !node.get("isOpen")
     });
-    const button_char = node.get("is_open") ? "▼" : "►";
+    const button_char = node.get("isOpen") ? "▼" : "►";
     const props = {
         className: button_classes,
         onClick: handleClick,

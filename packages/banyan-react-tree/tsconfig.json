@@ -1,23 +1,7 @@
 {
-    "compileOnSave": false,
+    "extends": "../../tsconfig.json",
     "compilerOptions": {
-        "declaration": true,
-        "jsx": "react",
-        "target": "es6",
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitAny": true,
-        "noImplicitReturns": true,
-        "noImplicitThis": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "moduleResolution": "node",
-        "strictNullChecks": true,
-        "experimentalDecorators": true,
-        "outDir": "lib",
-        "sourceMap": true,
-        "strict": true,
-        "module": "commonjs",
-        "esModuleInterop": true
+        "outDir": "lib"
     },
     "exclude": ["node_modules"],
     "include": ["src/**/*"]

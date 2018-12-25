@@ -227,7 +227,7 @@ class Tree {
         };
     }
     getParents(n) {
-        if (n.get("is_root")) {
+        if (n.get("isRoot")) {
             return [];
         }
         else {
@@ -277,7 +277,7 @@ class Tree {
                 return this;
             }
             else {
-                const newTree = this.updateNode(n, { is_selected: false });
+                const newTree = this.updateNode(n, { isSelected: false });
                 newTree.selected = null;
                 return newTree;
             }
