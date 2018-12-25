@@ -9,5 +9,5 @@ export interface ITreeComponentProps {
     tree_id?: string;
     keyboardSupport?: boolean;
 }
-declare const ReduxTree: ({tree, dispatch, renderTitle, tree_id, keyboardSupport}: ITreeComponentProps) => JSX.Element;
+declare const ReduxTree: ({ tree, dispatch, renderTitle, tree_id, keyboardSupport }: ITreeComponentProps) => JSX.Element;
 export default ReduxTree;
