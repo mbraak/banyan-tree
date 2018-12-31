@@ -11,9 +11,9 @@ import "./example.css";
 
 const tree = new Tree([example_data]).openLevel(1);
 
-const tree_store = new TreeStore(tree);
+const treeStore = new TreeStore(tree);
 
 ReactDOM.render(
-    <App tree_store={tree_store} />,
+    <App treeStore={treeStore} />,
     document.getElementById("tree1")
 );

@@ -6,7 +6,7 @@ export default function renderTitle(node: Node) {
     const name = node.get("name");
     const rank = node.get("rank");
     const url = node.get("url");
-    const species_count = node.get("species_count");
+    const speciesCount = node.get("species_count");
 
     return (
         <span>
@@ -18,8 +18,8 @@ export default function renderTitle(node: Node) {
                 name
             )}
             <span className="rank">{rank}</span>
-            {species_count ? (
-                <span className="species-count">{species_count} species</span>
+            {speciesCount ? (
+                <span className="species-count">{speciesCount} species</span>
             ) : null}
         </span>
     );

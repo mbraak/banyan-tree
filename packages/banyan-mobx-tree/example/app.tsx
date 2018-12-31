@@ -6,12 +6,12 @@ import MobxTree from "../src/component";
 import TreeStore from "../src/tree_store";
 
 export interface IAppProps {
-    tree_store: TreeStore;
+    treeStore: TreeStore;
 }
 
-export const App = ({ tree_store }: IAppProps) => (
+export const App = ({ treeStore }: IAppProps) => (
     <div>
-        <MobxTree tree_store={tree_store} renderTitle={renderTitle} />
+        <MobxTree tree_store={treeStore} renderTitle={renderTitle} />
         <DevTools />
     </div>
 );
