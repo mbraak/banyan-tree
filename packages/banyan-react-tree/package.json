@@ -14,7 +14,7 @@
         "tree"
     ],
     "scripts": {
-        "build_css": "postcss -o banyan-react-tree.css css/*.css",
+        "build": "tsc && postcss -o banyan-react-tree.css css/*.css",
         "devserver": "webpack-dev-server --mode development"
     },
     "devDependencies": {

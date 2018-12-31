@@ -5,6 +5,7 @@
     "main": "./lib/index.js",
     "license": "MIT",
     "scripts": {
+        "build": "tsc",
         "devserver": "webpack-dev-server --mode development"
     },
     "dependencies": {

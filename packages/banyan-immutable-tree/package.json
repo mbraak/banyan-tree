@@ -6,8 +6,7 @@
         "tree"
     ],
     "scripts": {
-        "cover": "jest --coverage",
-        "build": "rm -rf lib; tsc -p tsconfig.json"
+        "build": "tsc"
     },
     "devDependencies": {
         "@types/lodash": "^4.14.118",

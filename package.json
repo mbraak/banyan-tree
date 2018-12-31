@@ -4,7 +4,7 @@
     "npmClient": "yarn",
     "scripts": {
         "bootstrap": "lerna bootstrap",
-        "build": "lerna exec tsc && lerna run build_css",
+        "build": "lerna run build",
         "clean": "lerna exec -- rm -rf ./node_modules ./package-lock.json ./lib",
         "lint": "tslint packages/**/src/*.ts* packages/**/tests/*.ts*",
         "test": "jest"
