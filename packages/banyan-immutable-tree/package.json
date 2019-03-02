@@ -9,7 +9,7 @@
         "build": "tsc"
     },
     "devDependencies": {
-        "@types/lodash": "^4.14.118",
+        "@types/lodash": "^4.14.121",
         "tree-model": "^1.0.7"
     },
     "dependencies": {
