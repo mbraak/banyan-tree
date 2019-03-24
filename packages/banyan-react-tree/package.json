@@ -19,7 +19,6 @@
     },
     "devDependencies": {
         "@types/classnames": "^2.2.7",
-        "@types/lodash": "^4.14.121",
         "css-loader": "^2.1.0",
         "dinosaur-data": "^1.0.0",
         "postcss": "^7.0.14",
