@@ -7,3 +7,4 @@ export default class TreeStore {
     toggle(node: Node): void;
     handleKey(key: string): any;
 }
+//# sourceMappingURL=tree_store.d.ts.map

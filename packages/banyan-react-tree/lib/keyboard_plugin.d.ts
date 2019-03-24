@@ -10,3 +10,4 @@ export declare class KeyboardPlugin extends Plugin {
     private isArrowKey;
     private isFocusOnTree;
 }
+//# sourceMappingURL=keyboard_plugin.d.ts.map

@@ -23,3 +23,4 @@ export declare class BaseTreeComponent extends Component<IBaseTreeComponentProps
     private setRootElement;
     private connectPlugins;
 }
+//# sourceMappingURL=base_tree_component.d.ts.map

@@ -1,8 +1,15 @@
 {
-    "extends": "../../tsconfig.json",
+    "extends": "../tsconfig-base.json",
     "compilerOptions": {
-        "outDir": "lib"
+        "outDir": "lib",
+        "rootDir": "src",
+        "composite": true
     },
     "exclude": ["node_modules"],
-    "include": ["src/**/*"]
+    "include": ["src/**/*"],
+    "references": [
+        {
+            "path": "../banyan-immutable-tree"
+        }
+    ]
 }

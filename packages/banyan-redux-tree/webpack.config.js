@@ -19,7 +19,13 @@ module.exports = {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "ts-loader"
+                    loader: "ts-loader",
+                    options: {
+                        compilerOptions: {
+                            rootDir: null,
+                            rootDirs: ["src", "example"]
+                        }
+                    }
                 }
             },
             {

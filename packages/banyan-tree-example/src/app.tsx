@@ -1,7 +1,6 @@
 import React from "react";
 import { Tree as TreeComponent } from "@banyan/react-tree";
-import { Tree } from "@banyan/immutable-tree";
-import { Node } from "@banyan/immutable-tree";
+import { Tree, Node } from "@banyan/immutable-tree";
 
 function renderTitle(node: Node) {
     const name = node.get("name");

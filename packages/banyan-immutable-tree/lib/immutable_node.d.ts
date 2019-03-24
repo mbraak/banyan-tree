@@ -36,3 +36,4 @@ export declare function removeNode(readonlyChild: IReadonlyNode): [Node, IRemove
 export declare function updateNode(readonlyNode: IReadonlyNode, attributes: any): [Node, IUpdateInfo];
 export declare function getNextNode(readonlyNode: IReadonlyNode, includeChildren?: boolean): Node | undefined;
 export declare function getPreviousNode(readonlyNode: IReadonlyNode): Node | undefined;
+//# sourceMappingURL=immutable_node.d.ts.map

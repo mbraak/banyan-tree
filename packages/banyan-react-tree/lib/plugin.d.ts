@@ -7,3 +7,4 @@ export declare class Plugin {
     componentDidMount(): void;
     componentWillUnmount(): void;
 }
+//# sourceMappingURL=plugin.d.ts.map

@@ -8,3 +8,4 @@ export interface IMobxTreeProps {
 }
 declare const _default: ({ tree_store, renderTitle, keyboardSupport }: IMobxTreeProps) => JSX.Element;
 export default _default;
+//# sourceMappingURL=component.d.ts.map

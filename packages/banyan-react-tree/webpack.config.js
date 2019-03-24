@@ -19,12 +19,18 @@ module.exports = {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
                 use: {
-                    loader: "ts-loader"
+                    loader: "ts-loader",
+                    options: {
+                        compilerOptions: {
+                            rootDir: null,
+                            rootDirs: ["src", "examples"]
+                        }
+                    }
                 }
             },
             {
                 test: /\.css$/,
-                use: ["style-loader", "css-loader", "postcss-loader"],
+                use: ["style-loader", "css-loader", "postcss-loader"]
             }
         ]
     },

@@ -23,6 +23,9 @@ exports.createReducerForTreeId = (tree_id) => (tree, action) => {
     }
 };
 function reduceTree(tree, action) {
+    if (!tree) {
+        return new immutable_tree_1.Tree();
+    }
     switch (action.type) {
         case actions.SELECT_NODE:
             return tree.selectNode(action.node_id);
@@ -32,12 +35,7 @@ function reduceTree(tree, action) {
             const [, new_tree] = tree.handleKey(action.key);
             return new_tree;
         default:
-            if (!tree) {
-                return new immutable_tree_1.Tree();
-            }
-            else {
-                return tree;
-            }
+            return tree;
     }
 }
 exports.reduceTree = reduceTree;

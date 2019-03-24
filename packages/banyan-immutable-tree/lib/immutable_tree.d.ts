@@ -37,3 +37,4 @@ export declare class Tree {
     private updateIds;
     private deselect;
 }
+//# sourceMappingURL=immutable_tree.d.ts.map

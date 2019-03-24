@@ -1,21 +1,10 @@
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-        "declaration": true,
-        "esModuleInterop": true,
-        "experimentalDecorators": true,
-        "jsx": "react",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitAny": true,
-        "noImplicitReturns": true,
-        "noImplicitThis": true,
-        "noUnusedParameters": true,
-        "noUnusedLocals": true,
-        "sourceMap": true,
-        "strict": true,
-        "strictNullChecks": true,
-        "target": "es6"
-    }
+    "files": [],
+    "references": [
+        { "path": "packages/banyan-immutable-tree" },
+        { "path": "packages/banyan-react-tree" },
+        { "path": "packages/banyan-redux-tree" },
+        { "path": "packages/banyan-mobx-tree" },
+        { "path": "packages/banyan-tree-example" }
+    ]
 }

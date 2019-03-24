@@ -11,3 +11,4 @@ export interface ITreeComponentProps {
 }
 declare const ReduxTree: ({ tree, dispatch, renderTitle, tree_id, keyboardSupport }: ITreeComponentProps) => JSX.Element;
 export default ReduxTree;
+//# sourceMappingURL=component.d.ts.map
