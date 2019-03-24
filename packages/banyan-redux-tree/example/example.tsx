@@ -3,13 +3,13 @@ import ReactDOM from "react-dom";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider, connect } from "react-redux";
 import logger from "redux-logger";
-import { Tree } from "@banyan/immutable-tree/lib/immutable_tree";
+import { Tree } from "@banyan/immutable-tree";
 import { example_data } from "dinosaur-data";
 
 import App from "./app";
 import { createReducerForTreeId } from "../src/reducer";
 
-import "banyan-react-tree/banyan-react-tree.css";
+import "@banyan/react-tree/banyan-react-tree.css";
 import "./example.css";
 
 const tree = new Tree([example_data]).openLevel(1);

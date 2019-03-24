@@ -6,7 +6,7 @@ import { example_data } from "dinosaur-data";
 import { App } from "./app";
 import TreeStore from "../src/tree_store";
 
-import "banyan-react-tree/banyan-react-tree.css";
+import "@banyan/react-tree/banyan-react-tree.css";
 import "./example.css";
 
 const tree = new Tree([example_data]).openLevel(1);

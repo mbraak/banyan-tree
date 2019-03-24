@@ -1,6 +1,6 @@
 import { Component } from "react";
-import { Tree } from "@banyan/immutable-tree/lib/immutable_tree";
-import { Node } from "@banyan/immutable-tree/lib/immutable_node";
+import { Tree } from "@banyan/immutable-tree";
+import { Node } from "@banyan/immutable-tree";
 import { Plugin, ITreeProxy } from "./plugin";
 export declare type RenderNode = (node: Node) => JSX.Element;
 export declare type NodeCallback = (node: Node) => void;

@@ -1,13 +1,8 @@
 import React from "react";
-import { Tree } from "@banyan/immutable-tree/lib/immutable_tree";
-import { Node } from "@banyan/immutable-tree/lib/immutable_node";
-
-import {
-    BaseTreeComponent,
-    RenderNode
-} from "@banyan/react-tree/lib/base_tree_component";
+import { Node, Tree } from "@banyan/immutable-tree";
+import { BaseTreeComponent, RenderNode } from "@banyan/react-tree";
+import { KeyboardPlugin } from "@banyan/react-tree";
 import * as actions from "./actions";
-import { KeyboardPlugin } from "@banyan/react-tree/lib/keyboard_plugin";
 
 export type Dispatch = (...params: any[]) => void;
 

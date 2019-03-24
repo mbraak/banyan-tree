@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Node } from "@banyan/immutable-tree/lib/immutable_node";
+import { Node } from "@banyan/immutable-tree";
 
 export default function renderTitle(node: Node) {
     const name = node.get("name");

@@ -1,5 +1,5 @@
 import React from "react";
-import { Tree } from "@banyan/immutable-tree/lib/immutable_tree";
+import { Tree } from "@banyan/immutable-tree";
 
 import ReduxComponent from "../src/component";
 import renderTitle from "./render_title";

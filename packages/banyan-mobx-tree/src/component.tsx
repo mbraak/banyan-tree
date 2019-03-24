@@ -1,12 +1,9 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 
-import {
-    BaseTreeComponent,
-    RenderNode
-} from "@banyan/react-tree/lib/base_tree_component";
+import { BaseTreeComponent, RenderNode } from "@banyan/react-tree";
 import TreeStore from "./tree_store";
-import { KeyboardPlugin } from "@banyan/react-tree/lib/keyboard_plugin";
+import { KeyboardPlugin } from "@banyan/react-tree/";
 
 export interface IMobxTreeProps {
     tree_store: TreeStore;

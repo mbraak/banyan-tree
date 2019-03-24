@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Tree } from "@banyan/immutable-tree/lib/immutable_tree";
+import { Tree } from "@banyan/immutable-tree";
 import { RenderNode } from "./base_tree_component";
 export interface ITreeComponentProps {
     tree: Tree;

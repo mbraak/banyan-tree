@@ -3,7 +3,7 @@ import { mount, configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import { createStore, Store } from "redux";
 
-import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
+import { Tree } from "@banyan/immutable-tree";
 
 import { test_data, example_data } from "./testutil/example_data";
 import { render, treeElementToString } from "./testutil/render";

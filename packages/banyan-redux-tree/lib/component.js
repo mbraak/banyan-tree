@@ -11,9 +11,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(require("react"));
-const base_tree_component_1 = require("@banyan/react-tree/lib/base_tree_component");
+const react_tree_1 = require("@banyan/react-tree");
+const react_tree_2 = require("@banyan/react-tree");
 const actions = __importStar(require("./actions"));
-const keyboard_plugin_1 = require("@banyan/react-tree/lib/keyboard_plugin");
 const ReduxTree = ({ tree, dispatch, renderTitle, tree_id, keyboardSupport = true }) => {
     const handleSelect = (node) => {
         dispatch({
@@ -37,7 +37,7 @@ const ReduxTree = ({ tree, dispatch, renderTitle, tree_id, keyboardSupport = tru
         });
         return true;
     };
-    const plugins = keyboardSupport ? [new keyboard_plugin_1.KeyboardPlugin(handleKey)] : [];
+    const plugins = keyboardSupport ? [new react_tree_2.KeyboardPlugin(handleKey)] : [];
     const props = {
         tree,
         onToggleNode: handleToggle,
@@ -45,7 +45,7 @@ const ReduxTree = ({ tree, dispatch, renderTitle, tree_id, keyboardSupport = tru
         renderTitle,
         plugins
     };
-    return react_1.default.createElement(base_tree_component_1.BaseTreeComponent, Object.assign({}, props));
+    return react_1.default.createElement(react_tree_1.BaseTreeComponent, Object.assign({}, props));
 };
 exports.default = ReduxTree;
 //# sourceMappingURL=component.js.map
