@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { example_data } from "dinosaur-data";
-import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
+import { Tree } from "@banyan/immutable-tree/lib/immutable_tree";
 
 import App from "./app";
 

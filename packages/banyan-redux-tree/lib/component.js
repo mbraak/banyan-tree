@@ -11,9 +11,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(require("react"));
-const base_tree_component_1 = require("banyan-react-tree/lib/base_tree_component");
+const base_tree_component_1 = require("@banyan/react-tree/lib/base_tree_component");
 const actions = __importStar(require("./actions"));
-const keyboard_plugin_1 = require("banyan-react-tree/lib/keyboard_plugin");
+const keyboard_plugin_1 = require("@banyan/react-tree/lib/keyboard_plugin");
 const ReduxTree = ({ tree, dispatch, renderTitle, tree_id, keyboardSupport = true }) => {
     const handleSelect = (node) => {
         dispatch({

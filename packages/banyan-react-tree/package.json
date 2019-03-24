@@ -1,5 +1,5 @@
 {
-    "name": "banyan-react-tree",
+    "name": "@banyan/react-tree",
     "version": "0.0.7",
     "description": "Banyan-react-tree is a tree component for react",
     "license": "Apache-2.0",
@@ -33,7 +33,7 @@
         "webpack-node-externals": "^1.7.2"
     },
     "dependencies": {
-        "banyan-immutable-tree": "^0.0.5",
+        "@banyan/immutable-tree": "^0.0.5",
         "classnames": "~2",
         "core-js": "~2",
         "fbjs": "~1.0"

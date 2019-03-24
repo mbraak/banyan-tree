@@ -13,7 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(require("react"));
 const react_2 = require("react");
 const classnames_1 = __importDefault(require("classnames"));
-const inode = __importStar(require("banyan-immutable-tree/lib/immutable_node"));
+const inode = __importStar(require("@banyan/immutable-tree/lib/immutable_node"));
 class TreeNode extends react_2.Component {
     render() {
         const { node, tree_context } = this.props;

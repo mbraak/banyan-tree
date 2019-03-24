@@ -7,7 +7,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const immutable_tree_1 = require("banyan-immutable-tree/lib/immutable_tree");
+const immutable_tree_1 = require("@banyan/immutable-tree/lib/immutable_tree");
 const actions = __importStar(require("./actions"));
 exports.createReducerForTreeId = (tree_id) => (tree, action) => {
     if (tree_id !== action.tree_id) {

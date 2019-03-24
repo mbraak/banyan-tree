@@ -1,5 +1,5 @@
 {
-    "name": "banyan-redux-tree",
+    "name": "@banyan/redux-tree",
     "version": "0.0.1",
     "description": "Connects banyan-react-tree to redux",
     "main": "./lib/index.js",
@@ -9,8 +9,8 @@
         "devserver": "webpack-dev-server --mode development"
     },
     "dependencies": {
-        "banyan-immutable-tree": "^0.0.5",
-        "banyan-react-tree": "^0.0.7",
+        "@banyan/immutable-tree": "^0.0.5",
+        "@banyan/react-tree": "^0.0.7",
         "fbjs": "~1.0",
         "react-redux": "~6",
         "redux": "~4"

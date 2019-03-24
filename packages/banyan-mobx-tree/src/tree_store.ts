@@ -1,6 +1,6 @@
 import { observable } from "mobx";
-import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
-import { Node } from "banyan-immutable-tree/lib/immutable_node";
+import { Tree } from "@banyan/immutable-tree/lib/immutable_tree";
+import { Node } from "@banyan/immutable-tree/lib/immutable_node";
 
 export default class TreeStore {
     @observable public tree: Tree;

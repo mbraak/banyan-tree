@@ -1,5 +1,5 @@
 {
-    "name": "banyan-tree-example",
+    "name": "@banyan/tree-example",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
@@ -21,8 +21,8 @@
         "webpack-dev-server": "^3.1.9"
     },
     "dependencies": {
-        "banyan-immutable-tree": "^0.0.5",
-        "banyan-react-tree": "0.0.7",
+        "@banyan/immutable-tree": "^0.0.5",
+        "@banyan/react-tree": "0.0.7",
         "dinosaur-data": "^1.0.0"
     }
 }

@@ -1,5 +1,5 @@
-import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
-import { Node } from "banyan-immutable-tree/lib/immutable_node";
+import { Tree } from "@banyan/immutable-tree/lib/immutable_tree";
+import { Node } from "@banyan/immutable-tree/lib/immutable_node";
 export default class TreeStore {
     tree: Tree;
     constructor(tree: Tree);

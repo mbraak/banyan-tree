@@ -1,5 +1,5 @@
 {
-    "name": "banyan-mobx-tree",
+    "name": "@banyan/mobx-tree",
     "version": "0.0.2",
     "description": "Connects banyan-react-tree to mobx",
     "main": "./lib/index.js",
@@ -9,8 +9,8 @@
         "devserver": "webpack-dev-server --mode development"
     },
     "dependencies": {
-        "banyan-immutable-tree": "^0.0.5",
-        "banyan-react-tree": "^0.0.7",
+        "@banyan/immutable-tree": "^0.0.5",
+        "@banyan/react-tree": "^0.0.7",
         "fbjs": "~1.0"
     },
     "devDependencies": {

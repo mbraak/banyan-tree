@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
-import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
-import { Node } from "banyan-immutable-tree/lib/immutable_node";
+import { Tree } from "@banyan/immutable-tree/lib/immutable_tree";
+import { Node } from "@banyan/immutable-tree/lib/immutable_node";
 
 import { BaseTreeComponent, RenderNode } from "./base_tree_component";
 import { KeyboardPlugin } from "./keyboard_plugin";

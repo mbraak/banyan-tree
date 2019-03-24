@@ -9,8 +9,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(require("react"));
 const mobx_react_1 = require("mobx-react");
-const base_tree_component_1 = require("banyan-react-tree/lib/base_tree_component");
-const keyboard_plugin_1 = require("banyan-react-tree/lib/keyboard_plugin");
+const base_tree_component_1 = require("@banyan/react-tree/lib/base_tree_component");
+const keyboard_plugin_1 = require("@banyan/react-tree/lib/keyboard_plugin");
 const MobxTree = ({ tree_store, renderTitle, keyboardSupport = true }) => {
     const select = tree_store.select.bind(tree_store);
     const toggle = tree_store.toggle.bind(tree_store);

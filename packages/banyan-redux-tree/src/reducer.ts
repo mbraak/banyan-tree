@@ -1,4 +1,4 @@
-import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
+import { Tree } from "@banyan/immutable-tree/lib/immutable_tree";
 
 import * as actions from "./actions";
 

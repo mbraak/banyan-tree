@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { Provider, connect } from "react-redux";
 import logger from "redux-logger";
-import { Tree } from "banyan-immutable-tree/lib/immutable_tree";
+import { Tree } from "@banyan/immutable-tree/lib/immutable_tree";
 import { example_data } from "dinosaur-data";
 
 import App from "./app";
