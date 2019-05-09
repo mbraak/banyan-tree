@@ -17,13 +17,10 @@
     "devDependencies": {
         "css-loader": "^2.1.0",
         "dinosaur-data": "^1.0.0",
-        "mobx": "^5.9.0",
+        "mobx": "^5.9.4",
         "mobx-react": "^5.2.6",
         "mobx-react-devtools": "^6.0.3",
-        "style-loader": "^0.23.0",
-        "webpack": "^4.29.6",
-        "webpack-cli": "^3.2.3",
-        "webpack-dev-server": "^3.2.1"
+        "style-loader": "^0.23.0"
     },
     "peerDependencies": {
         "mobx": "^5.0.0",

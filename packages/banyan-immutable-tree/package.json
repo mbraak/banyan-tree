@@ -8,10 +8,11 @@
     "main": "lib/index.js",
     "typings": "lib/index.d.ts",
     "scripts": {
-        "build": "tsc"
+        "build": "tsc",
+        "test": "jest"
     },
     "devDependencies": {
-        "@types/lodash": "^4.14.121",
+        "@types/lodash": "^4.14.124",
         "tree-model": "^1.0.7"
     },
     "dependencies": {

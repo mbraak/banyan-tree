@@ -3,15 +3,7 @@ import TreeModel from "tree-model";
 
 import { Tree } from "../src/immutable_tree";
 import { INodeData, NodeId, Node } from "../src/immutable_node";
-import {
-    newId,
-    randomString,
-    randomNodeIdOrNull,
-    randomNodeId,
-    pickWeightedRandom
-} from "./testutil/test_util";
-
-type TreeModelNode = TreeModel.Node<number>;
+import { newId, randomString, randomNodeIdOrNull, randomNodeId, pickWeightedRandom } from "./testutil/test_util";
 
 interface ITreeImplementation<T> {
     createTree: () => T;
@@ -30,11 +22,7 @@ class ImmutableTreeImplementation implements ITreeImplementation<Tree> {
         return new Tree();
     }
 
-    public addNode(
-        tree: Tree,
-        parent_id: NodeId | null,
-        node_data: INodeData
-    ): Tree {
+    public addNode(tree: Tree, parent_id: NodeId | null, node_data: INodeData): Tree {
         if (!parent_id) {
             return tree.addNode(node_data);
         } else {
@@ -72,26 +60,22 @@ class ImmutableTreeImplementation implements ITreeImplementation<Tree> {
         const node = tree.getNodeById(node_id);
 
         if (!node) {
-            throw new Error(
-                `ImmutableTreeImplementation: node with id '${node_id} not found`
-            );
+            throw new Error(`ImmutableTreeImplementation: node with id '${node_id} not found`);
         }
 
         return node;
     }
 }
 
-class TreeModelImplementation implements ITreeImplementation<TreeModelNode> {
-    public createTree(): TreeModelNode {
-        return new TreeModel().parse({});
+const treeModel = new TreeModel();
+
+class TreeModelImplementation implements ITreeImplementation<any> {
+    public createTree(): any {
+        return treeModel.parse({});
     }
 
-    public addNode(
-        tree: TreeModelNode,
-        parent_id: NodeId | null,
-        node_data: INodeData
-    ): TreeModelNode {
-        const child = new TreeModel().parse(node_data);
+    public addNode(tree: any, parent_id: NodeId | null, node_data: INodeData): any {
+        const child = treeModel.parse(node_data);
 
         if (!parent_id) {
             tree.addChild(child);
@@ -104,10 +88,7 @@ class TreeModelImplementation implements ITreeImplementation<TreeModelNode> {
         return tree;
     }
 
-    public removeNode(
-        tree: TreeModelNode,
-        node_id: NodeId | null
-    ): TreeModelNode {
+    public removeNode(tree: any, node_id: NodeId | null): any {
         if (!node_id) {
             return tree;
         } else {
@@ -119,11 +100,7 @@ class TreeModelImplementation implements ITreeImplementation<TreeModelNode> {
         }
     }
 
-    public updateNode(
-        tree: TreeModelNode,
-        node_id: NodeId | null,
-        name: string
-    ): TreeModelNode {
+    public updateNode(tree: any, node_id: NodeId | null, name: string): any {
         if (!node_id) {
             return tree;
         } else {
@@ -135,24 +112,22 @@ class TreeModelImplementation implements ITreeImplementation<TreeModelNode> {
         }
     }
 
-    public toString(tree: TreeModelNode) {
+    public toString(tree: any) {
         return modelNodeToString(tree);
     }
 
-    private getNodeById(tree: TreeModelNode, node_id: NodeId) {
-        const node = tree.first((n: TreeModelNode) => n.model.id === node_id);
+    private getNodeById(tree: any, node_id: NodeId) {
+        const node = tree.first((n: any) => n.model.id === node_id);
 
         if (!node) {
-            throw new Error(
-                `TreeModelImplementation: node with id '${node_id} not found`
-            );
+            throw new Error(`TreeModelImplementation: node with id '${node_id} not found`);
         }
 
         return node;
     }
 }
 
-const modelNodeToString = (node: TreeModelNode): string => {
+const modelNodeToString = (node: any): string => {
     if (node.isRoot()) {
         if (!node.hasChildren()) {
             return "";
@@ -166,45 +141,34 @@ const modelNodeToString = (node: TreeModelNode): string => {
     }
 };
 
-const modelNodesToString = (nodes: TreeModelNode[]): string =>
-    nodes.map(modelNodeToString).join(" ");
+const modelNodesToString = (nodes: any[]): string => nodes.map(modelNodeToString).join(" ");
 
 const getAddNodeParams = (tree: Tree): [NodeId | null, INodeData] => [
     randomNodeIdOrNull(tree),
-    { id: newId(), name: randomString() }
+    { id: newId(), name: randomString() },
 ];
 
-const getRemoveNodeParams = (tree: Tree): [NodeId | null] => [
-    randomNodeId(tree)
-];
+const getRemoveNodeParams = (tree: Tree): [NodeId | null] => [randomNodeId(tree)];
 
-const getUpdateNodeParams = (tree: Tree): [NodeId | null, string] => [
-    randomNodeId(tree),
-    randomString()
-];
+const getUpdateNodeParams = (tree: Tree): [NodeId | null, string] => [randomNodeId(tree), randomString()];
 
-const implementations = [
-    new ImmutableTreeImplementation(),
-    new TreeModelImplementation()
-];
+const implementations = [new ImmutableTreeImplementation(), new TreeModelImplementation()];
 
 const param_creators: any = {
     addNode: getAddNodeParams,
     removeNode: getRemoveNodeParams,
-    updateNode: getUpdateNodeParams
+    updateNode: getUpdateNodeParams,
 };
 
 const operation_weights = {
     addNode: 60,
     removeNode: 20,
-    updateNode: 20
+    updateNode: 20,
 };
 
 it("test properties", () => {
     range(10).forEach(() => {
-        let trees = implementations.map(implementation =>
-            implementation.createTree()
-        );
+        let trees = implementations.map(implementation => implementation.createTree());
 
         range(200).forEach(() => {
             // pick operation and params
@@ -213,14 +177,10 @@ it("test properties", () => {
             const params = createParams(trees[0]);
 
             // run operation
-            trees = trees.map((tree, i) =>
-                (implementations[i] as any)[operation](tree, ...params)
-            );
+            trees = trees.map((tree, i) => (implementations[i] as any)[operation](tree, ...params));
 
             // compare trees
-            const tree_strings = trees.map((tree, i) =>
-                (implementations[i] as any).toString(tree)
-            );
+            const tree_strings = trees.map((tree, i) => (implementations[i] as any).toString(tree));
 
             const first_string = tree_strings[0];
 
